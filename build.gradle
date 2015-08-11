@@ -1,0 +1,10 @@
+apply plugin: 'java'
+
+repositories {
+    mavenLocal()
+    jcenter()
+}
+
+dependencies {
+    testCompile("junit:junit:$jUnitVersion")
+}
