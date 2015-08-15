@@ -1,4 +1,21 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven { url 'http://repo.spring.io/plugins-release' }
+    }
+
+    dependencies {
+        classpath("org.springframework.build.gradle:propdeps-plugin:$propdepsPluginVersion")
+    }
+}
+
 apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'propdeps'
+
+sourceCompatibility = 1.8
 
 repositories {
     mavenLocal()
@@ -6,5 +23,10 @@ repositories {
 }
 
 dependencies {
+    compile("org.hibernate:hibernate-entitymanager:$hibernateVersion")
+    compile("com.h2database:h2:$h2Version")
+
+    provided("org.projectlombok:lombok:$lombokVersion")
+    
     testCompile("junit:junit:$jUnitVersion")
 }
