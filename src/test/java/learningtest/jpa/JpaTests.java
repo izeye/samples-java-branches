@@ -114,15 +114,25 @@ public class JpaTests {
 				em.persist(user);
 				assertTrue(em.contains(user));
 				
+				// NOTE:
+				// You should flush before merging when using `GenerationType.SEQUENCE`.
+				// If not, you will get an error.
+				// Why? No idea.
+				em.flush();
+				
 				// Detach
 				em.detach(user);
 				assertFalse(em.contains(user));
+				
+				// Update the detached
+				user.setAge(100);
 
 				// Merge
 				User merged = em.merge(user);
 				assertThat(merged, is(not(sameInstance(user))));
 				assertFalse(em.contains(user));
 				assertTrue(em.contains(merged));
+				assertThat(merged.getAge(), is(100));
 
 				tx.commit();
 			} catch (Throwable ex) {
@@ -177,11 +187,15 @@ public class JpaTests {
 				em.clear();
 				assertFalse(em.contains(user));
 
+				// Update the detached
+				user.setAge(100);
+
 				// Merge
 				User merged = em.merge(user);
 				assertThat(merged, is(not(sameInstance(user))));
 				assertFalse(em.contains(user));
 				assertTrue(em.contains(merged));
+				assertThat(merged.getAge(), is(100));
 
 				tx.commit();
 			} catch (Throwable ex) {
@@ -243,6 +257,9 @@ public class JpaTests {
 			// Close
 			em.close();
 
+			// Update the detached
+			user.setAge(100);
+
 			em = emf.createEntityManager();
 			tx = em.getTransaction();
 			try {
@@ -255,6 +272,7 @@ public class JpaTests {
 				assertThat(merged, is(not(sameInstance(user))));
 				assertFalse(em.contains(user));
 				assertTrue(em.contains(merged));
+				assertThat(merged.getAge(), is(100));
 
 				tx.commit();
 			} catch (Throwable ex) {
