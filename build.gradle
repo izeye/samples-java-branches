@@ -1,10 +1,16 @@
 apply plugin: 'java'
 
 repositories {
-    mavenLocal()
     jcenter()
+    
+    // If `mavenLocal()` is placed before `jcenter()`,
+    // you can see the source code for libraries in IntelliJ.
+    // Why?
+    mavenLocal()
 }
 
 dependencies {
+    compile("ch.qos.logback:logback-classic:$logbackVersion")
+    
     testCompile("junit:junit:$jUnitVersion")
 }
