@@ -1,11 +1,14 @@
 package learningtest.jpa;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.TransactionRequiredException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -20,6 +23,9 @@ import static org.junit.Assert.assertTrue;
  * Created by izeye on 15. 8. 12..
  */
 public class JpaTests {
+
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
 
 	// tag::testCrud[]
 	@Test
@@ -142,6 +148,46 @@ public class JpaTests {
 		}
 	}
 	// end::testReadWithoutTransaction[]
+
+	// tag::testCreateFailedWithoutTransaction[]
+	@Test
+	public void testCreateFailedWithoutTransaction() {
+		thrown.expect(TransactionRequiredException.class);
+		thrown.expectMessage("no transaction is in progress");
+
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		try {
+			emf = Persistence.createEntityManagerFactory("samples-jpa");
+			em = emf.createEntityManager();
+
+			User user = new User();
+			user.setFirstName("Johnny");
+			user.setLastName("Lim");
+			user.setAge(35);
+
+			assertFalse(em.contains(user));
+
+			// Create
+			em.persist(user);
+			em.flush();
+		} finally {
+			if (em != null) {
+				try {
+					em.close();
+				} catch (Throwable ex) {
+				}
+			}
+
+			if (emf != null) {
+				try {
+					emf.close();
+				} catch (Throwable ex) {
+				}
+			}
+		}
+	}
+	// end::testCreateFailedWithoutTransaction[]
 
 	// tag::testDetach[]
 	@Test
