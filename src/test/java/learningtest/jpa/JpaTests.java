@@ -90,6 +90,59 @@ public class JpaTests {
 	}
 	// end::testCrud[]
 
+	// tag::testReadWithoutTransaction[]
+	@Test
+	public void testReadWithoutTransaction() {
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		try {
+			emf = Persistence.createEntityManagerFactory("samples-jpa");
+			em = emf.createEntityManager();
+
+			User user = new User();
+			user.setFirstName("Johnny");
+			user.setLastName("Lim");
+			user.setAge(35);
+
+			EntityTransaction tx = em.getTransaction();
+			try {
+				tx.begin();
+
+				assertFalse(em.contains(user));
+
+				// Create
+				em.persist(user);
+				assertTrue(em.contains(user));
+
+				tx.commit();
+			} catch (Throwable ex) {
+				ex.printStackTrace();
+
+				tx.rollback();
+			}
+
+			// Read
+			User found = em.find(User.class, user.getId());
+			assertThat(found, is(user));
+			assertThat(found, is(sameInstance(user)));
+		} finally {
+			if (em != null) {
+				try {
+					em.close();
+				} catch (Throwable ex) {
+				}
+			}
+
+			if (emf != null) {
+				try {
+					emf.close();
+				} catch (Throwable ex) {
+				}
+			}
+		}
+	}
+	// end::testReadWithoutTransaction[]
+
 	// tag::testDetach[]
 	@Test
 	public void testDetach() {
