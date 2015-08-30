@@ -27,6 +27,54 @@ public class JpaTests {
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 
+	// tag::testCreate[]
+	@Test
+	public void testCreate() {
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		try {
+			emf = Persistence.createEntityManagerFactory("samples-jpa");
+			em = emf.createEntityManager();
+
+			User user = new User();
+			user.setFirstName("Johnny");
+			user.setLastName("Lim");
+			user.setAge(35);
+
+			EntityTransaction tx = em.getTransaction();
+			try {
+				tx.begin();
+
+				assertFalse(em.contains(user));
+
+				// Create
+				em.persist(user);
+				assertTrue(em.contains(user));
+
+				tx.commit();
+			} catch (Throwable ex) {
+				ex.printStackTrace();
+
+				tx.rollback();
+			}
+		} finally {
+			if (em != null) {
+				try {
+					em.close();
+				} catch (Throwable ex) {
+				}
+			}
+
+			if (emf != null) {
+				try {
+					emf.close();
+				} catch (Throwable ex) {
+				}
+			}
+		}
+	}
+	// end::testCreate[]
+
 	// tag::testCrud[]
 	@Test
 	public void testCrud() {

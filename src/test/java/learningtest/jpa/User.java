@@ -4,10 +4,16 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
 
 /**
  * Created by izeye on 15. 8. 12..
@@ -35,6 +41,18 @@ public class User {
 	private String lastName;
 	
 	private int age;
+	
+	@Enumerated(EnumType.STRING)
+	private UserRole role;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createdTime;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modifiedTime;
+	
+	@Lob
+	private String description;
 	
 }
 // end::docs[]
