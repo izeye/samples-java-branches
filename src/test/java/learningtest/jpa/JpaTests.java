@@ -189,6 +189,64 @@ public class JpaTests {
 	}
 	// end::testCreateFailedWithoutTransaction[]
 
+	// tag::testPersist[]
+	@Test
+	public void testPersist() {
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		try {
+			emf = Persistence.createEntityManagerFactory("samples-jpa");
+			em = emf.createEntityManager();
+
+			User user = new User();
+			user.setFirstName("Johnny");
+			user.setLastName("Lim");
+			user.setAge(35);
+
+			EntityTransaction tx = em.getTransaction();
+			try {
+				tx.begin();
+
+				assertFalse(em.contains(user));
+
+				// Create
+				em.persist(user);
+				assertTrue(em.contains(user));
+				
+				// Persist without change
+				em.persist(user);
+				assertTrue(em.contains(user));
+
+				// Persist with change
+				user.setAge(100);
+				
+				em.persist(user);
+				assertTrue(em.contains(user));
+
+				tx.commit();
+			} catch (Throwable ex) {
+				ex.printStackTrace();
+
+				tx.rollback();
+			}
+		} finally {
+			if (em != null) {
+				try {
+					em.close();
+				} catch (Throwable ex) {
+				}
+			}
+
+			if (emf != null) {
+				try {
+					emf.close();
+				} catch (Throwable ex) {
+				}
+			}
+		}
+	}
+	// end::testPersist[]
+
 	// tag::testDetach[]
 	@Test
 	public void testDetach() {
