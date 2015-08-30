@@ -13,4 +13,5 @@ dependencies {
     compile("ch.qos.logback:logback-classic:$logbackVersion")
     
     testCompile("junit:junit:$jUnitVersion")
+    testCompile("org.mockito:mockito-all:${mockitoVersion}")
 }
