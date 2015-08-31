@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
     compile("ch.qos.logback:logback-classic:$logbackVersion")
+    compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
     
     testCompile("junit:junit:$jUnitVersion")
     testCompile("org.mockito:mockito-all:${mockitoVersion}")
