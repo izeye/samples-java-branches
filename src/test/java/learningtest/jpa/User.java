@@ -7,10 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
@@ -20,18 +20,11 @@ import java.util.Date;
  */
 // tag::docs[]
 @Entity
-@SequenceGenerator(
-		name = "USER_SEQ_GENERATOR",
-		sequenceName = "USER_SEQ",
-		initialValue = 1, allocationSize = 1)
 @Data
 public class User {
 	
 	@Id
-	@GeneratedValue(
-			strategy = GenerationType.SEQUENCE,
-			generator = "USER_SEQ_GENERATOR")
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue
 	private Long id;
 	
 	@Column(name = "first_name")
@@ -53,6 +46,18 @@ public class User {
 	
 	@Lob
 	private String description;
+	
+	@ManyToOne
+	@JoinColumn(name = "GROUP_ID")
+	private UserGroup group;
+	
+	public User() {
+	}
+	
+	public User(String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
 	
 }
 // end::docs[]

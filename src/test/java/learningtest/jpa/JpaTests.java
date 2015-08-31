@@ -504,4 +504,158 @@ public class JpaTests {
 	}
 	// end::testClose[]
 
+	// tag::testManyToOne[]
+	@Test
+	public void testManyToOne() {
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		try {
+			emf = Persistence.createEntityManagerFactory("samples-jpa");
+			em = emf.createEntityManager();
+
+			EntityTransaction tx = em.getTransaction();
+			try {
+				tx.begin();
+
+				UserGroup userGroup = new UserGroup("dummy");
+				em.persist(userGroup);
+
+				User user1 = new User("Johnny", "Lim");
+				user1.setGroup(userGroup);
+				em.persist(user1);
+
+				User user2 = new User("Bob", "Kim");
+				user2.setGroup(userGroup);
+				em.persist(user2);
+
+				tx.commit();
+			} catch (Throwable ex) {
+				ex.printStackTrace();
+
+				tx.rollback();
+			}
+		} finally {
+			if (em != null) {
+				try {
+					em.close();
+				} catch (Throwable ex) {
+				}
+			}
+
+			if (emf != null) {
+				try {
+					emf.close();
+				} catch (Throwable ex) {
+				}
+			}
+		}
+	}
+	// end::testManyToOne[]
+
+	// tag::testJpql[]
+	@Test
+	public void testJpql() {
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		try {
+			emf = Persistence.createEntityManagerFactory("samples-jpa");
+			em = emf.createEntityManager();
+
+			EntityTransaction tx = em.getTransaction();
+			try {
+				tx.begin();
+
+				UserGroup userGroup = new UserGroup("dummy");
+				em.persist(userGroup);
+
+				User user1 = new User("Johnny", "Lim");
+				user1.setGroup(userGroup);
+				em.persist(user1);
+
+				User user2 = new User("Bob", "Kim");
+				user2.setGroup(userGroup);
+				em.persist(user2);
+
+				String jpql = "select u from User u join u.group g where g.name=:groupName";
+				List<User> users = em.createQuery(jpql, User.class)
+						.setParameter("groupName", "dummy").getResultList();
+				users.forEach(System.out::println);
+
+				tx.commit();
+			} catch (Throwable ex) {
+				ex.printStackTrace();
+
+				tx.rollback();
+			}
+		} finally {
+			if (em != null) {
+				try {
+					em.close();
+				} catch (Throwable ex) {
+				}
+			}
+
+			if (emf != null) {
+				try {
+					emf.close();
+				} catch (Throwable ex) {
+				}
+			}
+		}
+	}
+	// end::testJpql[]
+
+	// tag::testManyToOneUpdate[]
+	@Test
+	public void testManyToOneUpdate() {
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		try {
+			emf = Persistence.createEntityManagerFactory("samples-jpa");
+			em = emf.createEntityManager();
+
+			EntityTransaction tx = em.getTransaction();
+			try {
+				tx.begin();
+
+				UserGroup userGroup1 = new UserGroup("dummy");
+				em.persist(userGroup1);
+
+				User user1 = new User("Johnny", "Lim");
+				user1.setGroup(userGroup1);
+				em.persist(user1);
+
+				User user2 = new User("Bob", "Kim");
+				user2.setGroup(userGroup1);
+				em.persist(user2);
+
+				UserGroup userGroup2 = new UserGroup("geek");
+				em.persist(userGroup2);
+				
+				user1.setGroup(userGroup2);
+
+				tx.commit();
+			} catch (Throwable ex) {
+				ex.printStackTrace();
+
+				tx.rollback();
+			}
+		} finally {
+			if (em != null) {
+				try {
+					em.close();
+				} catch (Throwable ex) {
+				}
+			}
+
+			if (emf != null) {
+				try {
+					emf.close();
+				} catch (Throwable ex) {
+				}
+			}
+		}
+	}
+	// end::testManyToOneUpdate[]
+
 }
