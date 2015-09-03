@@ -658,4 +658,48 @@ public class JpaTests {
 	}
 	// end::testManyToOneUpdate[]
 
+	// tag::testOneToOne[]
+	@Test
+	public void testOneToOne() {
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		try {
+			emf = Persistence.createEntityManagerFactory("samples-jpa");
+			em = emf.createEntityManager();
+
+			EntityTransaction tx = em.getTransaction();
+			try {
+				tx.begin();
+				
+				Locker locker = new Locker("locker #1");
+				em.persist(locker);
+
+				User user = new User("Johnny", "Lim");
+				user.setLocker(locker);
+				em.persist(user);
+
+				tx.commit();
+			} catch (Throwable ex) {
+				ex.printStackTrace();
+
+				tx.rollback();
+			}
+		} finally {
+			if (em != null) {
+				try {
+					em.close();
+				} catch (Throwable ex) {
+				}
+			}
+
+			if (emf != null) {
+				try {
+					emf.close();
+				} catch (Throwable ex) {
+				}
+			}
+		}
+	}
+	// end::testOneToOne[]
+
 }
