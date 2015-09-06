@@ -702,4 +702,54 @@ public class JpaTests {
 	}
 	// end::testOneToOne[]
 
+	// tag::testManyToManyWithoutIdClass[]
+	@Test
+	public void testManyToManyWithoutIdClass() {
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		try {
+			emf = Persistence.createEntityManagerFactory("samples-jpa");
+			em = emf.createEntityManager();
+
+			EntityTransaction tx = em.getTransaction();
+			try {
+				tx.begin();
+
+				Product product = new Product();
+				product.setName("notebook");
+				em.persist(product);
+
+				User user = new User("Johnny", "Lim");
+				em.persist(user);
+
+				Order order = new Order();
+				order.setUser(user);
+				order.setProduct(product);
+				order.setOrderAmount(2);
+				em.persist(order);
+				
+				tx.commit();
+			} catch (Throwable ex) {
+				ex.printStackTrace();
+
+				tx.rollback();
+			}
+		} finally {
+			if (em != null) {
+				try {
+					em.close();
+				} catch (Throwable ex) {
+				}
+			}
+
+			if (emf != null) {
+				try {
+					emf.close();
+				} catch (Throwable ex) {
+				}
+			}
+		}
+	}
+	// end::testManyToManyWithoutIdClass[]
+
 }
