@@ -752,4 +752,163 @@ public class JpaTests {
 	}
 	// end::testManyToManyWithoutIdClass[]
 
+	// tag::testInheritanceJoined[]
+	@Test
+	public void testInheritanceJoined() {
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		try {
+			emf = Persistence.createEntityManagerFactory("samples-jpa");
+			em = emf.createEntityManager();
+
+			EntityTransaction tx = em.getTransaction();
+			try {
+				tx.begin();
+				
+				Album album = new Album();
+				album.setName("album name");
+				album.setPrice(10);
+				album.setArtist("album artist");
+				em.persist(album);
+				
+				Book book = new Book();
+				book.setName("book name");
+				book.setPrice(100);
+				book.setAuthor("book author");
+				book.setIsbn("book isbn");
+				em.persist(book);
+				
+				Movie movie = new Movie();
+				movie.setName("movie name");
+				movie.setPrice(1000);
+				movie.setActor("movie actor");
+				movie.setDirector("movie director");
+				em.persist(movie);
+
+				tx.commit();
+			} catch (Throwable ex) {
+				ex.printStackTrace();
+
+				tx.rollback();
+			}
+		} finally {
+			if (em != null) {
+				try {
+					em.close();
+				} catch (Throwable ex) {
+				}
+			}
+
+			if (emf != null) {
+				try {
+					emf.close();
+				} catch (Throwable ex) {
+				}
+			}
+		}
+	}
+	// end::testInheritanceJoined[]
+
+	// tag::testMappedSuperclass[]
+	@Test
+	public void testMappedSuperclass() {
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		try {
+			emf = Persistence.createEntityManagerFactory("samples-jpa");
+			em = emf.createEntityManager();
+
+			EntityTransaction tx = em.getTransaction();
+			try {
+				tx.begin();
+				
+				Buyer buyer = new Buyer();
+				buyer.setName("buyer name");
+				buyer.setEmail("buyer email");
+				em.persist(buyer);
+				
+				Seller seller = new Seller();
+				seller.setName("seller name");
+				seller.setShopName("seller shop name");
+				em.persist(seller);
+
+				tx.commit();
+			} catch (Throwable ex) {
+				ex.printStackTrace();
+
+				tx.rollback();
+			}
+		} finally {
+			if (em != null) {
+				try {
+					em.close();
+				} catch (Throwable ex) {
+				}
+			}
+
+			if (emf != null) {
+				try {
+					emf.close();
+				} catch (Throwable ex) {
+				}
+			}
+		}
+	}
+	// end::testMappedSuperclass[]
+
+	// tag::testEmbeddedId[]
+	@Test
+	public void testEmbeddedId() {
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		try {
+			emf = Persistence.createEntityManagerFactory("samples-jpa");
+			em = emf.createEntityManager();
+
+			EntityTransaction tx = em.getTransaction();
+			try {
+				tx.begin();
+				
+				// NOTE:
+				// There's no way to generate primary keys for `@EmbeddedId` automatically.
+				ParentId parentId = new ParentId();
+				parentId.setId1(1L);
+				parentId.setId2(2L);
+				
+				Parent parent = new Parent();
+				parent.setId(parentId);
+				parent.setName("parent name");
+				em.persist(parent);
+				
+				Parent foundParent = em.find(Parent.class, parentId);
+				assertThat(foundParent, is(sameInstance(parent)));
+
+				Child child = new Child();
+				child.setParent(parent);
+				em.persist(child);
+
+				tx.commit();
+			} catch (Throwable ex) {
+				ex.printStackTrace();
+
+				tx.rollback();
+			}
+		} finally {
+			if (em != null) {
+				try {
+					em.close();
+				} catch (Throwable ex) {
+				}
+			}
+
+			if (emf != null) {
+				try {
+					emf.close();
+				} catch (Throwable ex) {
+				}
+			}
+		}
+	}
+	// end::testEmbeddedId[]
+
 }
