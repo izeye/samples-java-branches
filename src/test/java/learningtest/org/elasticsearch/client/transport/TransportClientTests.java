@@ -11,6 +11,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 /**
  * Created by izeye on 15. 11. 18..
  */
@@ -19,9 +22,10 @@ public class TransportClientTests {
 	Client client;
 
 	@Before
-	public void setUp() {
-		this.client = new TransportClient()
-				.addTransportAddress(new InetSocketTransportAddress("localhost", 9300));
+	public void setUp() throws UnknownHostException {
+		this.client = TransportClient.builder().build()
+				.addTransportAddress(new InetSocketTransportAddress(
+						InetAddress.getByName("localhost"), 9300));
 	}
 
 	@After

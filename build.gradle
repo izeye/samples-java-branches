@@ -12,7 +12,7 @@ repositories {
 dependencies {
     compile("ch.qos.logback:logback-classic:$logbackVersion")
     compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-    compile("org.elasticsearch:elasticsearch:1.7.3")
+    compile("org.elasticsearch:elasticsearch:2.0.0")
     
     testCompile("junit:junit:$jUnitVersion")
     testCompile("org.mockito:mockito-all:${mockitoVersion}")

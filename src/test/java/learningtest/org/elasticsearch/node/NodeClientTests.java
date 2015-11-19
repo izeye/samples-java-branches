@@ -2,7 +2,7 @@ package learningtest.org.elasticsearch.node;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.search.SearchHit;
@@ -23,7 +23,9 @@ public class NodeClientTests {
 	@Before
 	public void setUp() {
 		Node node = nodeBuilder()
-				.settings(ImmutableSettings.settingsBuilder().put("http.enabled", false))
+				.settings(Settings.settingsBuilder()
+						.put("http.enabled", false)
+						.put("path.home", "."))
 				.client(true).node();
 		this.client = node.client();
 	}
