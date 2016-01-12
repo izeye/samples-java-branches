@@ -40,7 +40,7 @@ public class PatternTests {
 	}
 
 	@Test
-	public void testWithSlashOrDollar() {
+	public void testWithBackslashOrDollar() {
 		String target = "I {keyword:dis\\like} you and {keyword:ha$te} yours.";
 		String keyword = "l$o\\ve";
 
