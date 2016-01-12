@@ -38,5 +38,35 @@ public class PatternTests {
 		result = sb.toString();
 		assertThat(result, is("I dislike you and hate yours."));
 	}
+
+	@Test
+	public void testWithSlashOrDollar() {
+		String target = "I {keyword:dis\\like} you and {keyword:ha$te} yours.";
+		String keyword = "l$o\\ve";
+
+		Pattern pattern = Pattern.compile("\\{keyword:([^}]+)\\}");
+
+		Matcher matcher = pattern.matcher(target);
+		StringBuffer sb = new StringBuffer();
+		while (matcher.find()) {
+			matcher.appendReplacement(sb, escapeRegexGroup(keyword));
+		}
+		matcher.appendTail(sb);
+		String result = sb.toString();
+		assertThat(result, is("I l$o\\ve you and l$o\\ve yours."));
+
+		matcher.reset();
+		sb = new StringBuffer();
+		while (matcher.find()) {
+			matcher.appendReplacement(sb, escapeRegexGroup(matcher.group(1)));
+		}
+		matcher.appendTail(sb);
+		result = sb.toString();
+		assertThat(result, is("I dis\\like you and ha$te yours."));
+	}
+	
+	String escapeRegexGroup(String string) {
+		return string.replace("\\", "\\\\").replace("$", "\\$");
+	}
 	
 }
