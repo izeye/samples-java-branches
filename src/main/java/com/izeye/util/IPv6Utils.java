@@ -5,7 +5,7 @@ import com.google.common.net.InetAddresses;
 /**
  * Created by izeye on 16. 1. 21..
  */
-public class IPv6Utils {
+public abstract class IPv6Utils {
 	
 	public static String uncompress(String ipAddress) {
 		byte[] addressBytes = InetAddresses.forString(ipAddress).getAddress();
