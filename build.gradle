@@ -10,7 +10,9 @@ repositories {
 }
 
 dependencies {
+    compile("commons-io:commons-io:$commonsIoVersion")
     compile("com.google.guava:guava:$guavaVersion")
+    compile("org.apache.httpcomponents:httpclient:$httpClientVersion")
     compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
     compile("ch.qos.logback:logback-classic:$logbackVersion")
     
