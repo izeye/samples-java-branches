@@ -14,6 +14,7 @@ dependencies {
     compile("com.google.guava:guava:$guavaVersion")
     compile("org.apache.httpcomponents:httpclient:$httpClientVersion")
     compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+    compile("org.jsoup:jsoup:$jsoupVersion")
     compile("ch.qos.logback:logback-classic:$logbackVersion")
     
     testCompile("junit:junit:$jUnitVersion")
