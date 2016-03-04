@@ -1,6 +1,7 @@
 package com.izeye.util;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -14,7 +15,6 @@ import java.io.InputStream;
  */
 public abstract class HttpClientUtils {
 	
-	private static final CloseableHttpClient HTTP_CLIENT = HttpClientBuilder.create().build();
 	private static final String HEADER_REFERRER = "Referrer";
 	private static final String HEADER_REFERER = "Referer";
 	
@@ -23,7 +23,11 @@ public abstract class HttpClientUtils {
 //		request.setHeader(HEADER_REFERRER, referrer);
 		request.setHeader(HEADER_REFERER, referrer);
 		try {
-			CloseableHttpResponse response = HTTP_CLIENT.execute(request);
+			CloseableHttpResponse response = HttpClientBuilder.create().build().execute(request);
+			int statusCode = response.getStatusLine().getStatusCode();
+			if (statusCode != 200) {
+				throw new RuntimeException("Unexpected status code: " + statusCode);
+			}
 			InputStream content = response.getEntity().getContent();
 			return IOUtils.toString(content);
 		} catch (IOException ex) {
