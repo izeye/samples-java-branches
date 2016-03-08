@@ -1,4 +1,17 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven { url 'http://repo.spring.io/plugins-release' }
+    }
+
+    dependencies {
+        classpath("org.springframework.build.gradle:propdeps-plugin:$propdepsPluginVersion")
+    }
+}
+
 apply plugin: 'java'
+apply plugin: 'propdeps'
 
 repositories {
     jcenter()
@@ -16,7 +29,10 @@ dependencies {
     compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
     compile("org.jsoup:jsoup:$jsoupVersion")
     compile("ch.qos.logback:logback-classic:$logbackVersion")
+
+    provided("org.projectlombok:lombok:$lombokVersion")
     
+    testCompile("org.assertj:assertj-core:$assertJVersion")
     testCompile("junit:junit:$jUnitVersion")
     testCompile("org.mockito:mockito-all:${mockitoVersion}")
 }
