@@ -1,6 +1,5 @@
-package learningtest.java.util.zip;
+package com.izeye.util;
 
-import com.izeye.util.CompressionUtils;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -8,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Created by izeye on 16. 3. 29..
  */
-public class ZipOutputStreamTests {
+public class CompressionUtilsTests {
 	
 	@Test
 	public void test() {
