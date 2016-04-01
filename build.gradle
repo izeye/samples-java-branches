@@ -29,6 +29,7 @@ dependencies {
     compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
     compile("org.jsoup:jsoup:$jsoupVersion")
     compile("ch.qos.logback:logback-classic:$logbackVersion")
+    compile("org.bouncycastle:bcprov-jdk15on:$bouncyCastleProviderVersion")
 
     provided("org.projectlombok:lombok:$lombokVersion")
     
