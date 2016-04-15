@@ -28,7 +28,7 @@ public class ObjectMapperTests {
 		StringWriter sw = new StringWriter();
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setPropertyNamingStrategy(
-				PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+				PropertyNamingStrategy.SNAKE_CASE);
 		mapper.writeValue(sw, new Foo("test"));
 		assertThat(sw.toString(), is("{\"bar_bar\":\"test\"}"));
 	}

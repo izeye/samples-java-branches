@@ -1,12 +1,9 @@
-package learningtest.com.fasterxml.jackson.databind;
+package learningtest.com.fasterxml.jackson.databind.lombok;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.junit.Test;
 
 /**
@@ -31,6 +28,15 @@ public class ObjectMapperLombokAllArgsConstructorTests {
 						PropertyNamingStrategy.SNAKE_CASE)
 				.writeValueAsString(manualDomain);
 		System.out.println(manualJson);
+
+		ManualAllArgsConstructorDomainHavingConstructorProperties manualDomainHavingConstructorProperties
+				= new ManualAllArgsConstructorDomainHavingConstructorProperties();
+		manualDomainHavingConstructorProperties.setSomeProperty("test");
+		String manualJsonHavingConstructorProperties = new ObjectMapper()
+				.setPropertyNamingStrategy(
+						PropertyNamingStrategy.SNAKE_CASE)
+				.writeValueAsString(manualDomainHavingConstructorProperties);
+		System.out.println(manualJsonHavingConstructorProperties);
 		
 		String workaroundAppliedLombokJson = new ObjectMapper()
 				.enable(MapperFeature.ALLOW_EXPLICIT_PROPERTY_RENAMING)
@@ -38,27 +44,6 @@ public class ObjectMapperLombokAllArgsConstructorTests {
 						PropertyNamingStrategy.SNAKE_CASE)
 				.writeValueAsString(lombokDomain);
 		System.out.println(workaroundAppliedLombokJson);
-	}
-
-	@Data
-	@NoArgsConstructor
-	@AllArgsConstructor
-	static class LombokAllArgsConstructorDomain {
-
-		private String someProperty;
-
-	}
-
-	@Data
-	@NoArgsConstructor
-	static class ManualAllArgsConstructorDomain {
-
-		private String someProperty;
-
-		public ManualAllArgsConstructorDomain(String someProperty) {
-			this.someProperty = someProperty;
-		}
-
 	}
 	
 }
