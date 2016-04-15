@@ -20,6 +20,15 @@ public class ObjectMapperLombokAllArgsConstructorTests {
 						PropertyNamingStrategy.SNAKE_CASE)
 				.writeValueAsString(lombokDomain);
 		System.out.println(lombokJson);
+		
+		LombokAllArgsConstructorDomainSuppressConstructorProperties lombokDomainSuppressConstructorProperties
+				= new LombokAllArgsConstructorDomainSuppressConstructorProperties();
+		lombokDomainSuppressConstructorProperties.setSomeProperty("test");
+		String lombokJsonSuppressConstructorProperties = new ObjectMapper()
+				.setPropertyNamingStrategy(
+						PropertyNamingStrategy.SNAKE_CASE)
+				.writeValueAsString(lombokDomainSuppressConstructorProperties);
+		System.out.println(lombokJsonSuppressConstructorProperties);
 
 		ManualAllArgsConstructorDomain manualDomain = new ManualAllArgsConstructorDomain();
 		manualDomain.setSomeProperty("test");
@@ -42,7 +51,7 @@ public class ObjectMapperLombokAllArgsConstructorTests {
 				.enable(MapperFeature.ALLOW_EXPLICIT_PROPERTY_RENAMING)
 				.setPropertyNamingStrategy(
 						PropertyNamingStrategy.SNAKE_CASE)
-				.writeValueAsString(lombokDomain);
+				.writeValueAsString(lombokDomainSuppressConstructorProperties);
 		System.out.println(workaroundAppliedLombokJson);
 	}
 	
