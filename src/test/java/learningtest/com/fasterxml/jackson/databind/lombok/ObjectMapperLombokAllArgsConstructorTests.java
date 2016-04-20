@@ -19,7 +19,7 @@ public class ObjectMapperLombokAllArgsConstructorTests {
 				.setPropertyNamingStrategy(
 						PropertyNamingStrategy.SNAKE_CASE)
 				.writeValueAsString(lombokDomain);
-		System.out.println(lombokJson);
+		System.out.println("@AllArgsConstructor: " + lombokJson);
 		
 		LombokAllArgsConstructorDomainSuppressConstructorProperties lombokDomainSuppressConstructorProperties
 				= new LombokAllArgsConstructorDomainSuppressConstructorProperties();
@@ -28,7 +28,8 @@ public class ObjectMapperLombokAllArgsConstructorTests {
 				.setPropertyNamingStrategy(
 						PropertyNamingStrategy.SNAKE_CASE)
 				.writeValueAsString(lombokDomainSuppressConstructorProperties);
-		System.out.println(lombokJsonSuppressConstructorProperties);
+		System.out.println("@AllArgsConstructor with suppressConstructorProperties: "
+				+ lombokJsonSuppressConstructorProperties);
 
 		ManualAllArgsConstructorDomain manualDomain = new ManualAllArgsConstructorDomain();
 		manualDomain.setSomeProperty("test");
@@ -36,7 +37,7 @@ public class ObjectMapperLombokAllArgsConstructorTests {
 				.setPropertyNamingStrategy(
 						PropertyNamingStrategy.SNAKE_CASE)
 				.writeValueAsString(manualDomain);
-		System.out.println(manualJson);
+		System.out.println("Manual all arguments constructor: " + manualJson);
 
 		ManualAllArgsConstructorDomainHavingConstructorProperties manualDomainHavingConstructorProperties
 				= new ManualAllArgsConstructorDomainHavingConstructorProperties();
@@ -45,14 +46,15 @@ public class ObjectMapperLombokAllArgsConstructorTests {
 				.setPropertyNamingStrategy(
 						PropertyNamingStrategy.SNAKE_CASE)
 				.writeValueAsString(manualDomainHavingConstructorProperties);
-		System.out.println(manualJsonHavingConstructorProperties);
+		System.out.println("Manual all arguments constructor with @ConstructorProperties: "
+				+ manualJsonHavingConstructorProperties);
 		
 		String workaroundAppliedLombokJson = new ObjectMapper()
 				.enable(MapperFeature.ALLOW_EXPLICIT_PROPERTY_RENAMING)
 				.setPropertyNamingStrategy(
 						PropertyNamingStrategy.SNAKE_CASE)
 				.writeValueAsString(lombokDomainSuppressConstructorProperties);
-		System.out.println(workaroundAppliedLombokJson);
+		System.out.println("@AllArgsConstructor with a workaround: " + workaroundAppliedLombokJson);
 	}
 	
 }
