@@ -3,6 +3,7 @@ package com.izeye.util;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by izeye on 16. 3. 19..
@@ -51,6 +52,12 @@ public abstract class ByteUtils {
 	
 	public static byte hexChar2Byte(char hex) {
 		return BYTE_BY_HEX_CHAR.get(hex);
+	}
+	
+	public static byte[] randomBytes(int length) {
+		byte[] bytes = new byte[length];
+		ThreadLocalRandom.current().nextBytes(bytes);
+		return bytes;
 	}
 	
 }
