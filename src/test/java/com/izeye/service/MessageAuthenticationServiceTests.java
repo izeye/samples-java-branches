@@ -4,10 +4,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.io.UnsupportedEncodingException;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Created by izeye on 16. 4. 28..
  */
 public class MessageAuthenticationServiceTests {
+	
+	private static final String CHARSET_NAME = "UTF-8";
 	
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
@@ -18,19 +24,34 @@ public class MessageAuthenticationServiceTests {
 	@Test
 	public void test() {
 		String message = "Hello, world!";
-		String mac = this.messageAuthenticationService.createMessageAuthenticationCode(message);
-		this.messageAuthenticationService.verifyMessageAuthenticationCode(message, mac);
+		try {
+			byte[] messageBytes = message.getBytes(CHARSET_NAME);
+			byte[] macApplied = this.messageAuthenticationService.applyMessageAuthentication(
+					messageBytes);
+			byte[] extracted = this.messageAuthenticationService.extractMessage(macApplied);
+			assertThat(extracted).isEqualTo(messageBytes);
+		} catch (UnsupportedEncodingException ex) {
+			throw new RuntimeException(ex);
+		}
 	}
 
 	@Test
 	public void testVerificationFailed() {
 		String message = "Hello, world!";
-		String mac = this.messageAuthenticationService.createMessageAuthenticationCode(message);
+		try {
+			byte[] messageBytes = message.getBytes(CHARSET_NAME);
+			byte[] macApplied = this.messageAuthenticationService.applyMessageAuthentication(
+					messageBytes);
+			
+			// Manipulate message.
+			macApplied[macApplied.length - 1] = 0;
 
-		String fakeMac = "fake mac";
-		thrown.expect(MessageAuthenticationFailedException.class);
-		thrown.expectMessage("Expected MAC is '" + fakeMac + "' but actual MAC was '" + mac + "'.");
-		this.messageAuthenticationService.verifyMessageAuthenticationCode(message, fakeMac);
+			thrown.expect(MessageAuthenticationFailedException.class);
+			thrown.expectMessage("Expected MAC is '");
+			this.messageAuthenticationService.extractMessage(macApplied);
+		} catch (UnsupportedEncodingException ex) {
+			throw new RuntimeException(ex);
+		}
 	}
 	
 }

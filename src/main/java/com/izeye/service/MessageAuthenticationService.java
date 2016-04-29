@@ -5,8 +5,8 @@ package com.izeye.service;
  */
 public interface MessageAuthenticationService {
 	
-	String createMessageAuthenticationCode(String message);
+	byte[] applyMessageAuthentication(byte[] message);
 	
-	void verifyMessageAuthenticationCode(String message, String expectedMac);
+	byte[] extractMessage(byte[] macApplied);
 	
 }
