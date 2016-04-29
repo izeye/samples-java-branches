@@ -35,5 +35,9 @@ dependencies {
     
     testCompile("org.assertj:assertj-core:$assertJVersion")
     testCompile("junit:junit:$jUnitVersion")
-    testCompile("org.mockito:mockito-all:${mockitoVersion}")
+    
+    // NOTE: Why does `mockito-all` include `org.hamcrest.Matcher`?
+    // This leads to `java.lang.NoSuchMethodError: org.hamcrest.Matcher.describeMismatch(Ljava/lang/Object;Lorg/hamcrest/Description;)V`.
+//    testCompile("org.mockito:mockito-all:${mockitoVersion}")
+    testCompile("org.mockito:mockito-core:${mockitoVersion}")
 }
