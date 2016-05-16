@@ -22,9 +22,6 @@ public class KafkaConsumerTests {
 		Properties properties = new Properties();
 		properties.setProperty(BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 		properties.setProperty(GROUP_ID_CONFIG, "test");
-		properties.setProperty(ENABLE_AUTO_COMMIT_CONFIG, "true");
-		properties.setProperty(AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
-		properties.setProperty(SESSION_TIMEOUT_MS_CONFIG, "30000");
 		properties.setProperty(KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
 		properties.setProperty(VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
 
