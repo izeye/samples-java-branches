@@ -42,3 +42,7 @@ dependencies {
 //    testCompile("org.mockito:mockito-all:${mockitoVersion}")
     testCompile("org.mockito:mockito-core:${mockitoVersion}")
 }
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.13'
+}

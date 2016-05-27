@@ -4,6 +4,7 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Properties;
@@ -15,6 +16,7 @@ import static org.apache.kafka.clients.producer.ProducerConfig.*;
  */
 public class KafkaProducerTests {
 	
+	@Ignore
 	@Test
 	public void test() {
 		Properties properties = new Properties();

@@ -5,6 +5,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -17,6 +18,7 @@ import static org.apache.kafka.clients.consumer.ConsumerConfig.*;
  */
 public class KafkaConsumerTests {
 	
+	@Ignore
 	@Test
 	public void test() {
 		Properties properties = new Properties();
