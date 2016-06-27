@@ -7,8 +7,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by izeye on 15. 8. 31..
@@ -20,7 +19,7 @@ public class ObjectMapperTests {
 		StringWriter sw = new StringWriter();
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.writeValue(sw, new Foo("test"));
-		assertThat(sw.toString(), is("{\"barBar\":\"test\"}"));
+		assertThat(sw.toString()).isEqualTo("{\"barBar\":\"test\"}");
 	}
 
 	@Test
@@ -30,7 +29,24 @@ public class ObjectMapperTests {
 		mapper.setPropertyNamingStrategy(
 				PropertyNamingStrategy.SNAKE_CASE);
 		mapper.writeValue(sw, new Foo("test"));
-		assertThat(sw.toString(), is("{\"bar_bar\":\"test\"}"));
+		assertThat(sw.toString()).isEqualTo("{\"bar_bar\":\"test\"}");
+	}
+	
+	@Test
+	public void testMultipleJsonPropertySetters() throws IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		
+		String json = "{\"name\": \"Johnny\"}";
+		Environment environment = mapper.readValue(json, Environment.class);
+		assertThat(environment.getName()).isEqualTo("Johnny");
+
+		json = "{\"test_name\": \"Johnny\"}";
+		environment = mapper.readValue(json, Environment.class);
+		assertThat(environment.getName()).isEqualTo("Johnny");
+
+		json = "{\"production_name\": \"Johnny\"}";
+		environment = mapper.readValue(json, Environment.class);
+		assertThat(environment.getName()).isEqualTo("Johnny");
 	}
 
 	static class Foo {
