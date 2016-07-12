@@ -5,8 +5,8 @@ import org.junit.Test;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 /**
  * Created by izeye on 15. 12. 30..
@@ -27,7 +27,7 @@ public class PatternTests {
 		}
 		matcher.appendTail(sb);
 		String result = sb.toString();
-		assertThat(result, is("I love you and love yours."));
+		assertThat(result).isEqualTo("I love you and love yours.");
 		
 		matcher.reset();
 		sb = new StringBuffer();
@@ -36,7 +36,7 @@ public class PatternTests {
 		}
 		matcher.appendTail(sb);
 		result = sb.toString();
-		assertThat(result, is("I dislike you and hate yours."));
+		assertThat(result).isEqualTo("I dislike you and hate yours.");
 	}
 
 	@Test
@@ -53,7 +53,7 @@ public class PatternTests {
 		}
 		matcher.appendTail(sb);
 		String result = sb.toString();
-		assertThat(result, is("I l$o\\ve you and l$o\\ve yours."));
+		assertThat(result).isEqualTo("I l$o\\ve you and l$o\\ve yours.");
 
 		matcher.reset();
 		sb = new StringBuffer();
@@ -62,11 +62,21 @@ public class PatternTests {
 		}
 		matcher.appendTail(sb);
 		result = sb.toString();
-		assertThat(result, is("I dis\\like you and ha$te yours."));
+		assertThat(result).isEqualTo("I dis\\like you and ha$te yours.");
 	}
 	
 	String escapeRegexGroup(String string) {
 		return string.replace("\\", "\\\\").replace("$", "\\$");
+	}
+	
+	@Test
+	public void testNamedCapturingGroups() {
+		Pattern pattern = Pattern.compile("(?<firstName>.+?) (?<middleName>.+?) (?<lastName>.+)");
+		Matcher matcher = pattern.matcher("Johnny I. Lim");
+		matcher.find();
+		assertThat(matcher.group("firstName")).isEqualTo("Johnny");
+		assertThat(matcher.group("middleName")).isEqualTo("I.");
+		assertThat(matcher.group("lastName")).isEqualTo("Lim");
 	}
 	
 }
