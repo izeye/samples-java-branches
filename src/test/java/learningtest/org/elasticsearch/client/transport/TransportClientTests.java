@@ -4,6 +4,7 @@ import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.net.InetAddress;
@@ -16,6 +17,7 @@ import java.util.Map;
  */
 public class TransportClientTests {
 	
+	@Ignore
 	@Test
 	public void test() throws UnknownHostException {
 		Map<String, String> map = new HashMap<>();
