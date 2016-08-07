@@ -13,9 +13,11 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'propdeps'
 
+sourceCompatibility = 1.8
+
 repositories {
     jcenter()
-    
+
     // If `mavenLocal()` is placed before `jcenter()`,
     // you can see the source code for libraries in IntelliJ.
     // Why?
@@ -39,7 +41,7 @@ dependencies {
     
     testCompile("org.assertj:assertj-core:$assertJVersion")
     testCompile("junit:junit:$jUnitVersion")
-    
+
     // NOTE: Why does `mockito-all` include `org.hamcrest.Matcher`?
     // This leads to `java.lang.NoSuchMethodError: org.hamcrest.Matcher.describeMismatch(Ljava/lang/Object;Lorg/hamcrest/Description;)V`.
 //    testCompile("org.mockito:mockito-all:${mockitoVersion}")
@@ -47,5 +49,5 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.13'
+    gradleVersion = '2.14.1'
 }
