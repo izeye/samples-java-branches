@@ -25,10 +25,10 @@ repositories {
 }
 
 dependencies {
-    compile("org.bouncycastle:bcprov-jdk15on:$bouncyCastleProviderVersion")
-    compile("commons-io:commons-io:$commonsIoVersion")
     compile("com.google.guava:guava:$guavaVersion")
     compile("org.apache.httpcomponents:httpclient:$httpClientVersion")
+    compile("commons-io:commons-io:$commonsIoVersion")
+    compile("org.bouncycastle:bcprov-jdk15on:$bouncyCastleProviderVersion")
     compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
     compile("org.jsoup:jsoup:$jsoupVersion")
     compile("ch.qos.logback:logback-classic:$logbackVersion")
