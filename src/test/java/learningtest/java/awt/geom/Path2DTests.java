@@ -25,7 +25,6 @@ public class Path2DTests {
 
 	@Test
 	public void testContains() {
-
 		Path2D path = new Path2D.Double();
 		path.moveTo(coordinates[0], coordinates[1]);
 		for (int i = 2; i < coordinates.length; i += 2) {
