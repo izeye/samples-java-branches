@@ -9,7 +9,7 @@ import javax.swing.*;
  *
  * @author Johnny Lim
  */
-public class GraphicsTests {
+public class PolygonTests {
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
