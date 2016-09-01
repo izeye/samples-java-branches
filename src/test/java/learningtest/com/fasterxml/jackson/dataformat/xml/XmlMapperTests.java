@@ -1,11 +1,16 @@
 package learningtest.com.fasterxml.jackson.dataformat.xml;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lombok.Data;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,7 +22,14 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class XmlMapperTests {
 
-	private ObjectMapper xmlMapper = new XmlMapper();
+	private ObjectMapper xmlMapper;
+
+	@Before
+	public void setUp() {
+		JacksonXmlModule xmlModule = new JacksonXmlModule();
+//		xmlModule.setDefaultUseWrapper(false);
+		this.xmlMapper = new XmlMapper(xmlModule);
+	}
 
 	@Test
 	public void test() throws IOException {
@@ -28,6 +40,8 @@ public class XmlMapperTests {
 		name.setLastName("Lim");
 		person.setName(name);
 		person.setAge(20);
+		List<String> fruits = Arrays.asList("apple", "banana");
+		person.setFavoriteFruits(fruits);
 		person.setCreatedTime(new Date());
 
 		String xml = this.xmlMapper.writeValueAsString(person);
@@ -36,6 +50,12 @@ public class XmlMapperTests {
 		Person deserialized = this.xmlMapper.readValue(xml, Person.class);
 		System.out.println(deserialized);
 		assertThat(deserialized).isEqualTo(person);
+
+		// NOTE:
+		// Can't handle collections or arrays with `Map`.
+		// Not sure it's limitation on `XmlMapper` or XML.
+		Map<String, Object> map = this.xmlMapper.readValue(xml, Map.class);
+		System.out.println(map);
 	}
 
 	@Data
@@ -52,6 +72,7 @@ public class XmlMapperTests {
 		private Long id;
 		private PersonName name;
 		private int age;
+		private List<String> favoriteFruits;
 
 		private Date createdTime;
 
