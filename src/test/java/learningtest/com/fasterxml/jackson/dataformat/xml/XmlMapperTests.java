@@ -54,6 +54,7 @@ public class XmlMapperTests {
 		// NOTE:
 		// Can't handle collections or arrays with `Map`.
 		// Not sure it's limitation on `XmlMapper` or XML.
+		@SuppressWarnings("unchecked")
 		Map<String, Object> map = this.xmlMapper.readValue(xml, Map.class);
 		System.out.println(map);
 	}
