@@ -1,3 +1,6 @@
 # Created by .gitignore support plugin (hsz.mobi)
-.idea
+.idea/
 samples-java-branches.iml
+
+.gradle/
+build/

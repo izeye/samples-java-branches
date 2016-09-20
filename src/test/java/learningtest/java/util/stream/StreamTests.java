@@ -15,6 +15,11 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Johnny Lim
  */
 public class StreamTests {
+
+	@Test
+	public void testIterateAndLimit() {
+		assertThat(Stream.iterate(1, i -> i + 1).limit(5)).containsExactly(1, 2, 3, 4, 5);
+	}
 	
 	@Test
 	public void test() {
