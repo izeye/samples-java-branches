@@ -17,6 +17,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class StreamTests {
 
 	@Test
+	public void testOf() {
+		Stream.of("Apple", "Banana").forEach(System.out::println);
+	}
+
+	@Test
 	public void testIterateAndLimit() {
 		assertThat(Stream.iterate(1, i -> i + 1).limit(5)).containsExactly(1, 2, 3, 4, 5);
 	}
