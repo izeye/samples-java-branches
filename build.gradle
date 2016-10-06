@@ -37,6 +37,7 @@ dependencies {
     compile("org.elasticsearch:elasticsearch:${elasticsearchVersion}")
     compile("org.hibernate:hibernate-validator:${hibernateValidatorVersion}")
     compile("org.glassfish:javax.el:${elVersion}")
+    compile("com.github.javaparser:javaparser-core:${javaParserVersion}")
 
     provided("org.projectlombok:lombok:$lombokVersion")
     
