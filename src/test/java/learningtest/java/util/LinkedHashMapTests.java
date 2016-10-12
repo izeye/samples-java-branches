@@ -18,10 +18,12 @@ public class LinkedHashMapTests {
 		Map<String, Integer> map = new HashMap<>();
 		putEntries(map);
 		map.entrySet().forEach(System.out::println);
+		map.values().forEach(System.out::println);
 
 		map = new LinkedHashMap<>();
 		putEntries(map);
 		map.entrySet().forEach(System.out::println);
+		map.values().forEach(System.out::println);
 	}
 
 	private void putEntries(Map<String, Integer> map) {
