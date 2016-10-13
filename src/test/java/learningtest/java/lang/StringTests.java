@@ -2,6 +2,8 @@ package learningtest.java.lang;
 
 import org.junit.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Created by izeye on 15. 10. 22..
  */
@@ -16,6 +18,12 @@ public class StringTests {
 		i = null;
 		System.out.println(String.format("Test Integer: %d", i));
 		System.out.println(String.format("Test Integer: %s", i));
+	}
+
+	@Test
+	public void testValueOfBoolean() {
+		assertThat(String.valueOf(true)).isEqualTo("true");
+		assertThat(String.valueOf(false)).isEqualTo("false");
 	}
 	
 }
