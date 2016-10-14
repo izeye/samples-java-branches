@@ -5,7 +5,9 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Created by izeye on 15. 10. 22..
+ * Tests for {@link String}.
+ *
+ * @author Johnny Lim
  */
 public class StringTests {
 	
@@ -24,6 +26,11 @@ public class StringTests {
 	public void testValueOfBoolean() {
 		assertThat(String.valueOf(true)).isEqualTo("true");
 		assertThat(String.valueOf(false)).isEqualTo("false");
+	}
+
+	@Test
+	public void testReplaceAll() {
+		assertThat("a:b:c".replaceAll(":", "")).isEqualTo("abc");
 	}
 	
 }
