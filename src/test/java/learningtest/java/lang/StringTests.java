@@ -32,5 +32,10 @@ public class StringTests {
 	public void testReplaceAll() {
 		assertThat("a:b:c".replaceAll(":", "")).isEqualTo("abc");
 	}
+
+	@Test
+	public void testReplace() {
+		assertThat("a+b+c".replace("+", "%20")).isEqualTo("a%20b%20c");
+	}
 	
 }
