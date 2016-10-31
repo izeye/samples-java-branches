@@ -1,6 +1,8 @@
 package learningtest.javax.crypto;
 
 import com.izeye.util.ByteUtils;
+import com.izeye.util.Stopwatch;
+
 import org.junit.Test;
 
 import javax.crypto.BadPaddingException;
@@ -19,7 +21,9 @@ import java.util.Base64;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Created by izeye on 16. 3. 16..
+ * Tests for {@link Cipher}.
+ *
+ * @author Johnny Lim
  */
 public class CipherTests {
 	
@@ -93,6 +97,23 @@ public class CipherTests {
 		} catch (InvalidAlgorithmParameterException ex) {
 			throw new RuntimeException(ex);
 		}
+	}
+
+	@Test
+	public void testGetInstance() throws NoSuchPaddingException, NoSuchAlgorithmException {
+		String cipherAlgorithm = "AES/GCM/PKCS5PADDING";
+
+		Stopwatch stopwatch = new Stopwatch();
+		stopwatch.start();
+		Cipher.getInstance(cipherAlgorithm);
+		stopwatch.stop();
+		System.out.println(stopwatch.getElapsedTime());
+
+		stopwatch = new Stopwatch();
+		stopwatch.start();
+		Cipher.getInstance(cipherAlgorithm);
+		stopwatch.stop();
+		System.out.println(stopwatch.getElapsedTime());
 	}
 	
 }
