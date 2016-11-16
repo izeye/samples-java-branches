@@ -38,6 +38,7 @@ dependencies {
     compile("org.hibernate:hibernate-validator:${hibernateValidatorVersion}")
     compile("org.glassfish:javax.el:${elVersion}")
     compile("com.github.javaparser:javaparser-core:${javaParserVersion}")
+    compile("io.netty:netty-all:${nettyVersion}")
 
     provided("org.projectlombok:lombok:$lombokVersion")
     
