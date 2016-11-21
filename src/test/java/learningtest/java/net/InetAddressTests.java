@@ -17,6 +17,9 @@ public class InetAddressTests {
 		InetAddress localHost = InetAddress.getLocalHost();
 		String hostName = localHost.getHostName();
 		System.out.println(hostName);
+
+		String hostAddress = localHost.getHostAddress();
+		System.out.println(hostAddress);
 	}
 
 }
