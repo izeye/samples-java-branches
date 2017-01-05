@@ -41,7 +41,8 @@ dependencies {
     compile("io.netty:netty-all:${nettyVersion}")
 
     provided("org.projectlombok:lombok:$lombokVersion")
-    
+
+    testCompile("com.jayway.jsonpath:json-path:${jsonPathVersion}")
     testCompile("org.assertj:assertj-core:$assertJVersion")
     testCompile("junit:junit:$jUnitVersion")
 
