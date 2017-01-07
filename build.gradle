@@ -39,6 +39,7 @@ dependencies {
     compile("org.glassfish:javax.el:${elVersion}")
     compile("com.github.javaparser:javaparser-core:${javaParserVersion}")
     compile("io.netty:netty-all:${nettyVersion}")
+    compile("org.objenesis:objenesis:${objenesisVersion}")
 
     provided("org.projectlombok:lombok:$lombokVersion")
 
