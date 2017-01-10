@@ -15,7 +15,6 @@ import org.mockito.stubbing.Answer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -28,7 +27,6 @@ public class AnswerTests {
 	private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
 	private final SomeService someService = mock(SomeService.class);
-	private final AnotherService anotherService = mock(AnotherService.class);
 
 	@After
 	public void cleanUp() {
@@ -52,14 +50,6 @@ public class AnswerTests {
 	// Remove 'expected' to see how it fails.
 	@Test(expected = ComparisonFailure.class)
 	public void testConcurrency() {
-		given(this.anotherService.getAnotherBoolean(any(Something.class))).willAnswer(new Answer<Boolean>() {
-			@Override
-			public Boolean answer(InvocationOnMock invocation) throws Throwable {
-				System.out.println("In AnotherService: " + invocation.getArguments()[0]);
-				return true;
-			}
-		});
-
 		int count = 100;
 
 		CountDownLatch latch = new CountDownLatch(count);
@@ -71,7 +61,7 @@ public class AnswerTests {
 			given(this.someService.getSomeBoolean(something)).willAnswer(new Answer<Boolean>() {
 				@Override
 				public Boolean answer(InvocationOnMock invocation) throws Throwable {
-					System.out.println("In SomeService: " + invocation.getArguments()[0]);
+					System.out.println("In answer(): " + invocation.getArguments()[0]);
 					return true;
 				}
 			});
@@ -82,26 +72,18 @@ public class AnswerTests {
 
 		try {
 			latch.await();
-		} catch (InterruptedException ex) {
+		}
+		catch (InterruptedException ex) {
 			throw new RuntimeException(ex);
 		}
 
 		for (Something something : somethings) {
 			assertThat(this.someService.getSomeBoolean(something)).isTrue();
-			assertThat(this.anotherService.getAnotherBoolean(something)).isTrue();
 		}
 	}
 
 	@Test
 	public void testAvoidConcurrency() {
-		given(this.anotherService.getAnotherBoolean(any(Something.class))).willAnswer(new Answer<Boolean>() {
-			@Override
-			public Boolean answer(InvocationOnMock invocation) throws Throwable {
-				System.out.println("In AnotherService: " + invocation.getArguments()[0]);
-				return true;
-			}
-		});
-
 		int count = 100;
 
 		CountDownLatch latch = new CountDownLatch(count);
@@ -113,7 +95,7 @@ public class AnswerTests {
 			given(this.someService.getSomeBoolean(something)).willAnswer(new Answer<Boolean>() {
 				@Override
 				public Boolean answer(InvocationOnMock invocation) throws Throwable {
-					System.out.println("In SomeService: " + invocation.getArguments()[0]);
+					System.out.println("In answer(): " + invocation.getArguments()[0]);
 					return true;
 				}
 			});
@@ -126,13 +108,13 @@ public class AnswerTests {
 
 		try {
 			latch.await();
-		} catch (InterruptedException ex) {
+		}
+		catch (InterruptedException ex) {
 			throw new RuntimeException(ex);
 		}
 
 		for (Something something : somethings) {
 			assertThat(this.someService.getSomeBoolean(something)).isTrue();
-			assertThat(this.anotherService.getAnotherBoolean(something)).isTrue();
 		}
 	}
 
@@ -141,11 +123,6 @@ public class AnswerTests {
 			Boolean someBoolean = this.someService.getSomeBoolean(something);
 			if (!someBoolean) {
 				System.err.println("someService.getSomeBoolean() failed with " + something);
-			}
-
-			Boolean anotherBoolean = this.anotherService.getAnotherBoolean(something);
-			if (!anotherBoolean) {
-				System.err.println("anotherService.getAnotherBoolean() failed with " + something);
 			}
 
 			latch.countDown();
@@ -166,12 +143,6 @@ public class AnswerTests {
 	private interface SomeService {
 
 		Boolean getSomeBoolean(Something something);
-
-	}
-
-	private interface AnotherService {
-
-		Boolean getAnotherBoolean(Something something);
 
 	}
 
