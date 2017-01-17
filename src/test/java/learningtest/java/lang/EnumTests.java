@@ -27,6 +27,12 @@ public class EnumTests {
 		constructors = Flower.class.getConstructors();
 		assertThat(constructors).isNotEmpty();
 	}
+
+	@Test
+	public void testHashCode() {
+		System.out.println(Fruit.APPLE.hashCode());
+		System.out.println(Fruit.BANANA.hashCode());
+	}
 	
 	enum Fruit {
 		APPLE, BANANA

@@ -15,6 +15,12 @@ public class ObjectTests {
 		instance.sayHello();
 	}
 
+	@Test
+	public void testHashCode() {
+		System.out.println(new Object().hashCode());
+		System.out.println(new Object().hashCode());
+	}
+
 	private static class ClassHavingSideEffectInToString {
 
 		public void sayHello() {
