@@ -1,7 +1,5 @@
 package learningtest.org.junit.rules;
 
-import java.util.concurrent.TimeUnit;
-
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,7 +13,7 @@ import org.junit.rules.Timeout;
 public class TimeoutTests {
 
 	@Rule
-	public Timeout timeout = new Timeout(20, TimeUnit.MILLISECONDS);
+	public Timeout timeout = Timeout.millis(20);
 
 	@Ignore
 	@Test
