@@ -37,5 +37,10 @@ public class StringTests {
 	public void testReplace() {
 		assertThat("a+b+c".replace("+", "%20")).isEqualTo("a%20b%20c");
 	}
+
+	@Test
+	public void testSubstring() {
+		assertThat("Hello, world!".substring(0, 0)).isEmpty();
+	}
 	
 }
