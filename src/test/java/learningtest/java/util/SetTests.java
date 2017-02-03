@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SetTests {
 
 	@Test
-	public void test() {
+	public void testContainsAll() {
 		Set<String> set = new HashSet<>();
 		set.add("a");
 		set.add("b");
