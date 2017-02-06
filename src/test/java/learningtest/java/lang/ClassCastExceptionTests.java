@@ -1,4 +1,4 @@
-package learningtest.cast;
+package learningtest.java.lang;
 
 import org.junit.Rule;
 import org.junit.Test;
