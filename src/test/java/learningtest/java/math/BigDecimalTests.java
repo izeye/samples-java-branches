@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BigDecimalTests {
 
 	@Test
-	public void test() {
+	public void testAdd() {
 		BigDecimal bigDecimal = new BigDecimal("1");
 		BigDecimal added = bigDecimal.add(new BigDecimal("2"));
 		assertThat(added.toString()).isEqualTo("3");
@@ -26,6 +26,13 @@ public class BigDecimalTests {
 		bigDecimal = new BigDecimal("1.1");
 		added = bigDecimal.add(new BigDecimal("2.2"));
 		assertThat(added.toString()).isEqualTo("3.3");
+	}
+
+	@Test
+	public void testLongValue() {
+		assertThat(new BigDecimal("1").longValue()).isEqualTo(1L);
+		assertThat(new BigDecimal("1.0").longValue()).isEqualTo(1L);
+		assertThat(new BigDecimal("1.1").longValue()).isEqualTo(1L);
 	}
 
 }
