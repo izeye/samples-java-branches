@@ -22,6 +22,7 @@ public class URLClassLoaderTests {
 	public void test() throws ClassNotFoundException {
 		URLClassLoader someFooHidingClassLoader = new URLClassLoader(
 				((URLClassLoader) URLClassLoaderTests.class.getClassLoader()).getURLs(), null) {
+
 			@Override
 			protected Class<?> findClass(String name) throws ClassNotFoundException {
 				if (name.equals("learningtest.java.net.URLClassLoaderTests$SomeFoo")) {
@@ -29,6 +30,7 @@ public class URLClassLoaderTests {
 				}
 				return super.findClass(name);
 			}
+
 		};
 
 		assertThat(Class.forName(
