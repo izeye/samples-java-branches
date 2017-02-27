@@ -1,7 +1,9 @@
 package learningtest.java.util.concurrent;
 
-import java.util.concurrent.*;
-import java.util.function.Function;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 
 import org.junit.Test;
@@ -15,80 +17,55 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class CompletableFutureTests {
 
+	private final Executor executor = Executors.newFixedThreadPool(2);
+
 	@Test
-	public void test() throws ExecutionException, InterruptedException {
-		String s = "Hello";
-		Promise<Integer> p = Promise.promise(() -> slowLength(s))
-				.flatMap(i -> Promise.promise(() -> slowDouble(i)));
-		assertThat(p.get()).isEqualTo(10);
+	public void testSupplyAsync() throws ExecutionException, InterruptedException {
+		CompletableFuture<Integer> future =
+				CompletableFuture.supplyAsync(delayedValueSupplier(1), this.executor)
+						.thenApply(i -> i + 3);
+		assertThat(future.get()).isEqualTo(4);
 	}
 
-	private int slowLength(String s) {
-		someLongComputation("slowLength");
-		return s.length();
+	@Test
+	public void testThenCompose() throws ExecutionException, InterruptedException {
+		CompletableFuture<Integer> future =
+				CompletableFuture.supplyAsync(delayedValueSupplier(3), this.executor)
+						.thenCompose(
+								i -> CompletableFuture.supplyAsync(
+										delayedValueSupplier(2, i * 100),
+										this.executor));
+		assertThat(future.get()).isEqualTo(2);
 	}
 
-	private int slowDouble(int i) {
-		someLongComputation("slowDouble");
-		return i * 2;
+	@Test
+	public void testMultiStagePipeline() throws ExecutionException, InterruptedException {
+		CompletableFuture<Integer> future =
+				CompletableFuture.supplyAsync(delayedValueSupplier(3), this.executor)
+						.thenApply(i -> {
+							System.out.println("First future completed: " + i);
+							return i + 1;
+						})
+						.thenCompose(
+								i -> CompletableFuture.supplyAsync(
+										delayedValueSupplier(i + 2, i * 100),
+										this.executor));
+		assertThat(future.get()).isEqualTo(6);
 	}
 
-	private void someLongComputation(String invoker) {
-		for (int i = 0; i < 5; i++) {
+	private Supplier<Integer> delayedValueSupplier(int value) {
+		return delayedValueSupplier(value, 1000);
+	}
+
+	private Supplier<Integer> delayedValueSupplier(int value, int delayInMillis) {
+		return () -> {
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(delayInMillis);
+				return value;
 			}
 			catch (InterruptedException ex) {
 				throw new RuntimeException(ex);
 			}
-			System.out.println(invoker + " is working on " + i);
-		}
+		};
 	}
-
-	private static class Promise<A> implements Future<A> {
-
-		private final CompletableFuture<A> future;
-
-		private Promise(CompletableFuture<A> future) {
-			this.future = future;
-		}
-
-		public static final <A> Promise<A> promise(Supplier<A> supplier) {
-			return new Promise<A>(CompletableFuture.supplyAsync(supplier));
-		}
-
-		public <B> Promise<B> map(Function<? super A, ? extends B> f) {
-			return new Promise<B>(this.future.thenApplyAsync(f));
-		}
-
-		public <B> Promise<B> flatMap(Function<? super A, Promise<B>> f) {
-			return new Promise<B>(this.future.thenComposeAsync(a -> f.apply(a).future));
-		}
-
-		@Override
-		public boolean cancel(boolean mayInterruptIfRunning) {
-			return this.future.cancel(mayInterruptIfRunning);
-		}
-
-		@Override
-		public boolean isCancelled() {
-			return this.future.isCancelled();
-		}
-
-		@Override
-		public boolean isDone() {
-			return this.future.isDone();
-		}
-
-		@Override
-		public A get() throws InterruptedException, ExecutionException {
-			return this.future.get();
-		}
-
-		@Override
-		public A get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-			return this.future.get(timeout, unit);
-		}
-	}
-
 }
