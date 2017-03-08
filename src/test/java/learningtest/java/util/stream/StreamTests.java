@@ -42,5 +42,18 @@ public class StreamTests {
 	private boolean isPrime(int n) {
 		return Stream.iterate(2, i -> i + 1).limit((long) Math.sqrt(n)).noneMatch(i -> n % i == 0);
 	}
+
+	@Test
+	public void testGenerate() {
+		randomStream(10)
+				.limit(10)
+				.forEach(System.out::println);
+	}
+
+	private Stream<Long> randomStream(int range) {
+		return Stream.generate(Math::random)
+				.map(n -> n * range)
+				.map(Math::round);
+	}
 	
 }
