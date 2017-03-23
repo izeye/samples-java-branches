@@ -8,6 +8,7 @@ import org.mockito.exceptions.misusing.UnfinishedStubbingException;
 import org.mockito.stubbing.OngoingStubbing;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -100,6 +101,23 @@ public class MockitoTests {
 	}
 
 	private interface AnotherService {
+	}
+
+	@Test
+	public void testClassAny() {
+		ClassAnyTests classAnyTests = mock(ClassAnyTests.class);
+
+		when(classAnyTests.testClassAny(any(Class.class))).thenReturn("Mocked");
+
+		assertThat(classAnyTests.testClassAny(String.class)).isEqualTo("Mocked");
+	}
+
+	private static class ClassAnyTests {
+
+		public String testClassAny(Class<?> clazz) {
+			return clazz.getName();
+		}
+
 	}
 
 }
