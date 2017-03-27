@@ -58,5 +58,5 @@ task wrapper(type: Wrapper) {
 }
 
 tasks.withType(JavaCompile) {
-    options.compilerArgs << '-Xlint:unchecked'
+    options.compilerArgs += ['-Xlint:unchecked', '-parameters']
 }
