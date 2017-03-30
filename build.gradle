@@ -40,6 +40,7 @@ dependencies {
     compile("com.github.javaparser:javaparser-core:${javaParserVersion}")
     compile("io.netty:netty-all:${nettyVersion}")
     compile("org.objenesis:objenesis:${objenesisVersion}")
+    compile("com.github.jknack:handlebars:${handlebarsVersion}")
 
     provided("org.projectlombok:lombok:$lombokVersion")
 
