@@ -1,10 +1,14 @@
 package learningtest.java.util.stream;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Stream;
-
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -54,6 +58,49 @@ public class StreamTests {
 		return Stream.generate(Math::random)
 				.map(n -> n * range)
 				.map(Math::round);
+	}
+
+	@Test
+	public void testFlatMap() {
+		Developer polyglot = new Developer("esoteric");
+		polyglot.add("clojure");
+		polyglot.add("scala");
+		polyglot.add("groovy");
+		polyglot.add("go");
+
+		Developer busy = new Developer("pragmatic");
+		busy.add("java");
+		busy.add("javascript");
+
+		List<Developer> team = new ArrayList<>();
+		team.add(polyglot);
+		team.add(busy);
+
+		List<String> teamLanguages = team.stream()
+				.map(d -> d.getLanguages())
+				.flatMap(l -> l.stream())
+				.collect(Collectors.toList());
+		assertThat(teamLanguages).containsAll(polyglot.getLanguages());
+		assertThat(teamLanguages).containsAll(busy.getLanguages());
+	}
+
+	private static class Developer {
+
+		private final String name;
+		private final Set<String> languages = new HashSet<>();
+
+		public Developer(String name) {
+			this.name = name;
+		}
+
+		public void add(String language) {
+			this.languages.add(language);
+		}
+
+		public Set<String> getLanguages() {
+			return this.languages;
+		}
+
 	}
 	
 }
