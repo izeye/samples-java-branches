@@ -36,6 +36,7 @@ public class StringTests {
 	@Test
 	public void testReplace() {
 		assertThat("a+b+c".replace("+", "%20")).isEqualTo("a%20b%20c");
+		assertThat("a.b.c".replace(".", "_")).isEqualTo("a_b_c");
 	}
 
 	@Test
