@@ -6,7 +6,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 /**
- * Created by izeye on 15. 9. 17..
+ * Tests for {@link System}.
+ *
+ * @author Johnny Lim
  */
 public class SystemTests {
 	
@@ -19,6 +21,19 @@ public class SystemTests {
 		
 		assertThat(classCanonicalName + '@' + Long.toHexString(identityHashCode),
 				is(object.toString()));
+	}
+
+	@Test
+	public void testCurrentTimeMillis() {
+		for (int i = 0; i < 1000; i++) {
+			System.out.println(System.currentTimeMillis());
+			try {
+				Thread.sleep(1);
+			}
+			catch (InterruptedException ex) {
+				throw new RuntimeException(ex);
+			}
+		}
 	}
 	
 }
