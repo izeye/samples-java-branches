@@ -47,12 +47,34 @@ public class HandlebarsTests {
 		assertThat(rendered).isEqualTo("Johnny Lim is 20 years old.");
 	}
 
+	@Test
+	public void testHelper() throws ScriptException, NoSuchMethodException {
+		ScriptEngine javaScriptEngine = getScriptEngine();
+		loadScripts(javaScriptEngine);
+		loadScript(javaScriptEngine, "learningtest/handlebars/sample_helper.js");
+
+		String template = "{{fullName user}} is {{user.age}} years old.";
+
+		Map<String, Object> model = new HashMap<>();
+		Map<String, Object> user = new HashMap<>();
+		user.put("firstName", "Johnny");
+		user.put("lastName", "Lim");
+		user.put("age", 20);
+
+		model.put("user", user);
+
+		Invocable invocable = (Invocable) javaScriptEngine;
+		String rendered = (String) invocable.invokeFunction(
+				RENDER_FUNCTION_NAME, template, model);
+		assertThat(rendered).isEqualTo("Johnny Lim is 20 years old.");
+	}
+
 	private ScriptEngine getScriptEngine() {
 		ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
 		return scriptEngineManager.getEngineByName(SCRIPT_ENGINE_NAME);
 	}
 
-	private void loadScripts(ScriptEngine javaScriptEngine) throws ScriptException {
+	private void loadScripts(ScriptEngine javaScriptEngine) {
 		for (String scriptResourceName : SCRIPT_RESOURCE_NAMES) {
 			loadScript(javaScriptEngine, scriptResourceName);
 		}
