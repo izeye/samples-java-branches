@@ -3,7 +3,16 @@ function render(template, model) {
 
     // With "List", this will throw "TypeError: context.hasOwnProperty is not a function".
     // return compiledTemplate(model);
+
+
+    // This won't work for nested "Iterable"s.
     return compiledTemplate(toJsonObject(model));
+}
+
+function renderWithJson(template, json) {
+    var compiledTemplate = Handlebars.compile(template);
+
+    return compiledTemplate(JSON.parse(json));
 }
 
 function toJsonObject(model) {
