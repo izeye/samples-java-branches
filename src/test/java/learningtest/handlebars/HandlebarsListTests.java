@@ -9,17 +9,19 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Tests for Handlebars complex helper.
+ * Tests for Handlebars with {@link List}.
  *
  * @author Johnny Lim
  */
-public class HandlebarsComplexHelperTests {
+public class HandlebarsListTests {
 
 	private static final String SCRIPT_ENGINE_NAME = "nashorn";
 
@@ -31,36 +33,34 @@ public class HandlebarsComplexHelperTests {
 	private static final String RENDER_FUNCTION_NAME = "render";
 
 	@Test
-	public void testComplexHelper() throws ScriptException, NoSuchMethodException {
+	public void test() throws ScriptException, NoSuchMethodException {
 		ScriptEngine javaScriptEngine = getScriptEngine();
 		loadScripts(javaScriptEngine);
-		loadScript(javaScriptEngine, "learningtest/handlebars/sample_complex_helper.js");
 
-		String template = "{{complexHelper person metadata}} and is {{person.age}} years old.";
+		String template = "<ul>{{#each persons}}<li>{{this.firstName}} {{this.lastName}} is {{this.age}} years old.</li>{{/each}}</ul>";
+
+		List<Person> persons = new ArrayList<>();
+
+		Person person1 = new Person();
+		person1.setFirstName("Johnny");
+		person1.setLastName("Lim");
+		person1.setAge(20);
+		persons.add(person1);
+
+		Person person2 = new Person();
+		person2.setFirstName("John");
+		person2.setLastName("Kim");
+		person2.setAge(21);
+		persons.add(person2);
 
 		Map<String, Object> model = new HashMap<>();
-
-		Person person = new Person();
-		person.setFirstName("Johnny");
-		person.setLastName("Lim");
-		person.setAge(20);
-
-		SomeService someService = new DefaultSomeService();
-		SomeContext someContext = new SomeContext();
-		someContext.setValue1("abc");
-		someContext.setValue2("xyz");
-
-		Metadata metadata = new Metadata();
-		metadata.setSomeService(someService);
-		metadata.setSomeContext(someContext);
-
-		model.put("person", person);
-		model.put("metadata", metadata);
+		model.put("persons", persons);
 
 		Invocable invocable = (Invocable) javaScriptEngine;
 		String rendered = (String) invocable.invokeFunction(
 				RENDER_FUNCTION_NAME, template, model);
-		assertThat(rendered).isEqualTo("Johnny Lim has abc and xyz and is 20 years old.");
+		assertThat(rendered).isEqualTo(
+				"<ul><li>Johnny Lim is 20 years old.</li><li>John Kim is 21 years old.</li></ul>");
 	}
 
 	private ScriptEngine getScriptEngine() {
@@ -92,37 +92,6 @@ public class HandlebarsComplexHelperTests {
 		private String firstName;
 		private String lastName;
 		private int age;
-
-	}
-
-	@Data
-	private static class SomeContext {
-
-		private String value1;
-		private String value2;
-
-	}
-
-	public interface SomeService {
-
-		String doService(SomeContext someContext, Person person);
-	}
-
-	private static class DefaultSomeService implements SomeService {
-
-		@Override
-		public String doService(SomeContext someContext, Person person) {
-			return person.getFirstName() + " " + person.getLastName() + " has " + someContext.getValue1() + " and "
-					+ someContext.getValue2();
-		}
-
-	}
-
-	@Data
-	public static class Metadata {
-
-		private SomeService someService;
-		private SomeContext someContext;
 
 	}
 
