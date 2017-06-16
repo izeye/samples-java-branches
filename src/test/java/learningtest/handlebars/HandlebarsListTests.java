@@ -75,6 +75,22 @@ public class HandlebarsListTests {
 				"<ul><li>Johnny Lim is 20 years old. Hey, value!</li><li>John Kim is 21 years old. Hey, value!</li></ul>");
 	}
 
+	@Test
+	public void testRenderWithObjectHavingListAndUseRoot() throws ScriptException, NoSuchMethodException {
+		ScriptEngine javaScriptEngine = getScriptEngine();
+		loadScripts(javaScriptEngine);
+
+		String template = "<ul>{{#each persons}}<li>{{firstName}} {{lastName}} is {{age}} years old. Hey, {{@root.key}}!</li>{{/each}}</ul>";
+
+		Map<String, Object> model = createModel();
+
+		Invocable invocable = (Invocable) javaScriptEngine;
+		String rendered = (String) invocable.invokeFunction(
+				RENDER_FUNCTION_NAME, template, model);
+		assertThat(rendered).isEqualTo(
+				"<ul><li>Johnny Lim is 20 years old. Hey, value!</li><li>John Kim is 21 years old. Hey, value!</li></ul>");
+	}
+
 	private Map<String, Object> createModel() {
 		Map<String, Object> model = new HashMap<>();
 		model.put("persons", createPersons());
