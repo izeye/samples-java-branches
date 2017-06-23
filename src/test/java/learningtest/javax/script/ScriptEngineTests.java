@@ -4,13 +4,16 @@ import jdk.nashorn.api.scripting.NashornScriptEngine;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.junit.Test;
 
+import javax.script.Bindings;
 import javax.script.Invocable;
+import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import javax.script.SimpleScriptContext;
 
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
@@ -61,8 +64,7 @@ public class ScriptEngineTests {
 
 	@Test
 	public void testFunctions() throws ScriptException, NoSuchMethodException {
-		ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
-		ScriptEngine javaScriptEngine = scriptEngineManager.getEngineByName("nashorn");
+		ScriptEngine javaScriptEngine = getScriptEngine();
 
 		InputStream inputStream = Thread.currentThread().getContextClassLoader()
 				.getResourceAsStream("samples/js/functions.js");
@@ -154,14 +156,115 @@ public class ScriptEngineTests {
 		loadScript("samples/js/loading_scripts.js");
 	}
 
+	@Test
+	public void testEvaluatingAStatement() throws ScriptException {
+		ScriptEngine scriptEngine = getScriptEngine();
+		scriptEngine.eval("print('Hello, world!')");
+	}
+
+	@Test
+	public void testEvaluatingAScriptFile() throws ScriptException {
+		loadScript("samples/js/evaluating_a_script_file.js");
+	}
+
+	@Test
+	public void testExposingAJavaObjectAsAGlobalVariable() throws ScriptException {
+		ScriptEngine scriptEngine = getScriptEngine();
+
+		File file = new File("test.txt");
+		scriptEngine.put("file", file);
+		scriptEngine.eval("print(file.getAbsolutePath())");
+	}
+
+	@Test
+	public void testInvokingAScriptFunction()
+			throws ScriptException, NoSuchMethodException {
+		ScriptEngine scriptEngine = getScriptEngine();
+
+		scriptEngine.eval("function hello(name) { print('Hello, ' + name); }");
+		Invocable invocable = (Invocable) scriptEngine;
+		invocable.invokeFunction("hello", "scripting!");
+	}
+
+	@Test
+	public void testInvokingAScriptObjectMethod()
+			throws ScriptException, NoSuchMethodException {
+		ScriptEngine scriptEngine = getScriptEngine();
+
+		scriptEngine.eval("var obj = new Object()");
+		scriptEngine.eval("obj.hello = function(name) { print('Hello, ' + name); }");
+
+		Object obj = scriptEngine.get("obj");
+
+		Invocable invocable = (Invocable) scriptEngine;
+		invocable.invokeMethod(obj, "hello", "script method!");
+	}
+
+	@Test
+	public void testImplementingAJavaInterfaceWithScriptFunctions()
+			throws ScriptException, InterruptedException {
+		ScriptEngine scriptEngine = getScriptEngine();
+
+		scriptEngine.eval("function run() { print('run() function called.'); }");
+
+		Invocable invocable = (Invocable) scriptEngine;
+		Runnable runnable = invocable.getInterface(Runnable.class);
+
+		Thread thread = new Thread(runnable);
+		thread.start();
+		thread.join();
+	}
+
+	@Test
+	public void testImplementingAJavaInterfaceWithScriptObjectMethods()
+			throws ScriptException, InterruptedException {
+		ScriptEngine scriptEngine = getScriptEngine();
+
+		scriptEngine.eval("var obj = new Object()");
+		scriptEngine.eval("obj.run = function() { print('obj.run() method called.'); }");
+
+		Object obj = scriptEngine.get("obj");
+
+		Invocable invocable = (Invocable) scriptEngine;
+
+		Runnable runnable = invocable.getInterface(obj, Runnable.class);
+
+		Thread thread = new Thread(runnable);
+		thread.start();
+		thread.join();
+	}
+
+	@Test
+	public void testUsingMultipleScopes() throws ScriptException {
+		ScriptEngine scriptEngine = getScriptEngine();
+
+		scriptEngine.put("x", "hello");
+		scriptEngine.eval("print(x)");
+
+		Bindings bindings = scriptEngine.createBindings();
+		bindings.put("x", "world");
+
+		ScriptContext scriptContext = new SimpleScriptContext();
+		scriptContext.setBindings(bindings, ScriptContext.ENGINE_SCOPE);
+		assertThat(scriptContext.getBindings(ScriptContext.ENGINE_SCOPE))
+				.isEqualTo(bindings);
+		scriptEngine.eval("print(x)", scriptContext);
+
+		scriptEngine.eval("print(x)");
+	}
+
 	private void loadScript(String scriptResourceName) throws ScriptException {
-		ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
-		ScriptEngine javaScriptEngine = scriptEngineManager.getEngineByName("nashorn");
+		ScriptEngine javaScriptEngine = getScriptEngine();
 
 		InputStream inputStream = Thread.currentThread().getContextClassLoader()
 				.getResourceAsStream(scriptResourceName);
 		InputStreamReader reader = new InputStreamReader(inputStream);
 		javaScriptEngine.eval(reader);
+	}
+
+	private ScriptEngine getScriptEngine() {
+		ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
+		return scriptEngineManager.getEngineByName("nashorn");
 	}
 
 	private static class Person {
