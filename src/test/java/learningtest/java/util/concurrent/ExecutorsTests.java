@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Tests for {@link Executors}.
@@ -19,6 +20,7 @@ public class ExecutorsTests {
 	@Test
 	public void test() {
 		ExecutorService executorService = Executors.newFixedThreadPool(100);
+		ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) executorService;
 
 		List<Future<?>> futures = new ArrayList<>();
 		for (int i = 0; i < 30; i++) {
@@ -33,6 +35,7 @@ public class ExecutorsTests {
 				}
 			});
 			futures.add(future);
+			System.out.println("Active count: " + threadPoolExecutor.getActiveCount());
 		}
 
 		for (Future<?> future : futures) {
@@ -45,6 +48,7 @@ public class ExecutorsTests {
 			catch (ExecutionException ex) {
 				throw new RuntimeException(ex);
 			}
+			System.out.println("Active count: " + threadPoolExecutor.getActiveCount());
 		}
 	}
 
