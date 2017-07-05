@@ -10,6 +10,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
+
 /**
  * Tests for {@link Executors}.
  *
@@ -28,7 +31,7 @@ public class ExecutorsTests {
 			Future<?> future = executorService.submit(() -> {
 				try {
 					Thread.sleep(1000 * index);
-					System.out.println("log(" + index + ") = " + +Math.log(index));
+					System.out.println("log(" + index + ") = " + Math.log(index));
 				}
 				catch (InterruptedException ex) {
 					throw new RuntimeException(ex);
@@ -49,6 +52,24 @@ public class ExecutorsTests {
 				throw new RuntimeException(ex);
 			}
 			System.out.println("Active count: " + threadPoolExecutor.getActiveCount());
+		}
+	}
+
+	@Test
+	public void testException() {
+		ExecutorService executorService = Executors.newFixedThreadPool(1);
+		Future<Void> future = executorService.submit(() -> {
+			throw new RuntimeException("Intentional exception.");
+		});
+		try {
+			future.get();
+			fail();
+		}
+		catch (InterruptedException ex) {
+			throw new RuntimeException(ex);
+		}
+		catch (ExecutionException ex) {
+			assertThat(ex.getCause().getMessage()).isEqualTo("Intentional exception.");
 		}
 	}
 
