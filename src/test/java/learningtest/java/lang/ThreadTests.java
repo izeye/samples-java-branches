@@ -68,4 +68,14 @@ public class ThreadTests {
 		assertThat(latch.await(1, TimeUnit.SECONDS)).isTrue();
 	}
 
+	@Test
+	public void testSleep() {
+		try {
+			Thread.sleep(20000);
+		}
+		catch (InterruptedException ex) {
+			System.out.println(ex);
+		}
+	}
+
 }
