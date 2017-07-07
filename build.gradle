@@ -42,6 +42,7 @@ dependencies {
     compile("org.objenesis:objenesis:${objenesisVersion}")
     compile("com.github.jknack:handlebars:${handlebarsVersion}")
     compile("com.jayway.jsonpath:json-path:${jsonPathVersion}")
+    compile("org.apache.commons:commons-pool2:${commonsPool2Version}")
 
     provided("org.projectlombok:lombok:$lombokVersion")
 
