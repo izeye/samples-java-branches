@@ -13,7 +13,9 @@ import java.io.StringWriter;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Created by izeye on 15. 8. 31..
+ * Tests for {@link ObjectMapper}.
+ *
+ * @author Johnny Lim
  */
 public class ObjectMapperTests {
 
@@ -71,7 +73,6 @@ public class ObjectMapperTests {
 		String anotherJson = mapper.writeValueAsString(anotherPerson);
 		System.out.println(anotherJson);
 		assertThat(anotherJson).isEqualTo("{\"firstName\":\"Johnny with @JsonIgnore\"}");
-
 	}
 
 	static class Foo {
