@@ -22,4 +22,12 @@ public class InetAddressTests {
 		System.out.println(hostAddress);
 	}
 
+	@Test
+	public void testGetAllByName() throws UnknownHostException {
+		InetAddress[] addresses = InetAddress.getAllByName("naver.com");
+		for (InetAddress address : addresses) {
+			System.out.println(address.getHostAddress());
+		}
+	}
+
 }
