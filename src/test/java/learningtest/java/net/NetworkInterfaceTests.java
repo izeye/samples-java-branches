@@ -16,8 +16,20 @@ public class NetworkInterfaceTests {
 
 	@Test
 	public void test() throws UnknownHostException, SocketException {
+		String macAddress = getMacAddress();
+		System.out.println(macAddress);
+	}
+
+	private String getMacAddress() throws UnknownHostException, SocketException {
 		InetAddress localHost = InetAddress.getLocalHost();
 		NetworkInterface networkInterface = NetworkInterface.getByInetAddress(localHost);
+
+		// With Gradle, "networkInterface" is null but why?
+		if (networkInterface == null) {
+			System.err.println("networkInterface is null");
+			return null;
+		}
+
 		byte[] hardwareAddress = networkInterface.getHardwareAddress();
 		StringBuilder sb = new StringBuilder();
 		for (byte b : hardwareAddress) {
@@ -25,8 +37,7 @@ public class NetworkInterfaceTests {
 			sb.append(':');
 		}
 		sb.deleteCharAt(sb.length() - 1);
-		String macAddress = sb.toString();
-		System.out.println(macAddress);
+		return sb.toString();
 	}
 
 }

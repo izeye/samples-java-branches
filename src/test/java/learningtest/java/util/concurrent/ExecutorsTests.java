@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -58,9 +59,15 @@ public class ExecutorsTests {
 	@Test
 	public void testException() {
 		ExecutorService executorService = Executors.newFixedThreadPool(1);
-		Future<Void> future = executorService.submit(() -> {
+
+		// Local variable "callable" is used to avoid the following error:
+		// Error:(62, 54) java: reference to submit is ambiguous
+		// both method <T>submit(java.util.concurrent.Callable<T>) in java.util.concurrent.ExecutorService and method submit(java.lang.Runnable) in java.util.concurrent.ExecutorService match
+		Callable<Void> callable = () -> {
 			throw new RuntimeException("Intentional exception.");
-		});
+		};
+
+		Future<Void> future = executorService.submit(callable);
 		try {
 			future.get();
 			fail();
