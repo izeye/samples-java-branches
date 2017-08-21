@@ -4,6 +4,7 @@ import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -13,7 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by izeye on 16. 7. 13..
+ * Tests for {@link TransportClient}.
+ *
+ * @author Johnny Lim
  */
 public class TransportClientTests {
 	
@@ -24,7 +27,7 @@ public class TransportClientTests {
 		map.put("firstName", "Johnny");
 		map.put("lastName", "Lim");
 		
-		TransportClient client = TransportClient.builder().settings(settings()).build();
+		TransportClient client = new PreBuiltTransportClient(settings());
 		client.addTransportAddress(
 				new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
 		IndexResponse indexResponse = client.prepareIndex("logstash", "logstash").setSource(map).get();
@@ -32,8 +35,7 @@ public class TransportClientTests {
 	}
 
 	private Settings settings() {
-		return Settings.settingsBuilder()
-				.put("cluster.name", "elasticsearch").build();
+		return Settings.builder().put("cluster.name", "elasticsearch").build();
 	}
 
 }
