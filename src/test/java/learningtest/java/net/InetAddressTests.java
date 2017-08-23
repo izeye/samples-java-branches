@@ -14,7 +14,11 @@ public class InetAddressTests {
 
 	@Test
 	public void testGetLocalHost() throws UnknownHostException {
+		long startTimestampInMillis = System.currentTimeMillis();
 		InetAddress localHost = InetAddress.getLocalHost();
+		long elapsedTimeInMillis = System.currentTimeMillis() - startTimestampInMillis;
+		System.out.println(elapsedTimeInMillis);
+
 		String hostName = localHost.getHostName();
 		System.out.println(hostName);
 
