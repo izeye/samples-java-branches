@@ -62,3 +62,9 @@ task wrapper(type: Wrapper) {
 tasks.withType(JavaCompile) {
     options.compilerArgs += ['-Xlint:unchecked', '-parameters']
 }
+
+test {
+    testLogging {
+        showStandardStreams = true
+    }
+}
