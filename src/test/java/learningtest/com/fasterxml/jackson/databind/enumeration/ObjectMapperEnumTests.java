@@ -15,11 +15,13 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Created by izeye on 16. 5. 27..
+ * Tests for {@link ObjectMapper} with {@code enum}.
+ *
+ * @author Johnny Lim
  */
 public class ObjectMapperEnumTests {
 	
-	ObjectMapper objectMapper = new ObjectMapper();
+	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	@Test
 	public void test() {
@@ -27,10 +29,10 @@ public class ObjectMapperEnumTests {
 		person.setName("Johnny");
 		person.setGrade(Grade.GOOD);
 		try {
-			String json = objectMapper.writeValueAsString(person);
+			String json = this.objectMapper.writeValueAsString(person);
 			assertThat(json).isEqualTo("{\"name\":\"Johnny\",\"grade\":1}");
 			
-			Person deserialized = objectMapper.readValue(json, Person.class);
+			Person deserialized = this.objectMapper.readValue(json, Person.class);
 			assertThat(deserialized).isEqualTo(person);
 		}
 		catch (JsonProcessingException ex) {
@@ -49,7 +51,7 @@ public class ObjectMapperEnumTests {
 		
 	}
 	
-	static enum Grade {
+	enum Grade {
 		
 		GOOD(1), SO_SO(0), BAD(-1);
 		
@@ -64,7 +66,7 @@ public class ObjectMapperEnumTests {
 
 		private final int code;
 
-		private Grade(int code) {
+		Grade(int code) {
 			this.code = code;
 		}
 		
@@ -75,7 +77,7 @@ public class ObjectMapperEnumTests {
 
 		@JsonValue
 		public int getCode() {
-			return code;
+			return this.code;
 		}
 		
 	}
