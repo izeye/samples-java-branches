@@ -11,7 +11,7 @@ public class ExceptionThrowingInstanceVariableInitializationTests {
 
 	@Test
 	public void test() throws Exception {
-		new ExceptionThrowingInstanceVariableInitializationClass();
+		new ExceptionThrowingInstanceVariableInitializationClass().getSomething();
 	}
 
 	private static class ExceptionThrowingInstanceVariableInitializationClass {
@@ -21,6 +21,9 @@ public class ExceptionThrowingInstanceVariableInitializationTests {
 		public ExceptionThrowingInstanceVariableInitializationClass() throws Exception {
 		}
 
+		public Something getSomething() {
+			return this.something;
+		}
 	}
 
 	private static class Something {
