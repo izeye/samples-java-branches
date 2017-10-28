@@ -9,37 +9,37 @@ import org.junit.Test;
  */
 public class CastingTests {
 
-    @Test
-    public void testMultipleTypeCasting() {
-        Object object = new C();
+	@Test
+	public void testMultipleTypeCasting() {
+		Object object = new C();
 
-        // When is this useful?
-        ((A & B) object).a();
-        ((A & B) object).b();
-    }
+		// When is this useful?
+		((A & B) object).a();
+		((A & B) object).b();
+	}
 
-    interface A {
+	interface A {
 
-        default void a() {
-            System.out.println("a");
-        }
+		default void a() {
+			System.out.println("a");
+		}
 
-    }
+	}
 
-    interface B {
+	interface B {
 
-        default void b() {
-            System.out.println("b");
-        }
+		default void b() {
+			System.out.println("b");
+		}
 
-    }
+	}
 
-    static class C implements A, B {
+	static class C implements A, B {
 
-        public void c() {
-            System.out.println("c");
-        }
+		public void c() {
+			System.out.println("c");
+		}
 
-    }
+	}
 
 }
