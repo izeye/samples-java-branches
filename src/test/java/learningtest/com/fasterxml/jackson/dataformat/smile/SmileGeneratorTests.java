@@ -10,7 +10,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
- * Tests for {@link com.fasterxml.jackson.dataformat.smile.SmileGenerator}
+ * Tests for {@link SmileGenerator}.
+ *
+ * @author Johnny Lim
  */
 public class SmileGeneratorTests {
 
