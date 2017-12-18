@@ -14,7 +14,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ConsumerTests {
 
 	@Test
-	public void testAccept() {
+	public void test() {
+		System.out.println(Double.doubleToLongBits(0d));
+	}
+
+	@Test
+	public void testConsumer() {
 		SomeObject someObject = new SomeObject();
 
 		assertThat(someObject.getSomeField()).isNull();
@@ -23,8 +28,23 @@ public class ConsumerTests {
 		assertThat(someObject.getSomeField()).isEqualTo("Hello, world!");
 	}
 
+	@Test
+	public void testRunnable() {
+		SomeObject someObject = new SomeObject();
+
+		assertThat(someObject.getSomeField()).isNull();
+
+		invoke(someObject::fillSomeField);
+		assertThat(someObject.getSomeField()).isEqualTo("Hello, world!");
+	}
+
 	private static void invoke(Consumer<SomeObject> consumer, SomeObject someObject) {
 		consumer.accept(someObject);
+	}
+
+	// NOTE: Using Runnable seems semantically wrong but there's no function interface for no argument.
+	private static void invoke(Runnable runnable) {
+		runnable.run();
 	}
 
 	private static class SomeObject {
