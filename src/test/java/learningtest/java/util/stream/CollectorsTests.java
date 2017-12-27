@@ -20,6 +20,8 @@ public class CollectorsTests {
 		List<String> fruits = Arrays.asList("apple", "banana");
 		String joined = fruits.stream().collect(Collectors.joining(", ", "[", "]"));
 		assertThat(joined).isEqualTo("[apple, banana]");
+
+		assertThat(fruits.stream().collect(Collectors.joining())).isEqualTo("applebanana");
 	}
 
 }
