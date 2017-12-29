@@ -78,5 +78,12 @@ public class PatternTests {
 		assertThat(matcher.group("middleName")).isEqualTo("I.");
 		assertThat(matcher.group("lastName")).isEqualTo("Lim");
 	}
+
+	@Test
+	public void testCurlyBraces() {
+		// NOTE: Escaping a closing curly brace is optional.
+		Pattern pattern = Pattern.compile("^\\{.+}.*$");
+		assertThat(pattern.matcher("{noop}password").matches()).isTrue();
+	}
 	
 }
