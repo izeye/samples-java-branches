@@ -5,11 +5,13 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
@@ -78,6 +80,44 @@ public class ExecutorsTests {
 		catch (ExecutionException ex) {
 			assertThat(ex.getCause().getMessage()).isEqualTo("Intentional exception.");
 		}
+	}
+
+	@Test
+	public void testShutdown() throws InterruptedException {
+		CountDownLatch latch = new CountDownLatch(1);
+
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
+		executorService.submit(() -> {
+			try {
+				Thread.sleep(TimeUnit.SECONDS.toMillis(5));
+			}
+			catch (InterruptedException ex) {
+				throw new RuntimeException(ex);
+			}
+			latch.countDown();
+		});
+		executorService.shutdown();
+
+		assertThat(latch.await(10, TimeUnit.SECONDS)).isTrue();
+	}
+
+	@Test
+	public void testShutdownNow() throws InterruptedException {
+		CountDownLatch latch = new CountDownLatch(1);
+
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
+		executorService.submit(() -> {
+			try {
+				Thread.sleep(TimeUnit.SECONDS.toMillis(5));
+			}
+			catch (InterruptedException ex) {
+				throw new RuntimeException(ex);
+			}
+			latch.countDown();
+		});
+		executorService.shutdownNow();
+
+		assertThat(latch.await(10, TimeUnit.SECONDS)).isFalse();
 	}
 
 }
