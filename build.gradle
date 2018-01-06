@@ -44,6 +44,7 @@ dependencies {
     compile("com.github.jknack:handlebars:${handlebarsVersion}")
     compile("com.jayway.jsonpath:json-path:${jsonPathVersion}")
     compile("org.apache.commons:commons-pool2:${commonsPool2Version}")
+    compile("org.seleniumhq.selenium:selenium-java:${seleniumVersion}")
 
     provided("org.projectlombok:lombok:$lombokVersion")
 
