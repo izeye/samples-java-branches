@@ -47,7 +47,7 @@ public class DiffTests {
 	}
 
 	@Test
-	public void getDifferencesWhenDifferentPropertyOrderShouldHaveAllSimilarComparisonResults() {
+	public void getDifferencesWhenDifferentPropertyOrderShouldHaveNoDifference() {
 		String xml1 = "<persons><person><id>1</id><name>Johnny</name></person></persons>";
 		String xml2 = "<persons><person><name>Johnny</name><id>1</id></person></persons>";
 
@@ -60,10 +60,11 @@ public class DiffTests {
 	}
 
 	@Test
-	public void getDifferencesWhenDifferentArrayOrderShouldHaveDifferentComparisonResult() {
+	public void getDifferencesWhenDifferentlyOrderedCollectionShouldHaveNoDifference() {
 		String xml1 = "<persons><person><id>1</id><name>Johnny</name></person><person><id>2</id><name>John</name></person></persons>";
 		String xml2 = "<persons><person><id>2</id><name>John</name></person><person><id>1</id><name>Johnny</name></person></persons>";
 
+		// FIXME: Supply an XML schema somehow here.
 		Diff diff = DiffBuilder.compare(Input.fromString(xml1))
 				.withTest(Input.fromString(xml2))
 				.withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
