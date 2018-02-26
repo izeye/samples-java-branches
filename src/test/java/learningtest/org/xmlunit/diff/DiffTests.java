@@ -20,8 +20,10 @@ public class DiffTests {
 	public void getDifferencesWhenIdenticalShouldHaveNoDifference() {
 		String xml1 = "<persons><person><id>1</id><name>Johnny</name></person></persons>";
 		String xml2 = "<persons><person><id>1</id><name>Johnny</name></person></persons>";
-		Diff diff = DiffBuilder.compare(Input.fromString(xml1)).withTest(Input.fromString(xml2)).withNodeMatcher(new DefaultNodeMatcher(
-				ElementSelectors.byNameAndText)).build();
+		Diff diff = DiffBuilder.compare(Input.fromString(xml1))
+				.withTest(Input.fromString(xml2))
+				.withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+				.build();
 		assertThat(diff.getDifferences().iterator().hasNext()).isFalse();
 	}
 
@@ -30,8 +32,10 @@ public class DiffTests {
 		String xml1 = "<persons><person><id>1</id><name>Johnny</name></person></persons>";
 		String xml2 = "<persons><person><id>1</id><name>John</name></person></persons>";
 
-		Diff diff = DiffBuilder.compare(Input.fromString(xml1)).withTest(Input.fromString(xml2)).withNodeMatcher(new DefaultNodeMatcher(
-				ElementSelectors.byNameAndText)).build();
+		Diff diff = DiffBuilder.compare(Input.fromString(xml1))
+				.withTest(Input.fromString(xml2))
+				.withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+				.build();
 
 		Set<ComparisonResult> comparisonResults = new HashSet<>();
 		for (Difference difference : diff.getDifferences()) {
@@ -45,8 +49,10 @@ public class DiffTests {
 		String xml1 = "<persons><person><id>1</id><name>Johnny</name></person></persons>";
 		String xml2 = "<persons><person><name>Johnny</name><id>1</id></person></persons>";
 
-		Diff diff = DiffBuilder.compare(Input.fromString(xml1)).withTest(Input.fromString(xml2)).withNodeMatcher(new DefaultNodeMatcher(
-				ElementSelectors.byNameAndText)).build();
+		Diff diff = DiffBuilder.compare(Input.fromString(xml1))
+				.withTest(Input.fromString(xml2))
+				.withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+				.build();
 
 		Set<ComparisonResult> comparisonResults = new HashSet<>();
 		for (Difference difference : diff.getDifferences()) {
@@ -60,8 +66,10 @@ public class DiffTests {
 		String xml1 = "<persons><person><id>1</id><name>Johnny</name></person><person><id>2</id><name>John</name></person></persons>";
 		String xml2 = "<persons><person><id>2</id><name>John</name></person><person><id>1</id><name>Johnny</name></person></persons>";
 
-		Diff diff = DiffBuilder.compare(Input.fromString(xml1)).withTest(Input.fromString(xml2)).withNodeMatcher(new DefaultNodeMatcher(
-				ElementSelectors.byNameAndText)).build();
+		Diff diff = DiffBuilder.compare(Input.fromString(xml1))
+				.withTest(Input.fromString(xml2))
+				.withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+				.build();
 
 		Set<ComparisonResult> comparisonResults = new HashSet<>();
 		for (Difference difference : diff.getDifferences()) {
