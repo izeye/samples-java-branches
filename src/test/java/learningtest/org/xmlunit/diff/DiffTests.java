@@ -23,6 +23,7 @@ public class DiffTests {
 		Diff diff = DiffBuilder.compare(Input.fromString(xml1))
 				.withTest(Input.fromString(xml2))
 				.withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+				.checkForSimilar()
 				.build();
 		assertThat(diff.getDifferences().iterator().hasNext()).isFalse();
 	}
@@ -35,6 +36,7 @@ public class DiffTests {
 		Diff diff = DiffBuilder.compare(Input.fromString(xml1))
 				.withTest(Input.fromString(xml2))
 				.withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+				.checkForSimilar()
 				.build();
 
 		Set<ComparisonResult> comparisonResults = new HashSet<>();
@@ -52,13 +54,9 @@ public class DiffTests {
 		Diff diff = DiffBuilder.compare(Input.fromString(xml1))
 				.withTest(Input.fromString(xml2))
 				.withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+				.checkForSimilar()
 				.build();
-
-		Set<ComparisonResult> comparisonResults = new HashSet<>();
-		for (Difference difference : diff.getDifferences()) {
-			comparisonResults.add(difference.getResult());
-		}
-		assertThat(comparisonResults).containsExactly(ComparisonResult.SIMILAR);
+		assertThat(diff.getDifferences().iterator().hasNext()).isFalse();
 	}
 
 	@Test
@@ -69,7 +67,11 @@ public class DiffTests {
 		Diff diff = DiffBuilder.compare(Input.fromString(xml1))
 				.withTest(Input.fromString(xml2))
 				.withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+				.checkForSimilar()
 				.build();
+
+		// FIXME: Expected with unordered collection.
+//		assertThat(diff.getDifferences().iterator().hasNext()).isFalse();
 
 		Set<ComparisonResult> comparisonResults = new HashSet<>();
 		for (Difference difference : diff.getDifferences()) {
