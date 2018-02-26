@@ -45,6 +45,7 @@ dependencies {
     compile("com.jayway.jsonpath:json-path:${jsonPathVersion}")
     compile("org.apache.commons:commons-pool2:${commonsPool2Version}")
     compile("org.seleniumhq.selenium:selenium-java:${seleniumVersion}")
+    compile("org.xmlunit:xmlunit-core:${xmlUnitVersion}")
 
     provided("org.projectlombok:lombok:$lombokVersion")
 
