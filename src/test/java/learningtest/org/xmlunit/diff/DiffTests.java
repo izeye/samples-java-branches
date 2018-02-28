@@ -106,7 +106,7 @@ public class DiffTests {
 	}
 
 	@Test
-	public void getDifferencesWhenDifferentlyOrderedCollectionShouldHaveNoDifferenceWithGlobalUnordered2() {
+	public void getDifferencesWhenDifferentlyOrderedCollectionTextOnlyShouldHaveNoDifferenceWithGlobalUnordered() {
 		String xml1 = "<persons><person>Johnny</person><person>John</person></persons>";
 		String xml2 = "<persons><person>John</person><person>Johnny</person></persons>";
 
