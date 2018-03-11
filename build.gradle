@@ -46,6 +46,7 @@ dependencies {
     compile("org.apache.commons:commons-pool2:${commonsPool2Version}")
     compile("org.seleniumhq.selenium:selenium-java:${seleniumVersion}")
     compile("org.xmlunit:xmlunit-core:${xmlUnitVersion}")
+    compile("org.apache.commons:commons-math3:${commonsMath3Version}")
 
     provided("org.projectlombok:lombok:$lombokVersion")
 
