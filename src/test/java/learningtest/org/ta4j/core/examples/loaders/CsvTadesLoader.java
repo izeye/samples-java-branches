@@ -28,7 +28,7 @@ public final class CsvTadesLoader {
 
 	private static final int INDEX_TIMESTAMP = 0;
 	private static final int INDEX_PRICE = 1;
-	private static final int INDEX_AMOUNT = 2;
+	private static final int INDEX_VOLUME = 2;
 
 	private static final Duration BAR_DURATION = Duration.ofMinutes(5);
 
@@ -39,7 +39,6 @@ public final class CsvTadesLoader {
 			List<String[]> rows = csvReader.readAll();
 
 			ZonedDateTime startTime = getZonedDateTime(rows.get(0)[INDEX_TIMESTAMP]);
-			ZonedDateTime endTime = getZonedDateTime(rows.get(rows.size() - 1)[INDEX_TIMESTAMP]);
 			ZonedDateTime barEndTime = startTime.plus(BAR_DURATION);
 			List<Bar> bars = new ArrayList<>();
 			Bar bar = new BaseBar(BAR_DURATION, barEndTime);
@@ -54,8 +53,8 @@ public final class CsvTadesLoader {
 					bars.add(bar);
 				}
 				double price = Double.parseDouble(row[INDEX_PRICE]);
-				double amount = Double.parseDouble(row[INDEX_AMOUNT]);
-				bar.addTrade(amount, price);
+				double volume = Double.parseDouble(row[INDEX_VOLUME]);
+				bar.addTrade(volume, price);
 			}
 			return new BaseTimeSeries("bitstamp_trades", bars);
 		}
