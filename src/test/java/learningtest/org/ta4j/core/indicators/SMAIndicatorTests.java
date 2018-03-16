@@ -22,10 +22,10 @@ public class SMAIndicatorTests {
 	public void getValue() {
 		TimeSeries series = new BaseTimeSeries();
 		ZonedDateTime now = ZonedDateTime.now();
-		series.addBar(new BaseBar(now.plusMinutes(1), 2d, 4d, 1d, 1d, 10d));
-		series.addBar(new BaseBar(now.plusMinutes(2), 2d, 4d, 1d, 2d, 10d));
-		series.addBar(new BaseBar(now.plusMinutes(3), 2d, 4d, 1d, 3d, 10d));
-		series.addBar(new BaseBar(now.plusMinutes(4), 2d, 4d, 1d, 4d, 10d));
+		series.addBar(new BaseBar(now, 2d, 4d, 1d, 1d, 10d));
+		series.addBar(new BaseBar(now.plusMinutes(1), 2d, 4d, 1d, 2d, 10d));
+		series.addBar(new BaseBar(now.plusMinutes(2), 2d, 4d, 1d, 3d, 10d));
+		series.addBar(new BaseBar(now.plusMinutes(3), 2d, 4d, 1d, 4d, 10d));
 
 		ClosePriceIndicator closePriceIndicator = new ClosePriceIndicator(series);
 
