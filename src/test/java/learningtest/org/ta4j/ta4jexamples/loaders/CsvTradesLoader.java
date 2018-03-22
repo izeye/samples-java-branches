@@ -1,4 +1,4 @@
-package learningtest.org.ta4j.core.examples.loaders;
+package learningtest.org.ta4j.ta4jexamples.loaders;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,11 +20,11 @@ import org.ta4j.core.BaseTimeSeries;
 import org.ta4j.core.TimeSeries;
 
 /**
- * CSV trades loader.
+ * Copy from {@code ta4jexamples.loaders.CsvTradesLoader}.
  *
  * @author Johnny Lim
  */
-public final class CsvTadesLoader {
+public final class CsvTradesLoader {
 
 	private static final int INDEX_TIMESTAMP = 0;
 	private static final int INDEX_PRICE = 1;
@@ -34,7 +34,7 @@ public final class CsvTadesLoader {
 
 	public static TimeSeries loadBitstampSeries() {
 		String resourceName = "learningtest/ta4j/bitstamp_trades_from_20131125_usd.csv";
-		try (InputStream inputStream = CsvTadesLoader.class.getClassLoader().getResourceAsStream(resourceName);
+		try (InputStream inputStream = CsvTradesLoader.class.getClassLoader().getResourceAsStream(resourceName);
 				 CSVReader csvReader = new CSVReaderBuilder(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).withSkipLines(1).build()) {
 			List<String[]> rows = csvReader.readAll();
 
@@ -69,7 +69,7 @@ public final class CsvTadesLoader {
 		return ZonedDateTime.ofInstant(Instant.ofEpochMilli(timestampInMillis), ZoneId.systemDefault());
 	}
 
-	private CsvTadesLoader() {
+	private CsvTradesLoader() {
 	}
 
 }

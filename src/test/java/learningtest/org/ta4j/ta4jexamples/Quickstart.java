@@ -1,6 +1,6 @@
-package learningtest.org.ta4j.core.examples;
+package learningtest.org.ta4j.ta4jexamples;
 
-import learningtest.org.ta4j.core.examples.loaders.CsvTadesLoader;
+import learningtest.org.ta4j.ta4jexamples.loaders.CsvTradesLoader;
 import org.junit.Test;
 import org.ta4j.core.AnalysisCriterion;
 import org.ta4j.core.BaseStrategy;
@@ -21,15 +21,15 @@ import org.ta4j.core.trading.rules.StopGainRule;
 import org.ta4j.core.trading.rules.StopLossRule;
 
 /**
- * Tests for ta4j.
+ * Copy from {@code ta4jexamples.Quickstart}.
  *
  * @author Johnny Lim
  */
-public class Ta4jTests {
+public class Quickstart {
 
 	@Test
 	public void test() {
-		TimeSeries series = CsvTadesLoader.loadBitstampSeries();
+		TimeSeries series = CsvTradesLoader.loadBitstampSeries();
 
 		Decimal firstClosePrice = series.getBar(0).getClosePrice();
 		System.out.println("First close price: " + firstClosePrice.doubleValue());
