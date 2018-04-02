@@ -43,6 +43,12 @@ public class PythonInterpreterTests {
 	}
 
 	@Test
+	public void testScriptFileAccessJava() {
+		String resourceName = "learningtest/jython/random.py";
+		this.interpreter.execfile(getClass().getClassLoader().getResourceAsStream(resourceName));
+	}
+
+	@Test
 	public void testPyClass() {
 		this.interpreter.exec("from divider import Divider");
 		PyClass dividerDef = (PyClass) this.interpreter.get("Divider");
