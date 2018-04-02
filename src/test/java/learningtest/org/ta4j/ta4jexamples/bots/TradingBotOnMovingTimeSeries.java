@@ -1,15 +1,19 @@
 package learningtest.org.ta4j.ta4jexamples.bots;
 
 import java.time.ZonedDateTime;
+import java.util.function.Function;
 
 import learningtest.org.ta4j.ta4jexamples.loaders.CsvTradesLoader;
 import org.junit.Test;
+import org.python.core.PyObject;
+import org.python.util.PythonInterpreter;
 import org.ta4j.core.Bar;
 import org.ta4j.core.BaseBar;
 import org.ta4j.core.BaseStrategy;
 import org.ta4j.core.BaseTradingRecord;
 import org.ta4j.core.Decimal;
 import org.ta4j.core.Order;
+import org.ta4j.core.Strategy;
 import org.ta4j.core.TimeSeries;
 import org.ta4j.core.TradingRecord;
 import org.ta4j.core.indicators.SMAIndicator;
@@ -26,11 +30,20 @@ public class TradingBotOnMovingTimeSeries {
 
 	@Test
 	public void test() {
+		test(this::buildStrategy);
+	}
+
+	@Test
+	public void testFromPython() {
+		test(this::buildStrategyFromPython);
+	}
+
+	private void test(Function<TimeSeries, Strategy> strategyBuilder) {
 		int maximumBarCount = 20;
 
 		TimeSeries series = initMovingTimeSeries(maximumBarCount);
 
-		BaseStrategy strategy = buildStrategy(series);
+		Strategy strategy = strategyBuilder.apply(series);
 
 		TradingRecord tradingRecord = new BaseTradingRecord();
 		for (int i = 0; i < 50; i++) {
@@ -70,13 +83,22 @@ public class TradingBotOnMovingTimeSeries {
 		return series;
 	}
 
-	private BaseStrategy buildStrategy(TimeSeries series) {
+	private Strategy buildStrategy(TimeSeries series) {
 		ClosePriceIndicator closePriceIndicator = new ClosePriceIndicator(series);
 		SMAIndicator sma = new SMAIndicator(closePriceIndicator, 12);
 
 		return new BaseStrategy(
 				new OverIndicatorRule(sma, closePriceIndicator),
 				new UnderIndicatorRule(sma, closePriceIndicator));
+	}
+
+	private Strategy buildStrategyFromPython(TimeSeries series) {
+		PythonInterpreter interpreter = new PythonInterpreter();
+		interpreter.execfile(getClass().getClassLoader().getResourceAsStream("learningtest/ta4j/strategy.py"));
+		interpreter.set("series", series);
+		interpreter.exec("strategy = buildStrategy(series)");
+		PyObject strategy = interpreter.get("strategy");
+		return (BaseStrategy) strategy.__tojava__(BaseStrategy.class);
 	}
 
 	private Bar generateRandomBar(TimeSeries series, int minutes) {
