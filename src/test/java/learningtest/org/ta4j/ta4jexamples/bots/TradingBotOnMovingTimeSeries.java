@@ -1,7 +1,13 @@
 package learningtest.org.ta4j.ta4jexamples.bots;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.time.ZonedDateTime;
 import java.util.function.Function;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 
 import learningtest.org.ta4j.ta4jexamples.loaders.CsvTradesLoader;
 import org.junit.Test;
@@ -34,8 +40,13 @@ public class TradingBotOnMovingTimeSeries {
 	}
 
 	@Test
-	public void testFromPython() {
-		test(this::buildStrategyFromPython);
+	public void testWithPythonInterpreter() {
+		test(this::buildStrategyWithPythonInterpreter);
+	}
+
+	@Test
+	public void testWithWithJythonScriptEngine() {
+		test(this::buildStrategyWithJythonScriptEngine);
 	}
 
 	private void test(Function<TimeSeries, Strategy> strategyBuilder) {
@@ -92,13 +103,29 @@ public class TradingBotOnMovingTimeSeries {
 				new UnderIndicatorRule(sma, closePriceIndicator));
 	}
 
-	private Strategy buildStrategyFromPython(TimeSeries series) {
+	private Strategy buildStrategyWithPythonInterpreter(TimeSeries series) {
 		PythonInterpreter interpreter = new PythonInterpreter();
-		interpreter.execfile(getClass().getClassLoader().getResourceAsStream("learningtest/ta4j/strategy.py"));
+		InputStream is = getClass().getClassLoader().getResourceAsStream("learningtest/ta4j/strategy.py");
+		interpreter.execfile(is);
 		interpreter.set("series", series);
 		interpreter.exec("strategy = buildStrategy(series)");
 		PyObject strategy = interpreter.get("strategy");
 		return (BaseStrategy) strategy.__tojava__(BaseStrategy.class);
+	}
+
+	private Strategy buildStrategyWithJythonScriptEngine(TimeSeries series) {
+		ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
+		ScriptEngine scriptEngine = scriptEngineManager.getEngineByName("python");
+		try {
+			InputStream is = getClass().getClassLoader().getResourceAsStream("learningtest/ta4j/strategy.py");
+			scriptEngine.eval(new InputStreamReader(is));
+			scriptEngine.put("series", series);
+			scriptEngine.eval("strategy = buildStrategy(series)");
+			return (Strategy) scriptEngine.get("strategy");
+		}
+		catch (ScriptException ex) {
+			throw new RuntimeException(ex);
+		}
 	}
 
 	private Bar generateRandomBar(TimeSeries series, int minutes) {
