@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.time.ZonedDateTime;
 import java.util.function.Function;
 
+import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -119,11 +120,12 @@ public class TradingBotOnMovingTimeSeries {
 		try {
 			InputStream is = getClass().getClassLoader().getResourceAsStream("learningtest/ta4j/strategy.py");
 			scriptEngine.eval(new InputStreamReader(is));
-			scriptEngine.put("series", series);
-			scriptEngine.eval("strategy = buildStrategy(series)");
-			return (Strategy) scriptEngine.get("strategy");
+			return (Strategy) ((Invocable) scriptEngine).invokeFunction("buildStrategy", series);
 		}
 		catch (ScriptException ex) {
+			throw new RuntimeException(ex);
+		}
+		catch (NoSuchMethodException ex) {
 			throw new RuntimeException(ex);
 		}
 	}
