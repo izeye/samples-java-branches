@@ -1,17 +1,4 @@
-buildscript {
-    repositories {
-        mavenLocal()
-        jcenter()
-        maven { url 'http://repo.spring.io/plugins-release' }
-    }
-
-    dependencies {
-        classpath("org.springframework.build.gradle:propdeps-plugin:$propdepsPluginVersion")
-    }
-}
-
 apply plugin: 'java'
-apply plugin: 'propdeps'
 
 sourceCompatibility = 1.8
 
@@ -51,7 +38,8 @@ dependencies {
     compile("com.opencsv:opencsv:${opencsvVersion}")
     compile("org.python:jython-standalone:${jythonVersion}")
 
-    provided("org.projectlombok:lombok:$lombokVersion")
+    compileOnly("org.projectlombok:lombok:$lombokVersion")
+    annotationProcessor("org.projectlombok:lombok:$lombokVersion")
 
     testCompile("org.assertj:assertj-core:$assertJVersion")
     testCompile("junit:junit:$jUnitVersion")
@@ -60,10 +48,12 @@ dependencies {
     // This leads to `java.lang.NoSuchMethodError: org.hamcrest.Matcher.describeMismatch(Ljava/lang/Object;Lorg/hamcrest/Description;)V`.
 //    testCompile("org.mockito:mockito-all:${mockitoVersion}")
     testCompile("org.mockito:mockito-core:${mockitoVersion}")
+
+    testCompileOnly("org.projectlombok:lombok:$lombokVersion")
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.0.2'
+    gradleVersion = '4.7'
 }
 
 tasks.withType(JavaCompile) {
