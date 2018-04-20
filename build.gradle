@@ -50,6 +50,7 @@ dependencies {
     testCompile("org.mockito:mockito-core:${mockitoVersion}")
 
     testCompileOnly("org.projectlombok:lombok:$lombokVersion")
+    testAnnotationProcessor("org.projectlombok:lombok:$lombokVersion")
 }
 
 task wrapper(type: Wrapper) {
