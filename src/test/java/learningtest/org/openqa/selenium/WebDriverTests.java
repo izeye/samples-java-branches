@@ -21,7 +21,14 @@ public class WebDriverTests {
 
 	@Test
 	public void test() {
-		System.setProperty("webdriver.chrome.driver", "./bin/chrome_driver/chromedriver");
+		String currentWorkingDirectory = System.getProperty("user.dir");
+
+		// NOTE: Handle Intellij.
+		currentWorkingDirectory = currentWorkingDirectory.replace("/.idea/modules", "");
+
+		System.setProperty(
+				"webdriver.chrome.driver",
+				currentWorkingDirectory + "/bin/chrome_driver/chromedriver");
 
 		WebDriver driver = new ChromeDriver();
 
