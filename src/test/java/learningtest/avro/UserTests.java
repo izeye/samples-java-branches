@@ -7,12 +7,17 @@ import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.generic.GenericDatumWriter;
 import org.apache.avro.generic.GenericRecord;
+import org.apache.avro.io.BinaryDecoder;
+import org.apache.avro.io.BinaryEncoder;
 import org.apache.avro.io.DatumReader;
 import org.apache.avro.io.DatumWriter;
+import org.apache.avro.io.DecoderFactory;
+import org.apache.avro.io.EncoderFactory;
 import org.apache.avro.specific.SpecificDatumReader;
 import org.apache.avro.specific.SpecificDatumWriter;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -109,6 +114,57 @@ public class UserTests {
 		}
 		catch (IOException ex) {
 			throw new RuntimeException(ex);
+		}
+	}
+
+	@Test
+	public void testWithoutSchema() {
+		User user1 = new User();
+		user1.setName("Alyssa");
+		user1.setFavoriteNumber(256);
+
+		User user2 = new User("Ben", 7, "red");
+
+		User user3 = User.newBuilder()
+				.setName("Charlie")
+				.setFavoriteColor("blue")
+				.setFavoriteNumber(null)
+				.build();
+
+		byte[] encoded;
+		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+			BinaryEncoder encoder = EncoderFactory.get().binaryEncoder(baos, null);
+
+			DatumWriter<User> userDataWriter = new SpecificDatumWriter<>(User.class);
+			userDataWriter.write(user1, encoder);
+			userDataWriter.write(user2, encoder);
+			userDataWriter.write(user3, encoder);
+
+			encoder.flush();
+
+			encoded = baos.toByteArray();
+			System.out.println("Encoded bytes: " + encoded.length);
+		}
+		catch (IOException ex) {
+			throw new RuntimeException(ex);
+		}
+
+		User user = null;
+		try {
+			BinaryDecoder decoder = DecoderFactory.get().binaryDecoder(encoded, null);
+
+			DatumReader<User> userDatumReader = new SpecificDatumReader<>(User.class);
+			user = userDatumReader.read(user, decoder);
+			System.out.println(user);
+
+			user = userDatumReader.read(user, decoder);
+			System.out.println(user);
+
+			user = userDatumReader.read(user, decoder);
+			System.out.println(user);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
