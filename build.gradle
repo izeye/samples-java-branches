@@ -1,4 +1,16 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath "com.commercehub.gradle.plugin:gradle-avro-plugin:${avroGradlePluginVersion}"
+    }
+}
+
 apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'com.commercehub.gradle.plugin.avro'
 
 sourceCompatibility = 1.8
 

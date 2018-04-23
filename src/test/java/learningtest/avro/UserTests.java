@@ -24,10 +24,6 @@ import java.io.IOException;
 /**
  * Tests for {@link User}.
  *
- * Run the following command to recreate a {@link User} class:
- *
- * java -jar ./bin/avro_tools/avro-tools-1.8.2.jar compile schema src/test/avro/user.avsc src/test/java
- *
  * @author Johnny Lim
  */
 public class UserTests {
