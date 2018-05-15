@@ -42,6 +42,7 @@ dependencies {
     compile("org.python:jython-standalone:${jythonVersion}")
     compile("commons-validator:commons-validator:${commonsValidatorVersion}")
     compile("org.thymeleaf:thymeleaf:${thymeleafVersion}")
+    compile("net.sourceforge.nekohtml:nekohtml:${nekohtmlVersion}")
 
     compileOnly("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")

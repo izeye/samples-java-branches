@@ -14,7 +14,8 @@ public class TemplateEngineTests {
 
 	@Test
 	public void test() {
-		String expected = "My name is Johnny Lim.<p>";
+		// Note the additional "</p>".
+		String expected = "My name is Johnny Lim.<p></p>";
 
 		TemplateEngine engine = getTemplateEngine();
 
@@ -31,8 +32,9 @@ public class TemplateEngineTests {
 
 	private TemplateEngine getTemplateEngine() {
 		ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
-		resolver.setPrefix("/learningtest/thymeleaf/");
+		resolver.setPrefix("learningtest/thymeleaf/");
 		resolver.setSuffix(".html");
+		resolver.setTemplateMode("LEGACYHTML5");
 
 		TemplateEngine engine = new TemplateEngine();
 		engine.setTemplateResolver(resolver);
