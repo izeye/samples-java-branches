@@ -41,6 +41,7 @@ dependencies {
     compile("com.opencsv:opencsv:${opencsvVersion}")
     compile("org.python:jython-standalone:${jythonVersion}")
     compile("commons-validator:commons-validator:${commonsValidatorVersion}")
+    compile("org.thymeleaf:thymeleaf:${thymeleafVersion}")
 
     compileOnly("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
