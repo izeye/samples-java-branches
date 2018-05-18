@@ -43,5 +43,12 @@ public class StringTests {
 	public void testSubstring() {
 		assertThat("Hello, world!".substring(0, 0)).isEmpty();
 	}
+
+	@Test
+	public void split() {
+		assertThat(" ".split(",")).containsExactly(" ");
+		assertThat(",".split(",")).isEmpty();
+		assertThat(", ".split(",")).containsExactly("", " ");
+	}
 	
 }
