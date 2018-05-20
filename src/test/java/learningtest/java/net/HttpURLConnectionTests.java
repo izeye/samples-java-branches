@@ -10,6 +10,8 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Tests for {@link HttpURLConnection}.
  *
@@ -31,7 +33,10 @@ public class HttpURLConnectionTests {
 					.collect(Collectors.joining(System.lineSeparator()));
 			System.out.println(response);
 		}
+
+		assertThat(connection.getResponseCode()).isEqualTo(HttpURLConnection.HTTP_OK);
 		connection.disconnect();
+		assertThat(connection.getResponseCode()).isEqualTo(HttpURLConnection.HTTP_OK);
 	}
 
 }
