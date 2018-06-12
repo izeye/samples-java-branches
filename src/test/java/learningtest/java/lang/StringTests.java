@@ -40,6 +40,13 @@ public class StringTests {
 	}
 
 	@Test
+	public void replaceFirst() {
+		String regex = "^https?://[^/]+/";
+		assertThat("https://www.google.com/hello".replaceFirst(regex, "")).isEqualTo("hello");
+		assertThat("/hello".replaceFirst(regex, "")).isEqualTo("/hello");
+	}
+
+	@Test
 	public void testSubstring() {
 		assertThat("Hello, world!".substring(0, 0)).isEmpty();
 	}

@@ -85,5 +85,13 @@ public class PatternTests {
 		Pattern pattern = Pattern.compile("^\\{.+}.*$");
 		assertThat(pattern.matcher("{noop}password").matches()).isTrue();
 	}
+
+	@Test
+	public void replaceFirst() {
+		Pattern pattern = Pattern.compile("^https?://[^/]+/");
+
+		assertThat(pattern.matcher("https://www.google.com/hello").replaceFirst("")).isEqualTo("hello");
+		assertThat(pattern.matcher("/hello").replaceFirst("")).isEqualTo("/hello");
+	}
 	
 }
