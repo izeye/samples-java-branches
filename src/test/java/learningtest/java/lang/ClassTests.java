@@ -20,6 +20,16 @@ public class ClassTests {
         assertThat(annotation.name()).isEqualTo("myAnnotation");
     }
 
+    @Test
+    public void getName() {
+        assertThat(ClassTests.class.getName()).isEqualTo("learningtest.java.lang.ClassTests");
+    }
+
+    @Test
+    public void testGetClass() {
+        assertThat(getClass()).isSameAs(ClassTests.class);
+    }
+
     @Retention(RetentionPolicy.RUNTIME)
     private @interface SomeAnnotation {
 
