@@ -93,5 +93,16 @@ public class PatternTests {
 		assertThat(pattern.matcher("https://www.google.com/hello").replaceFirst("")).isEqualTo("hello");
 		assertThat(pattern.matcher("/hello").replaceFirst("")).isEqualTo("/hello");
 	}
+
+	@Test
+	public void replaceAllWithCapturingGroup() {
+		Pattern pattern = Pattern.compile("([, =\"])");
+
+		assertThat(pattern.matcher("a,b").replaceAll("\\\\$1")).isEqualTo("a\\,b");
+		assertThat(pattern.matcher("a=b").replaceAll("\\\\$1")).isEqualTo("a\\=b");
+		assertThat(pattern.matcher("a b").replaceAll("\\\\$1")).isEqualTo("a\\ b");
+		assertThat(pattern.matcher("\"ab\"").replaceAll("\\\\$1")).isEqualTo("\\\"ab\\\"");
+		assertThat(pattern.matcher("\"a,b\"").replaceAll("\\\\$1")).isEqualTo("\\\"a\\,b\\\"");
+	}
 	
 }
