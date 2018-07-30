@@ -30,6 +30,18 @@ public class ClassTests {
         assertThat(getClass()).isSameAs(ClassTests.class);
     }
 
+    @Test
+    public void anonymousClassGetSimpleNameReturnsEmptyString() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+            }
+        };
+
+        assertThat(runnable.getClass().getSimpleName()).isEmpty();
+        assertThat(runnable.getClass().getName()).isEqualTo("learningtest.java.lang.ClassTests$1");
+    }
+
     @Retention(RetentionPolicy.RUNTIME)
     private @interface SomeAnnotation {
 
