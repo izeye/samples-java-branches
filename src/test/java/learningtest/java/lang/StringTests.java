@@ -62,5 +62,16 @@ public class StringTests {
 		assertThat(",".split(",")).isEmpty();
 		assertThat(", ".split(",")).containsExactly("", " ");
 	}
+
+	@Test
+	public void splitWithLimit() {
+		assertThat("".split(":", 2)).containsExactly("");
+		assertThat(":".split(":", 2)).containsExactly("", "");
+		assertThat("a:".split(":", 2)).containsExactly("a", "");
+		assertThat(":b".split(":", 2)).containsExactly("", "b");
+		assertThat("a:b".split(":", 2)).containsExactly("a", "b");
+		assertThat("::".split(":", 2)).containsExactly("", ":");
+		assertThat("a:b:c".split(":", 2)).containsExactly("a", "b:c");
+	}
 	
 }
