@@ -43,6 +43,7 @@ dependencies {
     compile("org.python:jython-standalone:${jythonVersion}")
     compile("commons-validator:commons-validator:${commonsValidatorVersion}")
     compile("org.thymeleaf:thymeleaf:${thymeleafVersion}")
+    compile("org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}")
 
     compileOnly("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
