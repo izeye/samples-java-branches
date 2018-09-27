@@ -14,43 +14,52 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class ClassTests {
 
-    @Test
-    public void testGetAnnotation() {
-        SomeAnnotation annotation = SomeAnnotationTests.class.getAnnotation(SomeAnnotation.class);
-        assertThat(annotation.name()).isEqualTo("myAnnotation");
-    }
+	@Test
+	public void testGetAnnotation() {
+		SomeAnnotation annotation = SomeAnnotationTests.class.getAnnotation(SomeAnnotation.class);
+		assertThat(annotation.name()).isEqualTo("myAnnotation");
+	}
 
-    @Test
-    public void getName() {
-        assertThat(ClassTests.class.getName()).isEqualTo("learningtest.java.lang.ClassTests");
-    }
+	@Test
+	public void getName() {
+		assertThat(ClassTests.class.getName()).isEqualTo("learningtest.java.lang.ClassTests");
+	}
 
-    @Test
-    public void testGetClass() {
-        assertThat(getClass()).isSameAs(ClassTests.class);
-    }
+	@Test
+	public void testGetClass() {
+		assertThat(getClass()).isSameAs(ClassTests.class);
+	}
 
-    @Test
-    public void anonymousClassGetSimpleNameReturnsEmptyString() {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-            }
-        };
+	@Test
+	public void anonymousClassGetSimpleNameReturnsEmptyString() {
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+			}
+		};
 
-        assertThat(runnable.getClass().getSimpleName()).isEmpty();
-        assertThat(runnable.getClass().getName()).isEqualTo("learningtest.java.lang.ClassTests$1");
-    }
+		assertThat(runnable.getClass().getSimpleName()).isEmpty();
+		assertThat(runnable.getClass().getName()).isEqualTo("learningtest.java.lang.ClassTests$1");
+	}
 
-    @Retention(RetentionPolicy.RUNTIME)
-    private @interface SomeAnnotation {
+	@Test
+	public void lambda() {
+		Runnable runnable = () -> {
+		};
 
-        String name();
+		assertThat(runnable.getClass().getName()).startsWith("learningtest.java.lang.ClassTests$$Lambda$");
+		assertThat(runnable.getClass().getSimpleName()).startsWith("ClassTests$$Lambda$");
+	}
 
-    }
+	@Retention(RetentionPolicy.RUNTIME)
+	private @interface SomeAnnotation {
 
-    @SomeAnnotation(name = "myAnnotation")
-    private static class SomeAnnotationTests {
-    }
+		String name();
+
+	}
+
+	@SomeAnnotation(name = "myAnnotation")
+	private static class SomeAnnotationTests {
+	}
 
 }
