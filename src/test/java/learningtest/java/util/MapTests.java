@@ -34,6 +34,13 @@ public class MapTests {
 		assertThat(secondPerson.getFirstName()).isEqualTo("John");
 	}
 
+	@Test
+	public void castNullFromMapToSubclassShouldBeOkay() {
+		Map<String, Person> personByFirstName = new HashMap<>();
+		Employee employee = (Employee) personByFirstName.get("Johnny");
+		assertThat(employee).isNull();
+	}
+
 	private static class Person {
 
 		private final String firstName;
@@ -45,6 +52,21 @@ public class MapTests {
 		public String getFirstName() {
 			return this.firstName;
 		}
+	}
+
+	private static class Employee extends Person {
+
+		private final String id;
+
+		public Employee(String id, String firstName) {
+			super(firstName);
+			this.id = id;
+		}
+
+		public String getId() {
+			return this.id;
+		}
+
 	}
 
 }
