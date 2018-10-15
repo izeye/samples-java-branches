@@ -2,16 +2,20 @@ package learningtest.org.assertj.core.api;
 
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.tuple;
 
 /**
- * Created by izeye on 16. 3. 8..
+ * Tests for AssertJ assertions.
+ *
+ * @author Johnny Lim
  */
 public class AssertionsTests {
 	
@@ -102,6 +106,14 @@ public class AssertionsTests {
 				.containsOnly(aragorn, frodo, legolas, boromir)
 				.extracting(character -> character.getRace().getName())
 				.contains("Hobbit", "Elf", "Man");
+	}
+
+	@Test
+	public void testAssertThatExceptionOfType() {
+		assertThatExceptionOfType(IOException.class).isThrownBy(() -> { throw new IOException("boom!"); })
+				.withMessage("%s!", "boom")
+				.withMessageContaining("boom")
+				.withNoCause();
 	}
 	
 }
