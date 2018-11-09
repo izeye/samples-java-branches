@@ -44,4 +44,13 @@ public class ListTests {
 		assertThat(longs.get(1)).isInstanceOf(Long.class);
 	}
 
+	@Test
+	public void abuseRawType() {
+		List<Number> numbers = new ArrayList<>();
+		numbers.add(Long.valueOf(1L));
+
+		List<Long> longs = (List) numbers;
+		assertThat(longs.get(0)).isEqualTo(1L);
+	}
+
 }
