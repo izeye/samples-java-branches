@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -82,6 +83,12 @@ public class StreamTests {
 				.collect(Collectors.toList());
 		assertThat(teamLanguages).containsAll(polyglot.getLanguages());
 		assertThat(teamLanguages).containsAll(busy.getLanguages());
+	}
+
+	@Test
+	public void toCollection() {
+		Set<Integer> sorted = Arrays.asList(3, 2, 1).stream().collect(Collectors.toCollection(TreeSet::new));
+		assertThat(sorted).containsExactly(1, 2, 3);
 	}
 
 	private static class Developer {
