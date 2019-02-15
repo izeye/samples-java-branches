@@ -179,6 +179,7 @@ public class FluxTests {
 		flux.subscribe(System.out::println);
 		flux.connect();
 	}
+
 	@Test
 	public void subscribeOn() {
 		List<Integer> elements = new CopyOnWriteArrayList<>();
