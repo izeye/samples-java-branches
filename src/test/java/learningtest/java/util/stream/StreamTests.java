@@ -91,6 +91,13 @@ public class StreamTests {
 		assertThat(sorted).containsExactly(1, 2, 3);
 	}
 
+	@Test
+	public void joiningWhenStreamIsEmpty() {
+		String joined = Stream.<String>empty()
+				.collect(Collectors.joining(",", "{\"measurements\":[", "]}"));
+		assertThat(joined).isEqualTo("{\"measurements\":[]}");
+	}
+
 	private static class Developer {
 
 		private final String name;
