@@ -26,9 +26,9 @@ public class TcpClientTests {
 				.host("localhost")
 				.port(8080)
 				.handle((in, out) -> out
-							.options(NettyPipeline.SendOptions::flushOnEach)
-							.sendString(flux)
-							.neverComplete())
+						.options(NettyPipeline.SendOptions::flushOnEach)
+						.sendString(flux)
+						.neverComplete())
 				.connect()
 				.subscribe();
 
