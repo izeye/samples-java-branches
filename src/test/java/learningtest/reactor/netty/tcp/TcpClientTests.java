@@ -8,6 +8,7 @@ import reactor.netty.tcp.TcpClient;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Tests for {@link TcpClient}.
@@ -16,29 +17,29 @@ import java.util.concurrent.TimeUnit;
  */
 public class TcpClientTests {
 
-	private TcpClient tcpClient;
-
 	// Run ServerSocketTests.test() first.
 	@Test
 	@Ignore
 	public void test() {
 		Flux<String> flux = Flux.interval(Duration.ofSeconds(1)).map(i -> i + "\n");
 
-		this.tcpClient = TcpClient.create()
+		AtomicReference<TcpClient> tcpClientReference = new AtomicReference<>();
+		TcpClient tcpClient = TcpClient.create()
 				.host("localhost")
 				.port(8080)
 				.handle((in, out) -> out
 						.options(NettyPipeline.SendOptions::flushOnEach)
 						.sendString(flux)
 						.neverComplete())
-				.doOnDisconnected((connection) -> connectAndSubscribe());
-		connectAndSubscribe();
+				.doOnDisconnected((connection) -> connectAndSubscribe(tcpClientReference.get()));
+		tcpClientReference.set(tcpClient);
+		connectAndSubscribe(tcpClient);
 
 		sleep(60);
 	}
 
-	private void connectAndSubscribe() {
-		this.tcpClient
+	private void connectAndSubscribe(TcpClient tcpClient) {
+		tcpClient
 				.connect()
 				.retryBackoff(Long.MAX_VALUE, Duration.ofSeconds(1), Duration.ofMinutes(1))
 				.subscribe();
