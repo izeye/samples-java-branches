@@ -32,7 +32,7 @@ dependencies {
     compile("org.hibernate:hibernate-validator:${hibernateValidatorVersion}")
     compile("org.glassfish:javax.el:${elVersion}")
     compile("com.github.javaparser:javaparser-core:${javaParserVersion}")
-    compile("io.netty:netty-all:${nettyVersion}")
+//    compile("io.netty:netty-all:${nettyVersion}")
     compile("org.objenesis:objenesis:${objenesisVersion}")
     compile("com.github.jknack:handlebars:${handlebarsVersion}")
     compile("com.jayway.jsonpath:json-path:${jsonPathVersion}")
@@ -48,6 +48,7 @@ dependencies {
     compile("org.thymeleaf:thymeleaf:${thymeleafVersion}")
     compile("org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}")
     compile("io.projectreactor:reactor-core:${reactorVersion}")
+    compile("io.projectreactor.netty:reactor-netty:${reactorNettyVersion}")
 
     compileOnly("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
