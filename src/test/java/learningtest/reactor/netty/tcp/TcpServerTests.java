@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Ignore;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.MonoProcessor;
 import reactor.netty.DisposableServer;
 import reactor.netty.NettyPipeline;
 import reactor.netty.tcp.TcpClient;
@@ -21,9 +22,18 @@ public class TcpServerTests {
 	@Ignore
 	@Test
 	public void test() {
+		MonoProcessor<Void> serverDisposed = MonoProcessor.create();
+		MonoProcessor<Void> serverConnectionDisposed = MonoProcessor.create();
+
 		DisposableServer server = TcpServer.create()
-				.doOnConnection(
-						(connection) -> System.out.println("Connected: " + connection))
+				.doOnBound((s) -> {
+					System.out.println("Bounded: " + s);
+					s.onDispose().subscribe(serverDisposed);
+				})
+				.doOnConnection((connection) -> {
+					System.out.println("Connected: " + connection);
+					connection.onDispose().subscribe(serverConnectionDisposed);
+				})
 				.handle((in, out) ->
 						in.receive()
 								.asString()
@@ -42,6 +52,16 @@ public class TcpServerTests {
 								.neverComplete())
 				.connect()
 				.subscribe();
+
+		sleep(5);
+
+		server.disposeNow();
+		serverDisposed.block(Duration.ofSeconds(5));
+
+		// NOTE: This will fail due to a Reactor Netty bug.
+		// See https://github.com/reactor/reactor-netty/issues/495
+		serverConnectionDisposed.block(Duration.ofSeconds(5));
+
 		sleep(30);
 	}
 
