@@ -19,6 +19,12 @@ public class TcpServerTests {
 		TcpServer.create()
 				.doOnConnection(
 						(connection) -> System.out.println("Connected: " + connection))
+				.handle((in, out) ->
+						in.receive()
+								.asString()
+								.doOnNext((message) ->
+										System.out.println("Message: " + message))
+								.then())
 				.bindNow();
 
 		sleep(30);
