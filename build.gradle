@@ -49,6 +49,7 @@ dependencies {
     compile("org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}")
     compile("io.projectreactor:reactor-core:${reactorVersion}")
     compile("io.projectreactor.netty:reactor-netty:${reactorNettyVersion}")
+    compile("com.google.cloud:google-cloud-monitoring:${googleCloudVersion}")
 
     compileOnly("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
