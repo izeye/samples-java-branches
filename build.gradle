@@ -50,6 +50,7 @@ dependencies {
     compile("io.projectreactor:reactor-core:${reactorVersion}")
     compile("io.projectreactor.netty:reactor-netty:${reactorNettyVersion}")
     compile("com.google.cloud:google-cloud-monitoring:${googleCloudVersion}")
+    compile("io.github.resilience4j:resilience4j-retry:${resilience4JVersion}")
 
     compileOnly("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
