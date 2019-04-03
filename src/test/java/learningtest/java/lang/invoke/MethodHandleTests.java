@@ -7,6 +7,7 @@ import java.lang.invoke.MethodType;
 
 import org.junit.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
@@ -24,7 +25,7 @@ public class MethodHandleTests {
 	}
 
 	@Test
-	public void invoke() throws Throwable {
+	public void invokePrivate() throws Throwable {
 		MyClass myClass = new MyClass();
 
 		Lookup lookup = MethodHandles.lookup();
@@ -33,6 +34,24 @@ public class MethodHandleTests {
 
 		assertThatExceptionOfType(IllegalAccessException.class)
 				.isThrownBy(() -> lookup.findVirtual(MyClass.class, "hello2", MethodType.methodType(void.class)));
+	}
+
+	@Test
+	public void invokeGetterSetter() throws Throwable {
+		Point point = new Point();
+
+		Lookup lookup = MethodHandles.lookup();
+		MethodHandle methodHandle = lookup.findSetter(Point.class, "x", int.class);
+		methodHandle.invoke(point, 15);
+
+		methodHandle = lookup.findSetter(Point.class, "y", int.class);
+		methodHandle.invoke(point, 30);
+
+		methodHandle = lookup.findGetter(Point.class, "x", int.class);
+		assertThat(methodHandle.invoke(point)).isEqualTo(15);
+
+		methodHandle = lookup.findGetter(Point.class, "y", int.class);
+		assertThat(methodHandle.invoke(point)).isEqualTo(30);
 	}
 
 	static void hello() {
@@ -48,6 +67,15 @@ public class MethodHandleTests {
 		private void hello2() {
 			System.out.println("hello from hello2");
 		}
+
+	}
+
+	static class Point {
+
+		// NOTE: Can't be private as the following exception will be thrown otherwise:
+		// java.lang.IllegalAccessException: member is private: learningtest.java.lang.invoke.MethodHandleTests$Point.x/int/putField, from learningtest.java.lang.invoke.MethodHandleTests
+		int x;
+		int y;
 
 	}
 
