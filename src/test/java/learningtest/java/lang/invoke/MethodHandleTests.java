@@ -54,6 +54,16 @@ public class MethodHandleTests {
 		assertThat(methodHandle.invoke(point)).isEqualTo(30);
 	}
 
+	@Test
+	public void insertArguments() throws Throwable {
+		Lookup lookup = MethodHandles.lookup();
+		MethodHandle methodHandle = lookup.findStatic(
+				Math.class, "pow", MethodType.methodType(double.class, double.class, double.class));
+
+		methodHandle = MethodHandles.insertArguments(methodHandle, 1, 10);
+		assertThat(methodHandle.invoke(2)).isEqualTo(1024d);
+	}
+
 	static void hello() {
 		System.out.println("hello");
 	}
