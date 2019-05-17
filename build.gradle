@@ -19,7 +19,7 @@ dependencies {
     compile("com.google.guava:guava:$guavaVersion")
 
     compile("org.apache.avro:avro:${avroVersion}")
-
+    compile("org.apache.commons:commons-lang3:${commonsLang3Version}")
     compile("org.apache.httpcomponents:httpclient:$httpClientVersion")
     compile("commons-io:commons-io:$commonsIoVersion")
     compile("org.bouncycastle:bcprov-jdk15on:$bouncyCastleProviderVersion")
