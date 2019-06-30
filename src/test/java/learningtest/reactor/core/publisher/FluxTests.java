@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * They are coming from https://www.baeldung.com/reactor-core.
  *
- * @author Johnny
+ * @author Johnny Lim
  */
 public class FluxTests {
 
