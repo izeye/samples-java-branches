@@ -10,6 +10,7 @@ import javax.management.ObjectName;
 
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,6 +22,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class TomcatTests {
 
+	// NOTE: This test will take at least 30 seconds due to sleep.
+	@Ignore
 	@Test
 	public void test() {
 		Tomcat tomcat = new Tomcat();
