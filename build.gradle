@@ -38,7 +38,6 @@ dependencies {
     compile("com.jayway.jsonpath:json-path:${jsonPathVersion}")
     compile("org.apache.commons:commons-pool2:${commonsPool2Version}")
     compile("org.pcollections:pcollections:${pcollectionsVersion}")
-    compile("org.seleniumhq.selenium:selenium-java:${seleniumVersion}")
     compile("org.xmlunit:xmlunit-core:${xmlUnitVersion}")
     compile("org.apache.commons:commons-math3:${commonsMath3Version}")
     compile("org.ta4j:ta4j-core:${ta4JVersion}")
