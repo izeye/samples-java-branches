@@ -3,6 +3,7 @@ package learningtest.java.lang;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -68,6 +69,7 @@ public class ThreadTests {
 		assertThat(latch.await(1, TimeUnit.SECONDS)).isTrue();
 	}
 
+	@Ignore
 	@Test
 	public void testSleep() {
 		try {
