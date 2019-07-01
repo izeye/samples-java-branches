@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.ServerSocket;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,11 +43,19 @@ public class HttpURLConnectionTests {
 
 	@Test
 	public void getOutputStream() throws IOException {
+		CountDownLatch latch = new CountDownLatch(1);
+
 		new Thread(() -> {
 			try (ServerSocket serverSocket = new ServerSocket(8080)) {
 				serverSocket.accept();
+
+				latch.await();
 			}
 			catch (IOException ex) {
+				throw new RuntimeException(ex);
+			}
+			catch (InterruptedException ex) {
+				Thread.currentThread().interrupt();
 				throw new RuntimeException(ex);
 			}
 		}).start();
@@ -59,6 +68,7 @@ public class HttpURLConnectionTests {
 		connection.getOutputStream();
 		assertThat(connection.getRequestMethod()).isEqualTo("POST");
 
+		latch.countDown();
 	}
 
 }
