@@ -2,6 +2,8 @@ package learningtest.java.lang;
 
 import org.junit.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Tests for {@link Exception}.
  */
@@ -50,6 +52,12 @@ public class ExceptionTests {
 		if (throwable instanceof IllegalStateException) {
 			exceptionHandler.handle((IllegalStateException) throwable);
 		}
+	}
+
+	@Test
+	public void stackTraceHasBeenFilledWhenCreatingException() {
+		RuntimeException exception = new RuntimeException();
+		assertThat(exception.getStackTrace()[0].getLineNumber()).isEqualTo(59);
 	}
 
 	private class ExceptionHandler {
