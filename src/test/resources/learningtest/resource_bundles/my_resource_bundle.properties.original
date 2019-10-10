@@ -1,2 +1,0 @@
-# native2ascii -encoding UTF-8 src/test/resources/learningtest/resource_bundles/my_resource_bundle.properties.original src/test/resources/learningtest/resource_bundles/my_resource_bundle.properties
-greeting=안녕하세요!

@@ -77,3 +77,12 @@ test {
         showStandardStreams = true
     }
 }
+
+task escapeUnicodeInResourceBundles(type: Copy) {
+    from 'src/test/resources/learningtest/resource_bundles/sources'
+    into 'src/test/resources/learningtest/resource_bundles'
+    include '**/*.properties'
+    filter(org.apache.tools.ant.filters.EscapeUnicode)
+}
+
+processTestResources.dependsOn(escapeUnicodeInResourceBundles)
