@@ -76,6 +76,8 @@ test {
     testLogging {
         showStandardStreams = true
     }
+
+    maxParallelForks = 4
 }
 
 task escapeUnicodeInResourceBundles(type: Copy) {
