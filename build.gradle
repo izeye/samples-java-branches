@@ -77,7 +77,9 @@ test {
         showStandardStreams = true
     }
 
-    maxParallelForks = 4
+    // Use a half of CPU cores. Note that it doesn't count hyper-threading as a true processor here.
+    maxParallelForks = Runtime.runtime.availableProcessors() / 4
+    println "maxParallelForks: " + maxParallelForks
 }
 
 task escapeUnicodeInResourceBundles(type: Copy) {
