@@ -1,6 +1,7 @@
 package learningtest.io.netty.channel;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelInitializer;
@@ -70,6 +71,7 @@ public class ChannelInboundHandlerAdapterTests {
 
 	}
 
+	@Sharable
 	static class TestServerHandler extends SimpleChannelInboundHandler<String> {
 
 		@Override
