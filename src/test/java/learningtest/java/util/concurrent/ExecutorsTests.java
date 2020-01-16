@@ -1,5 +1,6 @@
 package learningtest.java.util.concurrent;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ import static org.junit.Assert.fail;
  *
  * @author Johnny Lim
  */
+// This is ignored due to its running duration (more than 44s).
+@Ignore
 public class ExecutorsTests {
 
 	@Test
