@@ -1,0 +1,12 @@
+plugins {
+    id "java-gradle-plugin"
+}
+
+gradlePlugin {
+    plugins {
+        testFailuresPlugin {
+            id = "org.springframework.boot.test-failures"
+            implementationClass = "org.springframework.boot.build.testing.TestFailuresPlugin"
+        }
+    }
+}
