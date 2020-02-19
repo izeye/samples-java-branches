@@ -104,5 +104,15 @@ public class PatternTests {
 		assertThat(pattern.matcher("\"ab\"").replaceAll("\\\\$1")).isEqualTo("\\\"ab\\\"");
 		assertThat(pattern.matcher("\"a,b\"").replaceAll("\\\\$1")).isEqualTo("\\\"a\\,b\\\"");
 	}
+
+	@Test
+	public void replaceAllWhenNoMatchReturnsInputItself() {
+		Pattern pattern = Pattern.compile("/$");
+
+		String uriPath = "/persons";
+		String replacedUriPath = pattern.matcher(uriPath).replaceAll("");
+		assertThat(replacedUriPath).isSameAs(uriPath);
+		assertThat(pattern.matcher("/persons/").replaceAll("")).isEqualTo(uriPath);
+	}
 	
 }
