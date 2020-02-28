@@ -17,6 +17,7 @@ repositories {
 
 dependencies {
     implementation platform("com.fasterxml.jackson:jackson-bom:2.10.1")
+    implementation platform("org.junit:junit-bom:latest.release")
 
     implementation("com.fasterxml.jackson.core:jackson-databind")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-smile")
@@ -55,8 +56,12 @@ dependencies {
     compileOnly("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
 
+    testImplementation("junit:junit")
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
+
     testImplementation("org.assertj:assertj-core:$assertJVersion")
-    testImplementation("junit:junit:$jUnitVersion")
 
     // NOTE: Why does `mockito-all` include `org.hamcrest.Matcher`?
     // This leads to `java.lang.NoSuchMethodError: org.hamcrest.Matcher.describeMismatch(Ljava/lang/Object;Lorg/hamcrest/Description;)V`.
@@ -76,6 +81,8 @@ tasks.withType(JavaCompile) {
 }
 
 test {
+    useJUnitPlatform()
+
     retry {
         maxRetries = 3
     }
