@@ -1,12 +1,13 @@
 package learningtest.org.thymeleaf;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+
 import org.junit.jupiter.api.Test;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,14 +16,17 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Johnny Lim
  */
-class TemplateEngineTests {
+class TemplateEngineInitializeTimingTests {
 
 	private final TemplateEngine engine = createTemplateEngine();
 
 	@Test
 	void test() {
-		assertThat(render("sample1", createPersonMap("Johnny", "Lim", 20)))
+		assertThat(render(this.engine, "sample1", createPersonMap("Johnny", "Lim", 20)))
 				.isEqualTo("This is the first sample.<p>My name is Johnny Lim.<p>I'm 20 years old.");
+
+		assertThat(render(this.engine, "sample2", createPersonMap("John", "Kim", 21)))
+				.isEqualTo("This is the second sample.<p>My name is John Kim.<p>I'm 21 years old.");
 	}
 
 	private Map<String, Object> createPersonMap(String firstName, String secondName, int age) {
@@ -33,10 +37,10 @@ class TemplateEngineTests {
 		return someMap;
 	}
 
-	private String render(String templateName, Map<String, Object> personMap) {
+	private String render(TemplateEngine engine, String templateName, Map<String, Object> personMap) {
 		Context context = new Context();
 		context.setVariable("person", personMap);
-		return this.engine.process(templateName, context);
+		return time(() -> engine.process(templateName, context));
 	}
 
 	private TemplateEngine createTemplateEngine() {
@@ -46,7 +50,21 @@ class TemplateEngineTests {
 
 		TemplateEngine engine = new TemplateEngine();
 		engine.setTemplateResolver(resolver);
+
+		// To trigger TemplateEngine.initialize().
+		engine.getConfiguration();
 		return engine;
+	}
+
+	private <T> T time(Supplier<T> supplier) {
+		long startTimeMillis = System.currentTimeMillis();
+		try {
+			return supplier.get();
+		}
+		finally {
+			long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
+			System.out.println("Elapsed time: " + elapsedTimeMillis);
+		}
 	}
 
 }
