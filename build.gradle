@@ -53,6 +53,7 @@ dependencies {
     implementation("com.google.cloud:google-cloud-monitoring:${googleCloudVersion}")
     implementation("io.github.resilience4j:resilience4j-retry:${resilience4JVersion}")
 
+    implementation("com.blueconic:browscap-java:1.2.14")
     implementation("nl.basjes.parse.useragent:yauaa:5.15")
 
     compileOnly("org.projectlombok:lombok:$lombokVersion")
