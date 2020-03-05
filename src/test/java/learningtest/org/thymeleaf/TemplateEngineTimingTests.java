@@ -2,8 +2,8 @@ package learningtest.org.thymeleaf;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
+import com.izeye.util.TimingUtils;
 import org.junit.jupiter.api.Test;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -40,7 +40,7 @@ class TemplateEngineTimingTests {
 	private String render(TemplateEngine engine, String templateName, Map<String, Object> personMap) {
 		Context context = new Context();
 		context.setVariable("person", personMap);
-		return time(() -> engine.process(templateName, context));
+		return TimingUtils.printTiming(() -> engine.process(templateName, context));
 	}
 
 	private TemplateEngine createTemplateEngine() {
@@ -51,17 +51,6 @@ class TemplateEngineTimingTests {
 		TemplateEngine engine = new TemplateEngine();
 		engine.setTemplateResolver(resolver);
 		return engine;
-	}
-
-	private <T> T time(Supplier<T> supplier) {
-		long startTimeMillis = System.currentTimeMillis();
-		try {
-			return supplier.get();
-		}
-		finally {
-			long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
-			System.out.println("Elapsed time: " + elapsedTimeMillis);
-		}
 	}
 
 }
