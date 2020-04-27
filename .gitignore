@@ -2,3 +2,4 @@
 .idea/
 build/
 samples-java-branches.iml
+users.avro
