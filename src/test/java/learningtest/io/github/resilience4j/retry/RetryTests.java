@@ -6,8 +6,6 @@ import io.vavr.control.Try;
 import org.junit.Test;
 import org.mockito.BDDMockito;
 
-import javax.xml.ws.WebServiceException;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -18,7 +16,7 @@ public class RetryTests {
 	@Test
 	public void test() {
 		HelloWorldService helloWorldService = mock(HelloWorldService.class);
-		given(helloWorldService.sayHelloWorld()).willThrow(new WebServiceException("BAM!"));
+		given(helloWorldService.sayHelloWorld()).willThrow(new RuntimeException("BAM!"));
 
 		Retry retry = Retry.ofDefaults("id");
 		CheckedFunction0<String> retryableSupplier = Retry
