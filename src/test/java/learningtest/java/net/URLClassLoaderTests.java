@@ -1,25 +1,21 @@
 package learningtest.java.net;
 
+import org.junit.jupiter.api.Test;
+
 import java.net.URLClassLoader;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Tests for {@link URLClassLoader}.
  *
  * @author Johnny Lim
  */
-public class URLClassLoaderTests {
-
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
+class URLClassLoaderTests {
 
 	@Test
-	public void test() throws ClassNotFoundException {
+	void test() throws ClassNotFoundException {
 		URLClassLoader someFooHidingClassLoader = new URLClassLoader(
 				((URLClassLoader) URLClassLoaderTests.class.getClassLoader()).getURLs(), null) {
 
@@ -33,12 +29,9 @@ public class URLClassLoaderTests {
 
 		};
 
-		assertThat(Class.forName(
-				"learningtest.java.net.URLClassLoaderTests$ReturnsFoo", true, someFooHidingClassLoader)).isNotNull();
-
-		this.thrown.expect(NoClassDefFoundError.class);
-		Class.forName(
-				"learningtest.java.net.URLClassLoaderTests$ReturnsAbstractFoo", true, someFooHidingClassLoader);
+		assertThat(Class.forName("learningtest.java.net.URLClassLoaderTests$ReturnsFoo", true, someFooHidingClassLoader)).isNotNull();
+		assertThatThrownBy(() -> Class.forName("learningtest.java.net.URLClassLoaderTests$ReturnsAbstractFoo", true, someFooHidingClassLoader))
+				.isExactlyInstanceOf(NoClassDefFoundError.class);
 	}
 
 	private static class ReturnsFoo {
@@ -82,6 +75,7 @@ public class URLClassLoaderTests {
 				return false;
 			}
 		}
+
 	}
 
 }
