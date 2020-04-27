@@ -2,8 +2,7 @@ package learningtest.com.fasterxml.jackson.databind;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,10 +16,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * @author Johnny Lim
  */
-public class ObjectMapperNumberTests {
+class ObjectMapperNumberTests {
 
 	@Test
-	public void test() throws IOException {
+	void test() throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> map = mapper.readValue(
 				"{\"favoriteNumbers\": [1, 2, " + Long.MAX_VALUE + "]}", Map.class);
@@ -33,7 +32,7 @@ public class ObjectMapperNumberTests {
 	}
 
 	@Test
-	public void testUseLongForInts() throws IOException {
+	void testUseLongForInts() throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(DeserializationFeature.USE_LONG_FOR_INTS, true);
 		Map<String, Object> map = mapper.readValue(
