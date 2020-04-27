@@ -1,6 +1,8 @@
 package learningtest.java.net;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnJre;
+import org.junit.jupiter.api.condition.JRE;
 
 import java.net.URLClassLoader;
 
@@ -15,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class URLClassLoaderTests {
 
 	@Test
+	@EnabledOnJre(JRE.JAVA_8)
 	void test() throws ClassNotFoundException {
 		URLClassLoader someFooHidingClassLoader = new URLClassLoader(
 				((URLClassLoader) URLClassLoaderTests.class.getClassLoader()).getURLs(), null) {
