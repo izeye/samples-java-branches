@@ -1,5 +1,6 @@
 package com.izeye.util;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -17,13 +18,41 @@ public final class TimingUtils {
 	 * @return result from the supplier
 	 */
 	public static <T> T printTiming(Supplier<T> supplier) {
+		return time(supplier, (elapsedTimeMillis) -> System.out.println("Elapsed time: " + elapsedTimeMillis));
+	}
+
+	/**
+	 * Time and supply elapsed time in milliseconds.
+	 *
+	 * @param supplier supplier to time
+	 * @param elapsedTimeConsumer consumer for elapsed time in milliseconds
+	 * @param <T> result type from the supplier
+	 * @return result from the supplier
+	 */
+	public static <T> T time(Supplier<T> supplier, Consumer<Long> elapsedTimeConsumer) {
+		return time(supplier, elapsedTimeConsumer, null);
+	}
+
+	/**
+	 * Time and supply elapsed time and result in milliseconds.
+	 *
+	 * @param supplier supplier to time
+	 * @param elapsedTimeConsumer consumer for elapsed time in milliseconds
+	 * @param resultConsumer consumer for result
+	 * @param <T> result type from the supplier
+	 * @return result from the supplier
+	 */
+	public static <T> T time(Supplier<T> supplier, Consumer<Long> elapsedTimeConsumer, Consumer<T> resultConsumer) {
 		long startTimeMillis = System.currentTimeMillis();
 		try {
-			return supplier.get();
+			T result = supplier.get();
+			if (resultConsumer != null) {
+				resultConsumer.accept(result);
+			}
+			return result;
 		}
 		finally {
-			long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
-			System.out.println("Elapsed time: " + elapsedTimeMillis);
+			elapsedTimeConsumer.accept(System.currentTimeMillis() - startTimeMillis);
 		}
 	}
 
