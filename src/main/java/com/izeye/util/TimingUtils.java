@@ -34,7 +34,7 @@ public final class TimingUtils {
 	}
 
 	/**
-	 * Time and supply elapsed time and result in milliseconds.
+	 * Time and supply elapsed time in milliseconds and result.
 	 *
 	 * @param supplier supplier to time
 	 * @param elapsedTimeConsumer consumer for elapsed time in milliseconds
@@ -50,6 +50,22 @@ public final class TimingUtils {
 				resultConsumer.accept(result);
 			}
 			return result;
+		}
+		finally {
+			elapsedTimeConsumer.accept(System.currentTimeMillis() - startTimeMillis);
+		}
+	}
+
+	/**
+	 * Time and supply elapsed time in milliseconds.
+	 *
+	 * @param runnable runnable to time
+	 * @param elapsedTimeConsumer consumer for elapsed time in milliseconds
+	 */
+	public static void time(Runnable runnable, Consumer<Long> elapsedTimeConsumer) {
+		long startTimeMillis = System.currentTimeMillis();
+		try {
+			runnable.run();
 		}
 		finally {
 			elapsedTimeConsumer.accept(System.currentTimeMillis() - startTimeMillis);

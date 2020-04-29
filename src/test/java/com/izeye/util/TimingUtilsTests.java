@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 class TimingUtilsTests {
 
 	@Test
-	void time() {
+	void timeWithSupplier() {
 		Supplier<String> supplier = () -> "test";
 		Consumer<Long> elapsedTimeConsumer = mock(Consumer.class);
 		Consumer<String> resultConsumer = mock(Consumer.class);
@@ -26,6 +26,15 @@ class TimingUtilsTests {
 		assertThat(TimingUtils.time(supplier, elapsedTimeConsumer, resultConsumer)).isEqualTo("test");
 		verify(elapsedTimeConsumer).accept(any(Long.class));
 		verify(resultConsumer).accept("test");
+	}
+
+	@Test
+	void timeWithRunnable() {
+		Runnable runnable = mock(Runnable.class);
+		Consumer<Long> elapsedTimeConsumer = mock(Consumer.class);
+
+		TimingUtils.time(runnable, elapsedTimeConsumer);
+		verify(elapsedTimeConsumer).accept(any(Long.class));
 	}
 
 }
