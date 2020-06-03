@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,10 +13,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Johnny Lim
  */
-public class MapTests {
+class MapTests {
 
 	@Test
-	public void mapToMapViaStream() {
+	void mapToMapViaStream() {
 		Map<Long, String> firstNameById = new HashMap<>();
 		firstNameById.put(1L, "Johnny");
 		firstNameById.put(2L, "John");
@@ -35,7 +35,7 @@ public class MapTests {
 	}
 
 	@Test
-	public void castNullFromMapToSubclassShouldBeOkay() {
+	void castNullFromMapToSubclassShouldBeOkay() {
 		Map<String, Person> personByFirstName = new HashMap<>();
 		Employee employee = (Employee) personByFirstName.get("Johnny");
 		assertThat(employee).isNull();

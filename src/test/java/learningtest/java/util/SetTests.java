@@ -3,7 +3,7 @@ package learningtest.java.util;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -12,10 +12,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Johnny Lim
  */
-public class SetTests {
+class SetTests {
 
 	@Test
-	public void testContainsAll() {
+	void testContainsAll() {
 		Set<String> set = new HashSet<>();
 		set.add("a");
 		set.add("b");
