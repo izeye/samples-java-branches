@@ -4,34 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Tests for {@link List}.
  *
  * @author Jungmuk Lim
  */
-public class ListTests {
-
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
+class ListTests {
 
 	@Test
-	public void testSubListIndexOutOfBounds() {
+	void testSubListIndexOutOfBounds() {
 		List<Integer> numbers = new ArrayList<>();
 		numbers.add(1);
 		numbers.add(2);
 
-		this.thrown.expect(IndexOutOfBoundsException.class);
-		numbers.subList(0, 10);
+		assertThatThrownBy(() -> numbers.subList(0, 10))
+				.isExactlyInstanceOf(IndexOutOfBoundsException.class);
 	}
 
 	@Test
-	public void testStreamMap() {
+	void testStreamMap() {
 		List<Number> numbers = new ArrayList<>();
 		numbers.add(1);
 		numbers.add(Long.MAX_VALUE);
@@ -45,7 +41,7 @@ public class ListTests {
 	}
 
 	@Test
-	public void abuseRawType() {
+	void abuseRawType() {
 		List<Number> numbers = new ArrayList<>();
 		numbers.add(Long.valueOf(1L));
 
@@ -54,7 +50,7 @@ public class ListTests {
 	}
 
 	@Test
-	public void forEachUsesIterator() {
+	void forEachUsesIterator() {
 		List<Integer> numbers = new ArrayList<>();
 		numbers.add(1);
 		numbers.add(2);
