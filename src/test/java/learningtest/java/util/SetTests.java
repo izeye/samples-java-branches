@@ -28,4 +28,9 @@ class SetTests {
 		assertThat(set.containsAll(subset)).isTrue();
 	}
 
+	@Test
+	void of() {
+		assertThat(Set.of("a", "b", "c")).containsExactly("a", "b", "c");
+	}
+
 }

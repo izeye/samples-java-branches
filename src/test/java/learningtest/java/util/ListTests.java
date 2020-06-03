@@ -61,4 +61,9 @@ class ListTests {
 		}
 	}
 
+	@Test
+	void of() {
+		assertThat(List.of("a", "b", "c")).containsExactly("a", "b", "c");
+	}
+
 }
