@@ -1,8 +1,6 @@
 package learningtest.supertypetoken.lambda.hashliteral;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledOnJre;
-import org.junit.jupiter.api.condition.JRE;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,7 +16,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 class HashLiteralTests {
 
     @Test
-    @EnabledOnJre(JRE.JAVA_8)
     void testHash() {
         Map<String, String> hash = hash(
                 hello -> "world",

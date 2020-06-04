@@ -69,9 +69,4 @@ class MapTests {
 
 	}
 
-	@Test
-	void of() {
-		assertThat(Map.of("a", "1", "b", "2", "c", "3")).containsOnlyKeys("a", "b", "c");
-	}
-
 }
