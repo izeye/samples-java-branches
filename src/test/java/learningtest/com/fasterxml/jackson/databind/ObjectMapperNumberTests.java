@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnJre;
 import org.junit.jupiter.api.condition.EnabledOnJre;
 import org.junit.jupiter.api.condition.JRE;
 
@@ -38,7 +39,7 @@ class ObjectMapperNumberTests {
 	}
 
 	@Test
-	@EnabledOnJre(JRE.JAVA_11)
+	@DisabledOnJre(JRE.JAVA_8)
 	@SuppressWarnings("unchecked")
 	void testJava11() throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
