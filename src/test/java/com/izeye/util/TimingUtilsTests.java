@@ -18,6 +18,7 @@ import static org.mockito.Mockito.verify;
 class TimingUtilsTests {
 
 	@Test
+	@SuppressWarnings("unchecked")
 	void timeWithSupplier() {
 		Supplier<String> supplier = () -> "test";
 		Consumer<Long> elapsedTimeConsumer = mock(Consumer.class);
@@ -31,6 +32,7 @@ class TimingUtilsTests {
 	@Test
 	void timeWithRunnable() {
 		Runnable runnable = mock(Runnable.class);
+		@SuppressWarnings("unchecked")
 		Consumer<Long> elapsedTimeConsumer = mock(Consumer.class);
 
 		TimingUtils.time(runnable, elapsedTimeConsumer);
