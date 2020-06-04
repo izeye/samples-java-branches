@@ -5,7 +5,7 @@ import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodHandles.Lookup;
 import java.lang.invoke.MethodType;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -15,17 +15,17 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
  *
  * @author Johnny Lim
  */
-public class MethodHandleTests {
+class MethodHandleTests {
 
 	@Test
-	public void invokeExact() throws Throwable {
+	void invokeExact() throws Throwable {
 		Lookup lookup = MethodHandles.lookup();
 		MethodHandle methodHandle = lookup.findStatic(getClass(), "hello", MethodType.methodType(void.class));
 		methodHandle.invokeExact();
 	}
 
 	@Test
-	public void invokePrivate() throws Throwable {
+	void invokePrivate() throws Throwable {
 		MyClass myClass = new MyClass();
 
 		Lookup lookup = MethodHandles.lookup();
@@ -37,7 +37,7 @@ public class MethodHandleTests {
 	}
 
 	@Test
-	public void invokeGetterSetter() throws Throwable {
+	void invokeGetterSetter() throws Throwable {
 		Point point = new Point();
 
 		Lookup lookup = MethodHandles.lookup();
@@ -55,7 +55,7 @@ public class MethodHandleTests {
 	}
 
 	@Test
-	public void insertArguments() throws Throwable {
+	void insertArguments() throws Throwable {
 		Lookup lookup = MethodHandles.lookup();
 		MethodHandle methodHandle = lookup.findStatic(
 				Math.class, "pow", MethodType.methodType(double.class, double.class, double.class));
