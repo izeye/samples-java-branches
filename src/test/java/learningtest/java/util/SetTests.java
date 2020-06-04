@@ -30,7 +30,7 @@ class SetTests {
 
 	@Test
 	void of() {
-		assertThat(Set.of("a", "b", "c")).containsExactly("a", "b", "c");
+		assertThat(Set.of("a", "b", "c")).containsExactlyInAnyOrder("a", "b", "c");
 	}
 
 }
