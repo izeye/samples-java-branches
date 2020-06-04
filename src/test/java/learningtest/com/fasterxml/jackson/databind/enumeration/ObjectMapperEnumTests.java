@@ -3,11 +3,11 @@ package learningtest.com.fasterxml.jackson.databind.enumeration;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,10 +35,10 @@ public class ObjectMapperEnumTests {
 			Person deserialized = this.objectMapper.readValue(json, Person.class);
 			assertThat(deserialized).isEqualTo(person);
 		}
-		catch (JsonProcessingException ex) {
+		catch (JsonMappingException ex) {
 			throw new RuntimeException(ex);
 		}
-		catch (IOException ex) {
+		catch (JsonProcessingException ex) {
 			throw new RuntimeException(ex);
 		}
 	}
