@@ -45,6 +45,7 @@ class ListTests {
 		List<Number> numbers = new ArrayList<>();
 		numbers.add(Long.valueOf(1L));
 
+		@SuppressWarnings("unchecked")
 		List<Long> longs = (List) numbers;
 		assertThat(longs.get(0)).isEqualTo(1L);
 	}

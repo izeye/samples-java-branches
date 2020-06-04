@@ -7,6 +7,7 @@ package learningtest.supertypetoken.lambda;
  */
 public interface Newable<T> extends MethodFinder {
 
+    @SuppressWarnings("unchecked")
     default Class<T> type() {
         return (Class<T>) parameter(0).getType();
     }

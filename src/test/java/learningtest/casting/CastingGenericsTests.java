@@ -13,6 +13,7 @@ public class CastingGenericsTests {
 
 	@Test
 	public void testGenerics() {
+		@SuppressWarnings("unchecked")
 		PropertyState<List<String>> propertyState =
 				(PropertyState<List<String>>) (Object) getPropertyState(List.class);
 		System.out.println(propertyState);

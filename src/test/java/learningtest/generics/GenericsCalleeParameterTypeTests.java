@@ -27,6 +27,7 @@ public class GenericsCalleeParameterTypeTests {
 		assertThat(value).isEqualTo("test");
 	}
 
+	@SuppressWarnings("unchecked")
 	private <T> T get(int index) {
 		return (T) this.objects[index];
 	}

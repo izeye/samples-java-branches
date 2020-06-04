@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SuperTypeTokenTests {
 
     @Test
+    @SuppressWarnings("unchecked")
     public void test() throws InvocationTargetException, NoSuchMethodException,
             InstantiationException, IllegalAccessException {
         TypeReference<ArrayList<String>> typeReference1 = new TypeReference<ArrayList<String>>() {
@@ -60,6 +61,7 @@ public class SuperTypeTokenTests {
             return this.type;
         }
 
+        @SuppressWarnings("unchecked")
         public T newInstance() throws NoSuchMethodException, IllegalAccessException,
                 InvocationTargetException, InstantiationException {
             if (this.constructor == null) {
