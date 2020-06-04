@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
+import static java.util.Map.entry;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -72,6 +73,12 @@ class MapTests {
 	@Test
 	void of() {
 		assertThat(Map.of("a", "1", "b", "2", "c", "3")).containsOnlyKeys("a", "b", "c");
+	}
+
+	@Test
+	void ofEntries() {
+		assertThat(Map.ofEntries(entry("a", "1"), entry("b", "2"), entry("c", "3")))
+				.containsOnlyKeys("a", "b", "c");
 	}
 
 }
