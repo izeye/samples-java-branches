@@ -19,14 +19,14 @@ public class FunctionTests {
 	@Test
 	public void testLambda() {
 		List<String> digits = Arrays.asList("1", "2", "3", "4", "5");
-		List<Integer> numbers = map(s -> new Integer(s), digits);
+		List<Integer> numbers = map(s -> Integer.valueOf(s), digits);
 		assertThat(numbers).containsExactly(1, 2, 3, 4, 5);
 	}
 
 	@Test
 	public void testMethodReference() {
 		List<String> digits = Arrays.asList("1", "2", "3", "4", "5");
-		List<Integer> numbers = map(Integer::new, digits);
+		List<Integer> numbers = map(Integer::valueOf, digits);
 		assertThat(numbers).containsExactly(1, 2, 3, 4, 5);
 	}
 
