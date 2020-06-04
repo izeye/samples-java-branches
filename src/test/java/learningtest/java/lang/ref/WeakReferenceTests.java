@@ -15,7 +15,7 @@ public class WeakReferenceTests {
 
 	@Test
 	public void stringLiteralWillNotBeGarbageCollected() {
-		WeakReference<String> reference = new WeakReference("Hello, world!");
+		WeakReference<String> reference = new WeakReference<>("Hello, world!");
 		assertThat(reference.get()).isNotNull();
 		System.gc();
 		assertThat(reference.get()).isNotNull();
@@ -23,7 +23,7 @@ public class WeakReferenceTests {
 
 	@Test
 	public void stringObjectWillBeGarbageCollected() {
-		WeakReference<String> reference = new WeakReference(new String("Hello, world!"));
+		WeakReference<String> reference = new WeakReference<>(new String("Hello, world!"));
 		assertThat(reference.get()).isNotNull();
 		System.gc();
 		assertThat(reference.get()).isNull();
