@@ -8,7 +8,6 @@ import java.lang.invoke.MethodType;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * Tests for {@link MethodHandle}.
@@ -32,8 +31,8 @@ class MethodHandleTests {
 		MethodHandle methodHandle = lookup.findVirtual(MyClass.class, "hello1", MethodType.methodType(void.class));
 		methodHandle.invoke(myClass);
 
-		assertThatExceptionOfType(IllegalAccessException.class)
-				.isThrownBy(() -> lookup.findVirtual(MyClass.class, "hello2", MethodType.methodType(void.class)));
+		methodHandle = lookup.findVirtual(MyClass.class, "hello2", MethodType.methodType(void.class));
+		methodHandle.invoke(myClass);
 	}
 
 	@Test

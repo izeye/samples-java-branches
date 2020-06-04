@@ -60,7 +60,7 @@ class ObjectMapperNumberTests {
 		mapper.configure(DeserializationFeature.USE_LONG_FOR_INTS, true);
 		Map<String, List<Long>> map = mapper.readValue(
 				"{\"favoriteNumbers\": [1, 2, " + Long.MAX_VALUE + "]}",
-				new TypeReference<Map<String, List<Long>>>() {});
+				new TypeReference<>() {});
 		List<Long> favoriteNumbers = map.get("favoriteNumbers");
 
 		assertThat(favoriteNumbers.get(0)).isInstanceOf(Long.class);
