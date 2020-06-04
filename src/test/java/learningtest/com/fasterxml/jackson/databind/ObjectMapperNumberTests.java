@@ -1,5 +1,6 @@
 package learningtest.com.fasterxml.jackson.databind;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,7 @@ class ObjectMapperNumberTests {
 
 	@Test
 	@EnabledOnJre(JRE.JAVA_8)
+	@SuppressWarnings("unchecked")
 	void testJava8() throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> map = mapper.readValue(
@@ -37,6 +39,7 @@ class ObjectMapperNumberTests {
 
 	@Test
 	@EnabledOnJre(JRE.JAVA_11)
+	@SuppressWarnings("unchecked")
 	void testJava11() throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> map = mapper.readValue(
@@ -54,9 +57,10 @@ class ObjectMapperNumberTests {
 	void testUseLongForInts() throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(DeserializationFeature.USE_LONG_FOR_INTS, true);
-		Map<String, Object> map = mapper.readValue(
-				"{\"favoriteNumbers\": [1, 2, " + Long.MAX_VALUE + "]}", Map.class);
-		List<Long> favoriteNumbers = (List<Long>) map.get("favoriteNumbers");
+		Map<String, List<Long>> map = mapper.readValue(
+				"{\"favoriteNumbers\": [1, 2, " + Long.MAX_VALUE + "]}",
+				new TypeReference<Map<String, List<Long>>>() {});
+		List<Long> favoriteNumbers = map.get("favoriteNumbers");
 
 		assertThat(favoriteNumbers.get(0)).isInstanceOf(Long.class);
 		assertThat(favoriteNumbers.get(1)).isInstanceOf(Long.class);
