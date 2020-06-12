@@ -1,14 +1,16 @@
 package learningtest.java.lang;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
- * Created by izeye on 16. 3. 4..
+ * Tests for {@link ClassLoader}.
+ *
+ * @author Johnny Lim
  */
-public class ClassLoaderTests {
+class ClassLoaderTests {
 	
 	@Test
-	public void test() {
+	void test() {
 		ClassLoader classLoader = getClass().getClassLoader();
 		while (classLoader != null) {
 			System.out.println(classLoader);
