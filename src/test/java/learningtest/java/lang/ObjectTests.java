@@ -1,14 +1,16 @@
 package learningtest.java.lang;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Object}.
+ *
+ * @author Johnny Lim
  */
-public class ObjectTests {
+class ObjectTests {
 
 	@Test
-	public void testToString() {
+	void testToString() {
 		// When debugging, you will see the side effect although there's no code to invoke the 'toString()'.
 		// In fact, the IDE did!
 		ClassHavingSideEffectInToString instance = new ClassHavingSideEffectInToString();
@@ -16,7 +18,7 @@ public class ObjectTests {
 	}
 
 	@Test
-	public void testHashCode() {
+	void testHashCode() {
 		System.out.println(new Object().hashCode());
 		System.out.println(new Object().hashCode());
 	}
