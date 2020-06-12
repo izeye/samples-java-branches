@@ -1,6 +1,7 @@
 package learningtest.java.lang;
 
 import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests for {@link Object}.
@@ -21,6 +22,11 @@ class ObjectTests {
 	void testHashCode() {
 		System.out.println(new Object().hashCode());
 		System.out.println(new Object().hashCode());
+	}
+
+	@Test
+	void getClassIsEqualsToClass() {
+		assertThat(getClass()).isEqualTo(ObjectTests.class);
 	}
 
 	private static class ClassHavingSideEffectInToString {
