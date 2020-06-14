@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import static java.util.Map.entry;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Tests for {@link Map}.
@@ -113,6 +114,18 @@ class MapTests {
 		Set<String> keySet = map.keySet();
 		keySet.remove("b");
 		assertThat(map).containsOnly(entry("a", "1"), entry("c", "3"));
+	}
+
+	@Test
+	void keySetAdd() {
+		Map<String, String> map = new HashMap<>();
+		map.put("a", "1");
+		map.put("b", "2");
+		map.put("c", "3");
+
+		Set<String> keySet = map.keySet();
+		assertThatThrownBy(() -> keySet.add("d"))
+				.isExactlyInstanceOf(UnsupportedOperationException.class);
 	}
 
 }
