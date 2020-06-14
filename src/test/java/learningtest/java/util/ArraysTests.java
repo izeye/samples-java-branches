@@ -1,9 +1,8 @@
 package learningtest.java.util;
 
-import org.junit.Test;
-
 import java.util.Arrays;
 
+import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -11,10 +10,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Johnny Lim
  */
-public class ArraysTests {
+class ArraysTests {
 
     @Test
-    public void testToString() {
+    void testToString() {
         Object[] objects = {1, "Hello, world!"};
         System.out.println(objects);
 
