@@ -88,4 +88,18 @@ class MapTests {
 				.isThrownBy(() -> Map.ofEntries(entry("a", "1"), entry("b", "2"), entry("a", "3")));
 	}
 
+	@Test
+	void mapEntrySetValue() {
+		Map<String, String> map = new HashMap<>();
+		map.put("a", "1");
+		map.put("b", "2");
+		map.put("c", "3");
+
+		for (Map.Entry entry : map.entrySet()) {
+			entry.setValue("test");
+		}
+
+		assertThat(map).containsOnly(entry("a", "test"), entry("b", "test"), entry("c", "test"));
+	}
+
 }
