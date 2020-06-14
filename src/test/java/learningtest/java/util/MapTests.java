@@ -1,6 +1,7 @@
 package learningtest.java.util;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -126,6 +127,20 @@ class MapTests {
 		Set<String> keySet = map.keySet();
 		assertThatThrownBy(() -> keySet.add("d"))
 				.isExactlyInstanceOf(UnsupportedOperationException.class);
+	}
+
+	@Test
+	void testGetSecondKeysFromValueIntersection() {
+		var mapA = Map.of(1, "a", 2, "b", 3, "c");
+		var mapB = Map.of(5, "a", 6, "d", 7, "c");
+		assertThat(getSecondKeysFromValueIntersection(mapA, mapB)).containsExactly(5, 7);
+	}
+
+	private Set<Integer> getSecondKeysFromValueIntersection(Map<Integer, String> first, Map<Integer, String> second) {
+		var firstValues = new HashSet<>(first.values());
+		var secondCopied = new HashMap<>(second);
+		secondCopied.values().retainAll(firstValues);
+		return secondCopied.keySet();
 	}
 
 }
