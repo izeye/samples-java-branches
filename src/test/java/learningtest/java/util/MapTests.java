@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static java.util.Map.entry;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Tests for {@link Map}.
@@ -79,6 +80,12 @@ class MapTests {
 	void ofEntries() {
 		assertThat(Map.ofEntries(entry("a", "1"), entry("b", "2"), entry("c", "3")))
 				.containsOnlyKeys("a", "b", "c");
+	}
+
+	@Test
+	void ofEntriesWithDuplicateKey() {
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> Map.ofEntries(entry("a", "1"), entry("b", "2"), entry("a", "3")));
 	}
 
 }
