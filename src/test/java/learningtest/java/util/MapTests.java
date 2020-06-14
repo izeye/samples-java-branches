@@ -2,6 +2,7 @@ package learningtest.java.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
@@ -89,7 +90,7 @@ class MapTests {
 	}
 
 	@Test
-	void mapEntrySetValue() {
+	void entrySetValue() {
 		Map<String, String> map = new HashMap<>();
 		map.put("a", "1");
 		map.put("b", "2");
@@ -100,6 +101,18 @@ class MapTests {
 		}
 
 		assertThat(map).containsOnly(entry("a", "test"), entry("b", "test"), entry("c", "test"));
+	}
+
+	@Test
+	void keySetRemove() {
+		Map<String, String> map = new HashMap<>();
+		map.put("a", "1");
+		map.put("b", "2");
+		map.put("c", "3");
+
+		Set<String> keySet = map.keySet();
+		keySet.remove("b");
+		assertThat(map).containsOnly(entry("a", "1"), entry("c", "3"));
 	}
 
 }
