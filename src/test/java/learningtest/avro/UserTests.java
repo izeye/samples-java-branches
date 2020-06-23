@@ -26,7 +26,7 @@ import java.io.IOException;
  *
  * Run the following command to recreate a {@link User} class:
  *
- * java -jar ./bin/avro_tools/avro-tools-1.8.2.jar compile schema src/test/avro/user.avsc src/test/java
+ * java -jar ./bin/avro_tools/avro-tools-1.8.2.jar compile schema src/main/avro/user.avsc src/test/java
  *
  * @author Johnny Lim
  */
@@ -80,7 +80,7 @@ public class UserTests {
 		// NOTE: Handle Intellij.
 		currentWorkingDirectory = currentWorkingDirectory.replace("/.idea/modules", "");
 
-		File schemaFile = new File(currentWorkingDirectory + "/src/test/avro/user.avsc");
+		File schemaFile = new File(currentWorkingDirectory + "/src/main/avro/user.avsc");
 
 		try {
 			Schema schema = new Schema.Parser().parse(schemaFile);
