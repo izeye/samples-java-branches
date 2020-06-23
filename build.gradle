@@ -28,7 +28,7 @@ dependencies {
 
     implementation("com.google.guava:guava:$guavaVersion")
 
-    implementation("org.apache.avro:avro:${avroVersion}")
+    implementation("org.apache.avro:avro:latest.release")
     implementation("org.apache.commons:commons-lang3:${commonsLang3Version}")
     implementation("org.apache.httpcomponents:httpclient:$httpClientVersion")
     implementation("commons-io:commons-io:$commonsIoVersion")
