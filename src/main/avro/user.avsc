@@ -2,24 +2,28 @@
   "namespace": "learningtest.avro",
   "type": "record",
   "name": "User",
+  "doc": "User.",
   "fields": [
     {
       "name": "name",
-      "type": "string"
+      "type": "string",
+      "doc": "Name."
     },
     {
       "name": "favorite_number",
       "type": [
         "int",
         "null"
-      ]
+      ],
+      "doc": "Favorite number."
     },
     {
       "name": "favorite_color",
       "type": [
         "string",
         "null"
-      ]
+      ],
+      "doc": "Favorite color."
     }
   ]
 }
