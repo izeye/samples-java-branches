@@ -1,2 +1,11 @@
-rootProject.name = 'samples-java-branches'
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven {
+            name "JCenter Gradle Plugins"
+            url  "https://dl.bintray.com/gradle/gradle-plugins"
+        }
+    }
+}
 
+rootProject.name = 'samples-java-branches'
