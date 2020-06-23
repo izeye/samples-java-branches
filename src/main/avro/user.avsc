@@ -7,7 +7,7 @@
     {
       "name": "name",
       "type": "string",
-      "doc": "Name."
+      "doc": "Name. <first name> <last name>"
     },
     {
       "name": "favorite_number",
