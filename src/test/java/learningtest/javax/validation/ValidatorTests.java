@@ -25,7 +25,8 @@ public class ValidatorTests {
 		ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
 		this.validator = validatorFactory.getValidator();
 	}
-	
+
+	// FIXME: This fails with Logback 1.3.0-alpha5, but how?
 	@Test
 	public void test() {
 		String path = null;
