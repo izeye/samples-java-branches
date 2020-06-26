@@ -90,7 +90,9 @@ tasks.withType(JavaCompile) {
 }
 
 test {
-    useJUnitPlatform()
+    useJUnitPlatform {
+        excludeTags 'failing-tag'
+    }
 
     retry {
         maxRetries = 5
