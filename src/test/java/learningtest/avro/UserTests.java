@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
 
 /**
  * Tests for {@link User}.
@@ -136,6 +137,14 @@ public class UserTests {
 		List<User> users = createUsers();
 		byte[] encoded = encode(users, new com.linkedin.avro.fastserde.FastSpecificDatumWriter<>(User.getClassSchema()));
 		assertThat(decode(encoded)).isEqualTo(users);
+
+		// Wait for the generated source file to be compiled.
+		for (Thread thread : Thread.getAllStackTraces().keySet()) {
+			if (thread.getName().equals("avro-fastserde-compile-thread-1")) {
+				await().until(() -> thread.getState() == Thread.State.WAITING);
+				break;
+			}
+		}
 	}
 
 	private List<User> createUsers() {

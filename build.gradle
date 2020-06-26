@@ -90,6 +90,8 @@ dependencies {
     testImplementation("com.github.tomakehurst:wiremock-jre8:latest.release")
     testImplementation("ru.lanwen.wiremock:wiremock-junit5:latest.release")
 
+    testImplementation("org.awaitility:awaitility:latest.release")
+
     testImplementation("com.squareup.okhttp3:okhttp:latest.release")
 
     testCompileOnly("org.projectlombok:lombok:$lombokVersion")
