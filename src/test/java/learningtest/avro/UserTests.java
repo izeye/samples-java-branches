@@ -163,8 +163,8 @@ public class UserTests {
 			user = userDatumReader.read(user, decoder);
 			System.out.println(user);
 		}
-		catch (IOException e) {
-			e.printStackTrace();
+		catch (IOException ex) {
+			throw new RuntimeException(ex);
 		}
 	}
 
