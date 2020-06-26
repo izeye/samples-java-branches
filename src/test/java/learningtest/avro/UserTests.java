@@ -20,6 +20,10 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests for {@link User}.
@@ -131,14 +135,22 @@ public class UserTests {
 				.setFavoriteNumber(null)
 				.build();
 
+		List<User> users = Arrays.asList(user1, user2, user3);
+
+		byte[] encoded = encodeWithSpecificDatumWriter(users);
+
+		assertThat(decode(encoded)).isEqualTo(users);
+	}
+
+	private byte[] encodeWithSpecificDatumWriter(List<User> users) {
 		byte[] encoded;
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
 			BinaryEncoder encoder = EncoderFactory.get().binaryEncoder(baos, null);
 
 			DatumWriter<User> userDataWriter = new SpecificDatumWriter<>(User.class);
-			userDataWriter.write(user1, encoder);
-			userDataWriter.write(user2, encoder);
-			userDataWriter.write(user3, encoder);
+			for (User user : users) {
+				userDataWriter.write(user, encoder);
+			}
 
 			encoder.flush();
 
@@ -148,20 +160,25 @@ public class UserTests {
 		catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}
+		return encoded;
+	}
 
-		User user = null;
+	private List<User> decode(byte[] encoded) {
+		List<User> decoded = new ArrayList<>();
 		try {
 			BinaryDecoder decoder = DecoderFactory.get().binaryDecoder(encoded, null);
 
 			DatumReader<User> userDatumReader = new SpecificDatumReader<>(User.class);
-			user = userDatumReader.read(user, decoder);
-			System.out.println(user);
+			// Note that datum won't be reused intentionally for assertion.
+			User user = userDatumReader.read(null, decoder);
+			decoded.add(user);
 
-			user = userDatumReader.read(user, decoder);
-			System.out.println(user);
+			user = userDatumReader.read(null, decoder);
+			decoded.add(user);
 
-			user = userDatumReader.read(user, decoder);
-			System.out.println(user);
+			user = userDatumReader.read(null, decoder);
+			decoded.add(user);
+			return decoded;
 		}
 		catch (IOException ex) {
 			throw new RuntimeException(ex);
