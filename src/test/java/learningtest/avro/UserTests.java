@@ -1,5 +1,6 @@
 package learningtest.avro;
 
+import com.rtbhouse.utils.avro.FastSpecificDatumWriter;
 import org.apache.avro.Schema;
 import org.apache.avro.file.DataFileReader;
 import org.apache.avro.file.DataFileWriter;
@@ -125,6 +126,13 @@ public class UserTests {
 	public void testWithoutSchemaViaSpecificDatumWriter() {
 		List<User> users = createUsers();
 		byte[] encoded = encode(users, new SpecificDatumWriter<>(User.class));
+		assertThat(decode(encoded)).isEqualTo(users);
+	}
+
+	@Test
+	public void testWithoutSchemaViaFastSpecificDatumWriterFromRtbhouse() {
+		List<User> users = createUsers();
+		byte[] encoded = encode(users, new FastSpecificDatumWriter<>(User.getClassSchema()));
 		assertThat(decode(encoded)).isEqualTo(users);
 	}
 
