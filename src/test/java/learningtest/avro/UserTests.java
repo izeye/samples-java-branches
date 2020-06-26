@@ -122,7 +122,13 @@ public class UserTests {
 	}
 
 	@Test
-	public void testWithoutSchema() {
+	public void testWithoutSchemaViaSpecificDatumWriter() {
+		List<User> users = createUsers();
+		byte[] encoded = encode(users, new SpecificDatumWriter<>(User.class));
+		assertThat(decode(encoded)).isEqualTo(users);
+	}
+
+	private List<User> createUsers() {
 		User user1 = new User();
 		user1.setName("Alyssa");
 		user1.setFavoriteNumber(256);
@@ -135,19 +141,13 @@ public class UserTests {
 				.setFavoriteNumber(null)
 				.build();
 
-		List<User> users = Arrays.asList(user1, user2, user3);
-
-		byte[] encoded = encodeWithSpecificDatumWriter(users);
-
-		assertThat(decode(encoded)).isEqualTo(users);
+		return Arrays.asList(user1, user2, user3);
 	}
 
-	private byte[] encodeWithSpecificDatumWriter(List<User> users) {
+	private byte[] encode(List<User> users, DatumWriter<User> userDataWriter) {
 		byte[] encoded;
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
 			BinaryEncoder encoder = EncoderFactory.get().binaryEncoder(baos, null);
-
-			DatumWriter<User> userDataWriter = new SpecificDatumWriter<>(User.class);
 			for (User user : users) {
 				userDataWriter.write(user, encoder);
 			}
@@ -156,11 +156,11 @@ public class UserTests {
 
 			encoded = baos.toByteArray();
 			System.out.println("Encoded bytes: " + encoded.length);
+			return encoded;
 		}
 		catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}
-		return encoded;
 	}
 
 	private List<User> decode(byte[] encoded) {
