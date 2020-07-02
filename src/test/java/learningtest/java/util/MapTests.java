@@ -98,7 +98,7 @@ class MapTests {
 		map.put("b", "2");
 		map.put("c", "3");
 
-		for (Map.Entry entry : map.entrySet()) {
+		for (Map.Entry<String, String> entry : map.entrySet()) {
 			entry.setValue("test");
 		}
 
