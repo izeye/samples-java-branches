@@ -71,7 +71,7 @@ dependencies {
 
     implementation("com.rtbhouse:avro-fastserde:1.0.7")
 
-    implementation("com.linkedin.avroutil1:avro-fastserde:0.2.3") {
+    implementation("com.linkedin.avroutil1:avro-fastserde:0.2.4") {
         exclude module: "slf4j-log4j12"
     }
 
