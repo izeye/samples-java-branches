@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import lombok.Data;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -17,10 +17,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Johnny Lim
  */
-public class ObjectMapperTests {
+class ObjectMapperTests {
 
 	@Test
-	public void testWriteValue() throws IOException {
+	void testWriteValue() throws IOException {
 		StringWriter sw = new StringWriter();
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.writeValue(sw, new Foo("test"));
@@ -28,7 +28,7 @@ public class ObjectMapperTests {
 	}
 
 	@Test
-	public void testWriteValueWithPropertyNamingStrategy() throws IOException {
+	void testWriteValueWithPropertyNamingStrategy() throws IOException {
 		StringWriter sw = new StringWriter();
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setPropertyNamingStrategy(
@@ -38,7 +38,7 @@ public class ObjectMapperTests {
 	}
 	
 	@Test
-	public void testMultipleJsonPropertySetters() throws IOException {
+	void testMultipleJsonPropertySetters() throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		
 		String json = "{\"name\": \"Johnny\"}";
@@ -55,7 +55,7 @@ public class ObjectMapperTests {
 	}
 
 	@Test
-	public void testJsonIgnoreOnSetter() throws IOException {
+	void testJsonIgnoreOnSetter() throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 
 		String json = "{\"firstName\": \"Johnny\", \"lastName\": \"Lim\"}";
