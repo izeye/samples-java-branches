@@ -2,6 +2,7 @@ package learningtest.com.fasterxml.jackson.databind;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import lombok.Data;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -73,6 +75,27 @@ class ObjectMapperTests {
 		String anotherJson = mapper.writeValueAsString(anotherPerson);
 		System.out.println(anotherJson);
 		assertThat(anotherJson).isEqualTo("{\"firstName\":\"Johnny with @JsonIgnore\"}");
+	}
+
+	@Test
+	void readValueWithPersonWhenNamingStrategyDoesNotMatch() throws JsonProcessingException {
+		String json = "{\"first_name\": \"Johnny\", \"lastName\": \"Lim\"}";
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+		Person person = mapper.readValue(json, Person.class);
+		assertThat(person.getFirstName()).isEqualTo("Johnny");
+		assertThat(person.getLastName()).isNull();
+	}
+
+	@Test
+	void readValueWithMapWhenNamingStrategyDoesNotMatch() throws JsonProcessingException {
+		String json = "{\"first_name\": \"Johnny\", \"lastName\": \"Lim\"}";
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+		Map<String, Object> map = mapper.readValue(json, Map.class);
+		assertThat(map)
+				.containsEntry("first_name", "Johnny")
+				.containsEntry("lastName", "Lim");
 	}
 
 	static class Foo {
