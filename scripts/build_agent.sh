@@ -1,0 +1,1 @@
+jar cmf build/resources/main/agent/MANIFEST.MF InstrumentationAgent.jar build/classes/java/main/com/izeye/agent/InstrumentationAgent.class
