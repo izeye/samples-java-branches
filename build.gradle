@@ -119,3 +119,9 @@ task escapeUnicodeInResourceBundles(type: Copy) {
 }
 
 processTestResources.dependsOn(escapeUnicodeInResourceBundles)
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.13.0'
+    }
+}
