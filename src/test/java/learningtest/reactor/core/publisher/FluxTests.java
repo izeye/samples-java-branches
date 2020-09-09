@@ -37,7 +37,7 @@ class FluxTests {
 		long startTimeMillis = System.currentTimeMillis();
 		Flux<String> mergedFlux = Flux.merge(
 				mono1.flatMapMany(Flux::fromIterable), mono2.flatMapMany(Flux::fromIterable));
-		Set<String> merged = new HashSet(mergedFlux.collectList().block());
+		Set<String> merged = new HashSet<>(mergedFlux.collectList().block());
 		assertThat(merged).isEqualTo(all);
 		long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
 		assertThat(TimeUnit.MILLISECONDS.toSeconds(elapsedTimeMillis)).isLessThan(2);
