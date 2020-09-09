@@ -3,6 +3,7 @@ package learningtest.com.fasterxml.jackson.databind;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import lombok.Data;
@@ -92,7 +93,7 @@ class ObjectMapperTests {
 		String json = "{\"first_name\": \"Johnny\", \"lastName\": \"Lim\"}";
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
-		Map<String, Object> map = mapper.readValue(json, Map.class);
+		Map<String, Object> map = mapper.readValue(json, new TypeReference<>() {});
 		assertThat(map)
 				.containsEntry("first_name", "Johnny")
 				.containsEntry("lastName", "Lim");
