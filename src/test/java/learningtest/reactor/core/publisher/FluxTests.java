@@ -43,4 +43,45 @@ class FluxTests {
 		assertThat(TimeUnit.MILLISECONDS.toSeconds(elapsedTimeMillis)).isLessThan(2);
 	}
 
+	@Test
+	void subscribeWithConsumer() {
+		Flux<Integer> integers = Flux.range(1, 3);
+		integers.subscribe((i) -> System.out.println(i));
+	}
+
+	@Test
+	void subscribeWithConsumerAndErrorConsumer() {
+		Flux<Integer> integers = Flux.range(1, 4).map((i) -> {
+			if (i <= 3) {
+				return i;
+			}
+			throw new RuntimeException("Got to 4.");
+		});
+		integers.subscribe(
+				(i) -> System.out.println(i),
+				(error) -> System.err.println("Error: " + error));
+	}
+
+	@Test
+	void subscribeWithConsumerErrorConsumerAndCompleteConsumer() {
+		Flux<Integer> integers = Flux.range(1, 4);
+		integers.subscribe(
+				(i) -> System.out.println(i),
+				(error) -> System.err.println("Error: " + error),
+				() -> System.out.println("Done"));
+	}
+
+	@Test
+	void subscribeWithConsumerErrorConsumerCompleteConsumerAndSubscriptionConsumer() {
+		Flux<Integer> integers = Flux.range(1, 4);
+		integers.subscribe(
+				(i) -> System.out.println(i),
+				(error) -> System.err.println("Error: " + error),
+				() -> System.out.println("Done"),
+				(subscription) -> {
+					System.out.println("Subscription: " + subscription);
+					subscription.request(10);
+				});
+	}
+
 }
