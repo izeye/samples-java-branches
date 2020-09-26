@@ -3,6 +3,7 @@ package learningtest.reactor.core.publisher;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.Test;
@@ -82,6 +83,34 @@ class FluxTests {
 					System.out.println("Subscription: " + subscription);
 					subscription.request(10);
 				});
+	}
+
+	@Test
+	void delayElements() {
+		long startTimeMillis = System.currentTimeMillis();
+		System.out.println("Start time (ms): " + startTimeMillis);
+
+		List<String> fruits = Arrays.asList("apple", "banana", "orange");
+		Duration delayDuration = Duration.ofSeconds(1);
+		List<String> processedFruits = Flux.fromIterable(fruits)
+				.delayElements(delayDuration)
+				.map((fruit) -> {
+					long expectedDelayMillis = (fruits.indexOf(fruit) + 1) * delayDuration.toMillis();
+					System.out.println("Expected delay (ms): " + expectedDelayMillis);
+
+					long currentTimeMillis = System.currentTimeMillis();
+					System.out.println(fruit + " time (ms): " + currentTimeMillis);
+
+					assertThat(currentTimeMillis - startTimeMillis).isGreaterThanOrEqualTo(expectedDelayMillis);
+					return "processed " + fruit;
+				})
+				.collectList()
+				.block();
+		assertThat(processedFruits)
+				.containsExactly("processed apple", "processed banana", "processed orange");
+
+		long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
+		System.out.println("Elapsed time (ms): " + elapsedTimeMillis);
 	}
 
 }
