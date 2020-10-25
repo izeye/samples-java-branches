@@ -95,6 +95,26 @@ class FluxTests {
 		integers.subscribe(sampleSubscriber);
 	}
 
+	@Test
+	void subscribeWithRequest() {
+		Flux.range(1, 10)
+				.doOnRequest((n) -> System.out.println("Request of " + n))
+				.subscribe(new BaseSubscriber<>() {
+
+					@Override
+					protected void hookOnSubscribe(Subscription subscription) {
+						request(1);
+					}
+
+					@Override
+					protected void hookOnNext(Integer value) {
+						System.out.println("Cancelling after having received " + value);
+						cancel();
+					}
+
+				});
+	}
+
 	private static class SampleSubscriber<T> extends BaseSubscriber<T> {
 
 		@Override
