@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.Test;
+import org.reactivestreams.Subscription;
+import reactor.core.publisher.BaseSubscriber;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -83,6 +85,30 @@ class FluxTests {
 					System.out.println("Subscription: " + subscription);
 					subscription.request(10);
 				});
+	}
+
+	@Test
+	void subscribeWithSubscriber() {
+		SampleSubscriber<Integer> sampleSubscriber = new SampleSubscriber<>();
+
+		Flux<Integer> integers = Flux.range(1, 4);
+		integers.subscribe(sampleSubscriber);
+	}
+
+	private static class SampleSubscriber<T> extends BaseSubscriber<T> {
+
+		@Override
+		protected void hookOnSubscribe(Subscription subscription) {
+			System.out.println("Subscribed");
+			request(1);
+		}
+
+		@Override
+		protected void hookOnNext(T value) {
+			System.out.println(value);
+			request(1);
+		}
+
 	}
 
 	@Test
