@@ -169,4 +169,17 @@ class FluxTests {
 		assertThat(collected).containsExactlyInAnyOrderElementsOf(iterable);
 	}
 
+	@Test
+	void delayElementsAndThenParallel() {
+		Set<String> iterable = new LinkedHashSet<>(Arrays.asList("apple", "banana", "orange"));
+		List<String> collected = Flux.fromIterable(iterable).log()
+				.delayElements(Duration.ofSeconds(1)).log()
+				.parallel().log()
+				.runOn(Schedulers.boundedElastic()).log()
+				.sequential().log()
+				.collectList().log()
+				.block();
+		assertThat(collected).containsExactlyElementsOf(iterable);
+	}
+
 }
