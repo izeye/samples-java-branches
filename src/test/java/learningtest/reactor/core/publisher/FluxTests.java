@@ -2,6 +2,7 @@ package learningtest.reactor.core.publisher;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -151,6 +152,18 @@ class FluxTests {
 				.parallel().log()
 				.runOn(Schedulers.boundedElastic()).log()
 				.sequential().log()
+				.collectList().log()
+				.block();
+		assertThat(collected).containsExactlyInAnyOrderElementsOf(iterable);
+	}
+
+	@Test
+	void parallelAndOrdered() {
+		Set<String> iterable = new LinkedHashSet<>(Arrays.asList("apple", "banana", "orange"));
+		List<String> collected = Flux.fromIterable(iterable).log()
+				.parallel().log()
+				.runOn(Schedulers.boundedElastic()).log()
+				.ordered(Comparator.naturalOrder()).log()
 				.collectList().log()
 				.block();
 		assertThat(collected).containsExactlyInAnyOrderElementsOf(iterable);
