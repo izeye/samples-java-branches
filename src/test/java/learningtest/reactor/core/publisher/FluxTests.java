@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.Test;
-import org.reactivestreams.Subscription;
-import reactor.core.publisher.BaseSubscriber;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -88,51 +86,7 @@ class FluxTests {
 	}
 
 	@Test
-	void subscribeWithSubscriber() {
-		SampleSubscriber<Integer> sampleSubscriber = new SampleSubscriber<>();
-
-		Flux<Integer> integers = Flux.range(1, 4);
-		integers.subscribe(sampleSubscriber);
-	}
-
-	@Test
-	void subscribeWithRequest() {
-		Flux.range(1, 10)
-				.doOnRequest((n) -> System.out.println("Request of " + n))
-				.subscribe(new BaseSubscriber<>() {
-
-					@Override
-					protected void hookOnSubscribe(Subscription subscription) {
-						request(1);
-					}
-
-					@Override
-					protected void hookOnNext(Integer value) {
-						System.out.println("Cancelling after having received " + value);
-						cancel();
-					}
-
-				});
-	}
-
-	private static class SampleSubscriber<T> extends BaseSubscriber<T> {
-
-		@Override
-		protected void hookOnSubscribe(Subscription subscription) {
-			System.out.println("Subscribed");
-			request(1);
-		}
-
-		@Override
-		protected void hookOnNext(T value) {
-			System.out.println(value);
-			request(1);
-		}
-
-	}
-
-	@Test
-	void delayElements() {
+	void delayElementsAndThenMap() {
 		long startTimeMillis = System.currentTimeMillis();
 		System.out.println("Start time (ms): " + startTimeMillis);
 
@@ -157,6 +111,25 @@ class FluxTests {
 
 		long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
 		System.out.println("Elapsed time (ms): " + elapsedTimeMillis);
+	}
+
+	@Test
+	void fromIterable() {
+		Set<String> iterable = new HashSet<>(Arrays.asList("apple", "banana", "orange"));
+		List<String> collected = Flux.fromIterable(iterable).log()
+				.collectList().log()
+				.block();
+		assertThat(collected).containsExactlyElementsOf(iterable);
+	}
+
+	@Test
+	void delayElements() {
+		Set<String> iterable = new HashSet<>(Arrays.asList("apple", "banana", "orange"));
+		List<String> collected = Flux.fromIterable(iterable).log()
+				.delayElements(Duration.ofSeconds(1)).log()
+				.collectList().log()
+				.block();
+		assertThat(collected).containsExactlyElementsOf(iterable);
 	}
 
 }
