@@ -3,12 +3,14 @@ package learningtest.reactor.core.publisher;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -115,7 +117,7 @@ class FluxTests {
 
 	@Test
 	void fromIterable() {
-		Set<String> iterable = new HashSet<>(Arrays.asList("apple", "banana", "orange"));
+		Set<String> iterable = new LinkedHashSet<>(Arrays.asList("apple", "banana", "orange"));
 		List<String> collected = Flux.fromIterable(iterable).log()
 				.collectList().log()
 				.block();
@@ -124,7 +126,7 @@ class FluxTests {
 
 	@Test
 	void flatMap() {
-		Set<String> iterable = new HashSet<>(Arrays.asList("apple", "banana", "orange"));
+		Set<String> iterable = new LinkedHashSet<>(Arrays.asList("apple", "banana", "orange"));
 		List<String> collected = Flux.fromIterable(iterable).log()
 				.flatMap((fruit) -> Mono.just(fruit)).log()
 				.collectList().log()
@@ -134,12 +136,24 @@ class FluxTests {
 
 	@Test
 	void delayElements() {
-		Set<String> iterable = new HashSet<>(Arrays.asList("apple", "banana", "orange"));
+		Set<String> iterable = new LinkedHashSet<>(Arrays.asList("apple", "banana", "orange"));
 		List<String> collected = Flux.fromIterable(iterable).log()
 				.delayElements(Duration.ofSeconds(1)).log()
 				.collectList().log()
 				.block();
 		assertThat(collected).containsExactlyElementsOf(iterable);
+	}
+
+	@Test
+	void parallel() {
+		Set<String> iterable = new LinkedHashSet<>(Arrays.asList("apple", "banana", "orange"));
+		List<String> collected = Flux.fromIterable(iterable).log()
+				.parallel().log()
+				.runOn(Schedulers.boundedElastic()).log()
+				.sequential().log()
+				.collectList().log()
+				.block();
+		assertThat(collected).containsExactlyInAnyOrderElementsOf(iterable);
 	}
 
 }
