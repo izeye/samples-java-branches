@@ -114,6 +114,26 @@ class FluxTests {
 	}
 
 	@Test
+	void request() {
+		Flux.range(1, 10)
+				.doOnRequest((n) -> System.out.println("Request of " + n))
+				.subscribe(new BaseSubscriber<>() {
+
+					@Override
+					protected void hookOnSubscribe(Subscription subscription) {
+						request(5);
+					}
+
+					@Override
+					protected void hookOnNext(Integer value) {
+						System.out.println("Cancelling after having received " + value);
+						cancel();
+					}
+
+				});
+	}
+
+	@Test
 	void delayElementsAndThenMap() {
 		long startTimeMillis = System.currentTimeMillis();
 		System.out.println("Start time (ms): " + startTimeMillis);
