@@ -123,6 +123,16 @@ class FluxTests {
 	}
 
 	@Test
+	void flatMap() {
+		Set<String> iterable = new HashSet<>(Arrays.asList("apple", "banana", "orange"));
+		List<String> collected = Flux.fromIterable(iterable).log()
+				.flatMap((fruit) -> Mono.just(fruit)).log()
+				.collectList().log()
+				.block();
+		assertThat(collected).containsExactlyElementsOf(iterable);
+	}
+
+	@Test
 	void delayElements() {
 		Set<String> iterable = new HashSet<>(Arrays.asList("apple", "banana", "orange"));
 		List<String> collected = Flux.fromIterable(iterable).log()
