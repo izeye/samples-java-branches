@@ -241,4 +241,18 @@ class FluxTests {
 		assertThat(collected).containsExactlyInAnyOrderElementsOf(iterable);
 	}
 
+	@Test
+	void delayElementsParallelFlatMapAndThenOrdered() {
+		Set<String> iterable = new LinkedHashSet<>(Arrays.asList("apple", "banana", "orange"));
+		List<String> collected = Flux.fromIterable(iterable).log()
+				.delayElements(Duration.ofSeconds(1)).log()
+				.parallel().log()
+				.runOn(Schedulers.boundedElastic()).log()
+				.flatMap((fruit) -> Mono.just(fruit).log()).log()
+				.ordered(Comparator.naturalOrder()).log()
+				.collectList().log()
+				.block();
+		assertThat(collected).containsExactlyInAnyOrderElementsOf(iterable);
+	}
+
 }
