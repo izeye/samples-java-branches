@@ -8,6 +8,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.reactivestreams.Subscription;
 import reactor.core.publisher.BaseSubscriber;
@@ -249,6 +251,26 @@ class FluxTests {
 				.parallel().log()
 				.runOn(Schedulers.boundedElastic()).log()
 				.flatMap((fruit) -> Mono.just(fruit).log()).log()
+				.ordered(Comparator.naturalOrder()).log()
+				.collectList().log()
+				.block();
+		assertThat(collected).containsExactlyInAnyOrderElementsOf(iterable);
+	}
+
+	@Disabled
+	@Test
+	void delayElementsParallelFlatMapAndThenOrderedWhenFlatMapThrowsExceptionCauseHang() {
+		Set<String> iterable = new LinkedHashSet<>(Arrays.asList("apple", "banana", "orange"));
+		List<String> collected = Flux.fromIterable(iterable).log()
+				.delayElements(Duration.ofSeconds(1)).log()
+				.parallel().log()
+				.runOn(Schedulers.boundedElastic()).log()
+				.flatMap((fruit) -> {
+					if (true) {
+						throw new RuntimeException("Error.");
+					}
+					return Mono.just(fruit).log();
+				}).log()
 				.ordered(Comparator.naturalOrder()).log()
 				.collectList().log()
 				.block();
