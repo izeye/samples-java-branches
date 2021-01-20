@@ -2,6 +2,8 @@ package learningtest.java.lang;
 
 import org.junit.jupiter.api.Test;
 
+import java.nio.charset.StandardCharsets;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -74,6 +76,15 @@ class StringTests {
 		assertThat("a:b".split(":", 2)).containsExactly("a", "b");
 		assertThat("::".split(":", 2)).containsExactly("", ":");
 		assertThat("a:b:c".split(":", 2)).containsExactly("a", "b:c");
+	}
+
+	@Test
+	void getBytes() {
+		String value = "č";
+
+		assertThat(value.getBytes(StandardCharsets.UTF_8)).containsExactly(-60, -115);
+		assertThat(value.getBytes(StandardCharsets.US_ASCII)).containsExactly(63);
+		assertThat(value.getBytes(StandardCharsets.ISO_8859_1)).containsExactly(63);
 	}
 	
 }
