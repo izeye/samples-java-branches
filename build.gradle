@@ -91,7 +91,7 @@ dependencies {
 }
 
 wrapper {
-    gradleVersion = '6.8'
+    gradleVersion = '6.8.1'
 }
 
 tasks.withType(JavaCompile) {
