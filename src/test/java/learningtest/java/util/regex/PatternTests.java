@@ -1,20 +1,21 @@
 package learningtest.java.util.regex;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
- * Created by izeye on 15. 12. 30..
+ * Tests for {@link Pattern}.
+ *
+ * @author Johnny Lim
  */
-public class PatternTests {
+class PatternTests {
 	
 	@Test
-	public void test() {
+	void test() {
 		String target = "I {keyword:dislike} you and {keyword:hate} yours.";
 		String keyword = "love";
 		
@@ -40,7 +41,7 @@ public class PatternTests {
 	}
 
 	@Test
-	public void testWithBackslashOrDollar() {
+	void testWithBackslashOrDollar() {
 		String target = "I {keyword:dis\\like} you and {keyword:ha$te} yours.";
 		String keyword = "l$o\\ve";
 
@@ -70,7 +71,7 @@ public class PatternTests {
 	}
 	
 	@Test
-	public void testNamedCapturingGroups() {
+	void testNamedCapturingGroups() {
 		Pattern pattern = Pattern.compile("(?<firstName>.+?) (?<middleName>.+?) (?<lastName>.+)");
 		Matcher matcher = pattern.matcher("Johnny I. Lim");
 		matcher.find();
@@ -80,14 +81,14 @@ public class PatternTests {
 	}
 
 	@Test
-	public void testCurlyBraces() {
+	void testCurlyBraces() {
 		// NOTE: Escaping a closing curly brace is optional.
 		Pattern pattern = Pattern.compile("^\\{.+}.*$");
 		assertThat(pattern.matcher("{noop}password").matches()).isTrue();
 	}
 
 	@Test
-	public void replaceFirst() {
+	void replaceFirst() {
 		Pattern pattern = Pattern.compile("^https?://[^/]+/");
 
 		assertThat(pattern.matcher("https://www.google.com/hello").replaceFirst("")).isEqualTo("hello");
@@ -95,7 +96,7 @@ public class PatternTests {
 	}
 
 	@Test
-	public void replaceAllWithCapturingGroup() {
+	void replaceAllWithCapturingGroup() {
 		Pattern pattern = Pattern.compile("([, =\"])");
 
 		assertThat(pattern.matcher("a,b").replaceAll("\\\\$1")).isEqualTo("a\\,b");
@@ -106,7 +107,7 @@ public class PatternTests {
 	}
 
 	@Test
-	public void replaceAllWhenNoMatchReturnsInputItself() {
+	void replaceAllWhenNoMatchReturnsInputItself() {
 		Pattern pattern = Pattern.compile("/$");
 
 		String uriPath = "/persons";
