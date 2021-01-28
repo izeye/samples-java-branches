@@ -115,5 +115,19 @@ class PatternTests {
 		assertThat(replacedUriPath).isSameAs(uriPath);
 		assertThat(pattern.matcher("/persons/").replaceAll("")).isEqualTo(uriPath);
 	}
+
+	@Test
+	void appendReplacement() {
+		String value = "START <![A[{\"a\": \"b\", \"c\": \"d\"}]]> <![A[{\"e\": \"f\"}]]> END";
+
+		Pattern pattern = Pattern.compile("<!\\[A\\[(?:(?!]]>).)+]]>");
+		Matcher matcher = pattern.matcher(value);
+		StringBuffer sb = new StringBuffer();
+		while (matcher.find()) {
+			matcher.appendReplacement(sb, matcher.group().replaceAll("\"", ""));
+		}
+		matcher.appendTail(sb);
+		assertThat(sb.toString()).isEqualTo("START <![A[{a: b, c: d}]]> <![A[{e: f}]]> END");
+	}
 	
 }
