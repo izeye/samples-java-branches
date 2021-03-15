@@ -3,17 +3,19 @@ package learningtest.org.jsoup;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
 /**
- * Created by izeye on 16. 1. 27..
+ * Tests for jsoup.
+ *
+ * @author Johnny Lim
  */
-public class JsoupTests {
+class JsoupTests {
 	
 	@Test
-	public void test() {
+	void test() {
 		try {
 			Document doc = Jsoup.connect("http://en.wikipedia.org/").get();
 			Elements newsHeadlines = doc.select("#mp-itn b a");
