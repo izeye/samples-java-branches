@@ -130,7 +130,7 @@ protobuf {
     }
 }
 
-task shenandoahTest(type: Test) {
+task shenandoahGcTest(type: Test) {
     useJUnitPlatform {
         includeTags 'gc'
     }
