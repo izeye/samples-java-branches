@@ -42,7 +42,8 @@ dependencies {
     implementation("org.hibernate:hibernate-validator:${hibernateValidatorVersion}")
     implementation("org.glassfish:javax.el:${elVersion}")
     implementation("com.github.javaparser:javaparser-core:${javaParserVersion}")
-    implementation("io.netty:netty-all:${nettyVersion}")
+    // FIXME: Split samples into Netty and Reactor Netty as they are easily broken with the current arrangement.
+//    implementation("io.netty:netty-all:${nettyVersion}")
     implementation("org.objenesis:objenesis:${objenesisVersion}")
     implementation("com.github.jknack:handlebars:${handlebarsVersion}")
     implementation("com.jayway.jsonpath:json-path:${jsonPathVersion}")
