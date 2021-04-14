@@ -10,9 +10,9 @@ plugins {
 sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
-    jcenter()
+    mavenCentral()
 
-    // If `mavenLocal()` is placed before `jcenter()`,
+    // If `mavenLocal()` is placed before `mavenCentral()`,
     // you can see the source code for libraries in IntelliJ.
     // Why?
     mavenLocal()
