@@ -1,5 +1,6 @@
 package learningtest.gc;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.lang.management.ManagementFactory;
@@ -11,6 +12,7 @@ import java.util.List;
  *
  * @author Johnny Lim
  */
+@Tag("gc")
 class MemoryPoolMXBeanTests {
 
     @Test

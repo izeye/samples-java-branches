@@ -129,3 +129,15 @@ protobuf {
         artifact = 'com.google.protobuf:protoc:3.13.0'
     }
 }
+
+task shenandoahTest(type: Test) {
+    useJUnitPlatform {
+        includeTags 'gc'
+    }
+
+    jvmArgs '-XX:+UseShenandoahGC'
+
+    testLogging {
+        showStandardStreams = true
+    }
+}
