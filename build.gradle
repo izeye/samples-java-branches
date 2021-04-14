@@ -141,3 +141,15 @@ task shenandoahGcTest(type: Test) {
         showStandardStreams = true
     }
 }
+
+task zgcTest(type: Test) {
+    useJUnitPlatform {
+        includeTags 'gc'
+    }
+
+    jvmArgs '-XX:+UseZGC'
+
+    testLogging {
+        showStandardStreams = true
+    }
+}
