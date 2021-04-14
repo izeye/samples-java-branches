@@ -153,3 +153,27 @@ task zgcTest(type: Test) {
         showStandardStreams = true
     }
 }
+
+task openj9BalancedTest(type: Test) {
+    useJUnitPlatform {
+        includeTags 'gc'
+    }
+
+    jvmArgs '-Xgcpolicy:balanced'
+
+    testLogging {
+        showStandardStreams = true
+    }
+}
+
+task openj9ConcurrentScavengeTest(type: Test) {
+    useJUnitPlatform {
+        includeTags 'gc'
+    }
+
+    jvmArgs '-Xgc:concurrentScavenge'
+
+    testLogging {
+        showStandardStreams = true
+    }
+}
