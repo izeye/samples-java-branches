@@ -56,8 +56,21 @@ class StringTests {
 	}
 
 	@Test
-	void substring() {
+	void substringWhenBothBeginIndexAndEndIndexAreZero() {
 		assertThat("Hello, world!".substring(0, 0)).isEmpty();
+	}
+
+	@Test
+	void substringWhenOnlyPartialCharacterIsIncluded() {
+		assertThat("Hello, world!".substring(0, 0)).isEmpty();
+
+		// It will produce "a𝕓?", but it's not possible to assert as "?" is a broken character.
+		System.out.println("a𝕓𝕔".substring(0, 4));
+
+		assertThat("abcd👩‍💻".substring(0, 6)).isEqualTo("abcd👩");
+
+		// It will produce "ab👩‍?", but it's not possible to assert as "?" is a broken character.
+		System.out.println("ab👩‍💻".substring(0, 6));
 	}
 
 	@Test
