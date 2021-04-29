@@ -86,5 +86,12 @@ class StringTests {
 		assertThat(value.getBytes(StandardCharsets.US_ASCII)).containsExactly(63);
 		assertThat(value.getBytes(StandardCharsets.ISO_8859_1)).containsExactly(63);
 	}
+
+	@Test
+	void length() {
+		assertThat("a".length()).isEqualTo(1);
+		assertThat("𝕒".length()).isEqualTo(2);
+		assertThat("👩‍💻".length()).isEqualTo(5);
+	}
 	
 }
