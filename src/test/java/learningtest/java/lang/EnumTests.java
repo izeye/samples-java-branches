@@ -35,6 +35,11 @@ class EnumTests {
 		System.out.println(Fruit.APPLE.hashCode());
 		System.out.println(Fruit.BANANA.hashCode());
 	}
+
+	@Test
+	void valuesCreatesNewArray() {
+		assertThat(Fruit.values()).isNotSameAs(Fruit.values());
+	}
 	
 	enum Fruit {
 		APPLE, BANANA
