@@ -12,17 +12,31 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class BooleanTests {
 
     @Test
-    void methodOverload() {
-        assertThat(getClass(true)).isEqualTo(boolean.class);
-        assertThat(getClass(Boolean.TRUE)).isEqualTo(Boolean.class);
+    void methodOverloadWithObject() {
+        assertThat(getClass1(true)).isEqualTo(boolean.class);
+        assertThat(getClass1(Boolean.TRUE)).isEqualTo(Boolean.class);
     }
 
-    private Class<?> getClass(boolean b) {
+    @Test
+    void methodOverloadWithWrapper() {
+        assertThat(getClass2(true)).isEqualTo(boolean.class);
+        assertThat(getClass2(Boolean.TRUE)).isEqualTo(Boolean.class);
+    }
+
+    private Class<?> getClass1(boolean b) {
         return boolean.class;
     }
 
-    private Class<?> getClass(Object o) {
+    private Class<?> getClass1(Object o) {
         return o.getClass();
+    }
+
+    private Class<?> getClass2(boolean b) {
+        return boolean.class;
+    }
+
+    private Class<?> getClass2(Boolean b) {
+        return Boolean.class;
     }
 
 }
