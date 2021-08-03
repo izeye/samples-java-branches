@@ -136,6 +136,32 @@ class MapTests {
 		assertThat(getSecondKeysFromValueIntersection(mapA, mapB)).containsExactly(5, 7);
 	}
 
+	@Test
+	void getWhenMapIsHashMap() {
+		var map = new HashMap<>();
+		map.put(1, "a");
+		map.put(2, "b");
+		map.put(null, "c");
+		assertThat(map.get(1)).isEqualTo("a");
+		assertThat(map.get(3)).isNull();
+		assertThat(map.get(null)).isEqualTo("c");
+	}
+
+	@Test
+	void mapOfWhenKeyIsNull() {
+		assertThatThrownBy(() -> Map.of(null, "c")).isInstanceOf(NullPointerException.class);
+	}
+
+	@Test
+	void getWhenMapIsCreatedByMapOf() {
+		var map = Map.of(
+				1, "a",
+				2, "b");
+		assertThat(map.get(1)).isEqualTo("a");
+		assertThat(map.get(3)).isNull();
+		assertThatThrownBy(() -> map.get(null)).isInstanceOf(NullPointerException.class);
+	}
+
 	private Set<Integer> getSecondKeysFromValueIntersection(Map<Integer, String> first, Map<Integer, String> second) {
 		var firstValues = new HashSet<>(first.values());
 		var secondCopied = new HashMap<>(second);
