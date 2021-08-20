@@ -36,7 +36,7 @@ dependencies {
     implementation("org.apache.httpcomponents:httpclient:$httpClientVersion")
     implementation("commons-io:commons-io:$commonsIoVersion")
     implementation("org.bouncycastle:bcprov-jdk15on:$bouncyCastleProviderVersion")
-    implementation("org.jsoup:jsoup:$jsoupVersion")
+    implementation("org.jsoup:jsoup:latest.release")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("org.apache.kafka:kafka-clients:${kafkaClientVersion}")
     implementation("org.hibernate:hibernate-validator:${hibernateValidatorVersion}")
