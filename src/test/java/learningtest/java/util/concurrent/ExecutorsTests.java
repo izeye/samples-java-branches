@@ -1,7 +1,7 @@
 package learningtest.java.util.concurrent;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +22,12 @@ import static org.junit.Assert.fail;
  *
  * @author Johnny Lim
  */
-// This is ignored due to its running duration (more than 44s).
-@Ignore
-public class ExecutorsTests {
+// This is disabled due to its running duration (more than 44s).
+@Disabled
+class ExecutorsTests {
 
 	@Test
-	public void test() {
+	void test() {
 		ExecutorService executorService = Executors.newFixedThreadPool(100);
 		ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) executorService;
 
@@ -62,7 +62,7 @@ public class ExecutorsTests {
 	}
 
 	@Test
-	public void testException() {
+	void testException() {
 		ExecutorService executorService = Executors.newFixedThreadPool(1);
 
 		// Local variable "callable" is used to avoid the following error:
@@ -86,7 +86,7 @@ public class ExecutorsTests {
 	}
 
 	@Test
-	public void testShutdown() throws InterruptedException {
+	void testShutdown() throws InterruptedException {
 		CountDownLatch latch = new CountDownLatch(1);
 
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -105,7 +105,7 @@ public class ExecutorsTests {
 	}
 
 	@Test
-	public void testShutdownNow() throws InterruptedException {
+	void testShutdownNow() throws InterruptedException {
 		CountDownLatch latch = new CountDownLatch(1);
 
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
