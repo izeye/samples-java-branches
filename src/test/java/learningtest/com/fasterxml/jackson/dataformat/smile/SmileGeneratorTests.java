@@ -32,7 +32,7 @@ public class SmileGeneratorTests {
 
 		this.thrown.expect(JsonGenerationException.class);
 		this.thrown.expectMessage(
-				"Broken surrogate pair: first char 0xD937, second 0x004F; illegal combination");
+				"Invalid surrogate pair, starts with valid high surrogate (0xD937) but ends with invalid low surrogate (0x004F), not in valid range [0xDC00, 0xDFFF]");
 		smileGenerator.writeString(brokenString);
 	}
 
