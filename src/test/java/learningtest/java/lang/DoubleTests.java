@@ -1,6 +1,6 @@
 package learningtest.java.lang;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -9,10 +9,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Johnny Lim
  */
-public class DoubleTests {
+class DoubleTests {
 
 	@Test
-	public void testNaN() {
+	void testNaN() {
 		double value = Double.NaN;
 		assertThat(value).isNaN();
 	}
