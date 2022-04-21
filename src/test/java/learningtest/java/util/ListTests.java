@@ -67,4 +67,11 @@ class ListTests {
 		assertThat(List.of("a", "b", "c")).containsExactly("a", "b", "c");
 	}
 
+	@Test
+	void isEmpty() {
+		List<String> fruits = List.of("apple", "banana");
+		assertThat(fruits.isEmpty()).isFalse();
+		assertThat(fruits.size() == 0).isFalse();
+	}
+
 }
