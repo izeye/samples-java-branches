@@ -5,6 +5,7 @@ plugins {
     id 'org.gradle.test-retry' version '1.0.0'
     id 'com.commercehub.gradle.plugin.avro' version '0.20.0'
     id "com.google.protobuf" version "0.8.13"
+    id "org.openrewrite.rewrite" version "5.19.3"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -176,4 +177,8 @@ task openj9ConcurrentScavengeTest(type: Test) {
     testLogging {
         showStandardStreams = true
     }
+}
+
+rewrite {
+    activeRecipe("org.openrewrite.java.cleanup.IsEmptyCallOnCollections")
 }
